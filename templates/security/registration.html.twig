@@ -1,0 +1,184 @@
+{% form_theme form_registration 'bootstrap_4_layout.html.twig' %}
+{% extends 'base.html.twig' %}
+{% block title %}Inscription{% endblock %}
+{% block body %}
+    {% for type, messages in app.session.flashbag.all() %}
+        {% for message in messages %}
+            <div class="alert alert-{{ type }} alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span
+                            class="sr-only">Close</span></button>
+                {{ message | raw }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+    <div class="container">
+
+        <h2>Inscription:</h2>
+        <div class="row">
+            <div class="col-md-4 ">
+
+                {{ form_start(form_registration) }}
+
+
+                {{ form_end(form_registration) }}
+            </div>
+
+        </div>
+    </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+
+    <script type="application/javascript">
+        //pour afficher nom du fichier
+        $('input[type="file"]').change(function(e){
+            var fileName = e.target.files[0].name;
+            $('.custom-file-label').html(fileName);
+        });
+    </script>
+    <script>
+
+        var frmElements = document.querySelectorAll(".form-control");
+        var frmGroups = document.querySelectorAll(".form-group")
+
+        function validName(elem) {
+            var val = elem.value;
+            if (val.length > 1) {
+                return (true);
+            } else {
+                return (false);
+            }
+        }
+
+        function validPrenom(elem) {
+            var val = elem.value;
+            if (val.length > 1) {
+                return (true);
+            } else {
+                return (false);
+            }
+        }
+
+        function validEmail(elem) {
+            var val = elem.value;
+            var pattern = /^[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-zA-Z0-9](?:[a-z0-9-]*[a-zA-Z0-9])?$/;
+            return (pattern.test(val));
+        }
+
+        function validPassword(elem) {
+            var val = elem.value;
+            if (val.length >= 6) {
+                return (true);
+            } else {
+                return (false);
+            }
+        }
+
+        function validNumTel(elem) {
+            var val = elem.value;
+
+            if ((val.length == 8) && (!isNaN(val))) {
+                return (true);
+            } else {
+                return (false);
+            }
+        }
+
+
+        frmGroups.forEach(function (frmGrp, i, frmGroups) {
+            let diva = document.createElement('div');
+            frmGrp.appendChild(diva);
+
+        });
+
+
+        frmElements.forEach(function (frmElem, i, frmElements) {
+            frmElem.addEventListener("input", function () {
+                var validation = frmElem.nextElementSibling;
+                var submition = document.querySelector("#sub");
+                //verif nom
+                if (frmElem.id == "registration_nom") {
+                    if (validName(frmElem)) {
+                        frmElem.setAttribute("class", " form-control is-valid");
+                        validation.setAttribute("class", "valid-feedback");
+                        validation.textContent = "nom valide";
+                        //submition.disabled = false;
+
+                    } else {
+                        frmElem.setAttribute("class", " form-control is-invalid");
+                        validation.setAttribute("class", "invalid-feedback");
+                        validation.textContent = "nom invalide";
+                        //submition.disabled = true;
+                    }
+                }
+                    //verif prenom
+                    if (frmElem.id == "registration_prenom") {
+                        if (validPrenom(frmElem)) {
+                            frmElem.setAttribute("class", " form-control is-valid");
+                            validation.setAttribute("class", "valid-feedback");
+                            validation.textContent = "prenom valide";
+                            //submition.disabled = false;
+
+                        } else {
+                            frmElem.setAttribute("class", " form-control is-invalid");
+                            validation.setAttribute("class", "invalid-feedback");
+                            validation.textContent = "prenom invalide";
+                            //submition.disabled = true;
+                        }
+
+                    }
+                    //verif email
+                    if (frmElem.id == "registration_Email") {
+                        if (validEmail(frmElem)) {
+                            frmElem.setAttribute("class", " form-control is-valid");
+                            validation.setAttribute("class", "valid-feedback");
+                            validation.textContent = "Email valide";
+                            //submition.disabled = false;
+                        } else {
+                            frmElem.setAttribute("class", " form-control is-invalid");
+                            validation.setAttribute("class", "invalid-feedback");
+                            validation.textContent = "Email non valide";
+                            //submition.disabled = true;
+
+                        }
+                    }
+                        //verif pass
+                        if (frmElem.id == "registration_password") {
+                            if (validPassword(frmElem)) {
+                                frmElem.setAttribute("class", " form-control is-valid");
+                                validation.setAttribute("class", "valid-feedback")
+                                validation.textContent = "Mot de passe valide";
+                                //submition.disabled = false;
+                            } else {
+                                frmElem.setAttribute("class", " form-control is-invalid");
+                                validation.setAttribute("class", "invalid-feedback")
+                                validation.textContent = "Mot de passe doit contenir au moins 6 caracteres";
+                                //submition.disabled = true;
+
+                            }
+                        }
+                            //verif numtel
+                            if (frmElem.id == "registration_numTel") {
+                                if (validNumTel(frmElem)) {
+                                    frmElem.setAttribute("class", " form-control is-valid");
+                                    validation.setAttribute("class", "valid-feedback")
+                                    validation.textContent = "Numero valide";
+                                    //submition.disabled = false;
+                                } else {
+                                    frmElem.setAttribute("class", " form-control is-invalid");
+                                    validation.setAttribute("class", "invalid-feedback")
+                                    validation.textContent = "Numero invalide";
+                                    //submition.disabled = true;
+
+                                }
+
+                            }
+
+                        }
+                    )
+
+        })
+
+
+    </script>
+{% endblock %}
