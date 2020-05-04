@@ -2,22 +2,24 @@
 {% extends 'base.html.twig' %}
 {% block title %}Inscription{% endblock %}
 {% block body %}
-    {% for type, messages in app.session.flashbag.all() %}
-        {% for message in messages %}
-            <div class="alert alert-{{ type }} alert-dismissible" role="alert">
-                <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span
-                            class="sr-only">Close</span></button>
-                {{ message | raw }}
-            </div>
-        {% endfor %}
-    {% endfor %}
-    <div class="container">
 
-        <h2>Inscription:</h2>
-        <div class="row">
-            <div class="col-md-4 ">
+    <div class="container">
+        {% for type, messages in app.session.flashbag.all() %}
+            {% for message in messages %}
+                <div class="alert alert-{{ type }} alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span
+                                class="sr-only">Close</span></button>
+                    {{ message | raw }}
+                </div>
+            {% endfor %}
+        {% endfor %}
+
+        <h2 >Inscription:</h2>
+        <div class="row ">
+            <div class="col-md-4  ">
 
                 {{ form_start(form_registration) }}
+
 
 
                 {{ form_end(form_registration) }}
@@ -97,6 +99,7 @@
                 var validation = frmElem.nextElementSibling;
                 var submition = document.querySelector("#sub");
                 //verif nom
+
                 if (frmElem.id == "registration_nom") {
                     if (validName(frmElem)) {
                         frmElem.setAttribute("class", " form-control is-valid");

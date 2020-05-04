@@ -74,7 +74,7 @@ class RegistrationType extends AbstractType {
             ])
         ->add('Enregistrer',SubmitType::class,[
             'attr'=>[
-                'class'=>'btn btn-primary'
+                'class'=>'btn btn-success'
             ]
         ])
             //->add('bio')

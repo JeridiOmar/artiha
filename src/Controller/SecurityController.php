@@ -25,19 +25,19 @@ class SecurityController extends AbstractController {
 
         }
         if ($form->isSubmitted() && $form->isValid()) {
-            $brochureFile = $form->get('ProfilePicture')->getData();
+            $picture = $form->get('ProfilePicture')->getData();
 
             //profile pic traitement
             // so the pic file must be processed only when a file is uploaded
-            if ($brochureFile) {
-                $originalFilename = pathinfo($brochureFile->getClientOriginalName(), PATHINFO_FILENAME);
+            if ($picture) {
+                $originalFilename = pathinfo($picture->getClientOriginalName(), PATHINFO_FILENAME);
                 // this is needed to safely include the file name as part of the URL
                 $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = $safeFilename . '-' . uniqid() . '.' . $brochureFile->guessExtension();
+                $newFilename = $safeFilename . '-' . uniqid() . '.' . $picture->guessExtension();
 
                 // Move the file to the directory where profile pictures are stored
                 try {
-                    $brochureFile->move(
+                    $picture->move(
                         $this->getParameter('profile_pictures_path'),
                         $newFilename
                     );
@@ -62,6 +62,7 @@ class SecurityController extends AbstractController {
         return $this->render('security/registration.html.twig', [
             'form_registration' => $form->createView()]);
     }
+
 
 
 }
