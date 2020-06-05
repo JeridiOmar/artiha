@@ -1,6 +1,22 @@
 {% form_theme form_registration 'bootstrap_4_layout.html.twig' %}
 {% extends 'base.html.twig' %}
 {% block title %}Inscription{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('/styles/registrationStyle.css') }}">
+    <style>
+         a {
+            color: #0060B6;
+            text-decoration: none;
+            }
+
+        a:hover
+            {
+         color:#00A0C6;
+         text-decoration:none;
+         cursor:pointer;
+    }
+</style>
+{% endblock %}
 {% block body %}
 
     <div class="container">
@@ -14,20 +30,37 @@
             {% endfor %}
         {% endfor %}
 
-        <h2 >Inscription:</h2>
-        <div class="row ">
-            <div class="col-md-4  ">
 
-                {{ form_start(form_registration) }}
+
+
+
+
+    </div>
+   <div class="container register">
+                <div class="row">
+                    <div class="col-md-3 register-left">
+                        <img src="https://image.ibb.co/n7oTvU/logo_white.png" alt=""/>
+                        <h3>Bienvenue</h3>
+                        <p>Vous pouvez rejoindre notre communauté et partager vos chef d'oevre  !</p>
+                        <div class="btn btn-success"><a href="#">login</a></div><br/><!-- nguedouha baad login -->
+                    </div>
+                    <div class="col-md-9 register-right">
+
+                        <div class="tab-content" id="myTabContent">
+                            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                                <h3 class="register-heading">Inscription</h3>
+                                <div class="row register-form">
+                                      {{ form_start(form_registration) }}
 
 
 
                 {{ form_end(form_registration) }}
-            </div>
+                                </div>
+                            </div>
 
-        </div>
-    </div>
-    </div>
+                        </div>
+                    </div>
+                </div>
 {% endblock %}
 {% block javascripts %}
 
