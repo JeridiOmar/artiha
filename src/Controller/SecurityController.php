@@ -17,6 +17,10 @@ class SecurityController extends AbstractController {
      * @Route("/registration", name="registration")
      */
     public function registration(Request $request, EntityManagerInterface $manager, SluggerInterface $slugger, UserPasswordEncoderInterface $encoder) {
+        if($this->isGranted("IS_AUTHENTICATED_FULLY"))
+        {
+            return $this->redirectToRoute("welcomePage");
+        }
         $user = new User();
         $form = $this->createForm(RegistrationType::class, $user);
         $form->handleRequest($request);

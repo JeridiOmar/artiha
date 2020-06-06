@@ -1,0 +1,103 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Log in!{% endblock %}
+
+    {% block stylesheets %}
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!--===============================================================================================-->
+        <link rel="icon" type="image/png" href="{{ asset('/styles/loginStyle/images/icons/favicon.ico') }}"/>
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="{{ asset('/styles/loginStyle/vendor/bootstrap/css/bootstrap.min.css') }}" >
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="{{ asset('/styles/loginStyle/fonts/font-awesome-4.7.0/css/font-awesome.min.css') }}" >
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="{{ asset('/styles/loginStyle/fonts/Linearicons-Free-v1.0.0/icon-font.min.css') }}">
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="{{ asset('/styles/loginStyle/vendor/animate/animate.css') }}">
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="{{ asset('/styles/loginStyle/vendor/css-hamburgers/hamburgers.min.css') }}">
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="{{ asset('/styles/loginStyle/vendor/animsition/css/animsition.min.css') }}">
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="{{ asset('/styles/loginStyle/vendor/select2/select2.min.css') }}">
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="{{ asset('/styles/loginStyle/vendor/daterangepicker/daterangepicker.css') }}">
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="{{ asset('/styles/loginStyle/css/loginStyle1.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ asset('/styles/loginStyle/css/loginStyle2.css') }}">
+    {% endblock %}
+
+{% block body %}
+
+    <div class="limiter">
+        <div class="container-login100">
+            <div class="wrap-login100 p-b-160 p-t-50">
+                <form method="post" class="login100-form validate-form">
+                    {% if error %}
+                        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                    {% endif %}
+
+                    <span class="login100-form-title p-b-43">
+						Account Login
+					</span>
+
+                    <div class="wrap-input100 rs1 validate-input" data-validate = "Email is required">
+                        <input class="input100 form-control" id="inputEmail" name="Email" type="email" >
+                        <span class="label-input100">Email</span>
+                    </div>
+
+
+                    <div class="wrap-input100 rs2 validate-input" data-validate="Password is required">
+                        <input type="password" name="password" id="inputPassword" class="form-control input100" required>
+                        <span class="label-input100">Password</span>
+                    </div>
+
+                    <input type="hidden" name="_csrf_token"
+                           value="{{ csrf_token('authenticate') }}"
+
+                    <div class="container-login100-form-btn">
+                        <button class="login100-form-btn">
+                            Sign in
+                        </button>
+                    </div>
+                    {#
+          Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
+          See https://symfony.com/doc/current/security/remember_me.html
+
+          <div class="checkbox mb-3">
+              <label>
+                  <input type="checkbox" name="_remember_me"> Remember me
+              </label>
+          </div>
+      #}
+
+                    <div class="text-center w-full p-t-23">
+                        <a href="#" class="txt1">
+                            Forgot password?
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+{% block javascripts %}
+    <!--===============================================================================================-->
+    <script src="vendor/jquery/jquery-3.2.1.min.js"></script>
+    <!--===============================================================================================-->
+    <script src="vendor/animsition/js/animsition.min.js"></script>
+    <!--===============================================================================================-->
+    <script src="vendor/bootstrap/js/popper.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+    <!--===============================================================================================-->
+    <script src="vendor/select2/select2.min.js"></script>
+    <!--===============================================================================================-->
+    <script src="vendor/daterangepicker/moment.min.js"></script>
+    <script src="vendor/daterangepicker/daterangepicker.js"></script>
+    <!--===============================================================================================-->
+    <script src="vendor/countdowntime/countdowntime.js"></script>
+    <!--===============================================================================================-->
+    <script src="js/main.js"></script>
+
+{% endblock %}
