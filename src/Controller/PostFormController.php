@@ -15,6 +15,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -36,11 +37,15 @@ class PostFormController extends AbstractController
     {
         $post=new Post();
         $form=$this->createForm(PostType::class,$post);
-        $form->add('content')->add('submit',SubmitType::class);
+        $form->add('text',TextType::class,array('mapped'=>false))
+            ->add('submit',SubmitType::class);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
             $post->setCreatedAt(new \DateTime());
             $post->setType('text');
+            $content=new Text();
+            $content->setText($form['text']->getData());
+            $post->setContent($content);
             $post->setUser($user);
             $tagData=explode(" ",$form->get('tags')->getData());
             if(!$tagData[0]==="") {
