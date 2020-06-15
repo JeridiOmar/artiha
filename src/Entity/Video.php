@@ -25,7 +25,8 @@ class Video extends Content
     private $videoPath;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255,nullable=true)
+     *
      * @Assert\NotBlank(message="ce champ ne doit pas etre vide !")
      */
     private $thumbnailPath;

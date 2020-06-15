@@ -1,0 +1,35 @@
+App\Entity\User:
+  User_{1..25}:
+    Sexe: "male"
+    Prenom: <titleMale()>
+    Nom: <name()>
+    Email: <email()>
+    Password: <password()>
+    Bio: <text(100)>
+    Birthday: <dateTime()>
+    NumTel: <numberBetween(21000000,29990970)>
+    ProfilePicture: "http://lorempixel.com/<numberBetween(400,800)>/<numberBetween(400,800)>"
+
+App\Entity\Tag:
+  Tag_{1..40}:
+    value: <text(12)>
+App\Entity\Category:
+  Category_{1..10}:
+    intitule: <company()>
+App\Entity\Picture:
+  Picture_{1..1000}:
+    picturePath: "http://lorempixel.com/<numberBetween(400,800)>/<numberBetween(400,800)>"
+
+
+App\Entity\Post:
+  post_{1..50}:
+    title: <title()>
+    nblikes: <numberBetween(0,1004)>
+    nbcomment: <numberBetween(0,4040)>
+    categories: '<numberBetween(1,5)>x @Category_*'
+    createdAt: <dateTime()>
+    description: <text(150)>
+    type: "PHOTO"
+    content: '@Picture_*'
+    user : '@User_*'
+

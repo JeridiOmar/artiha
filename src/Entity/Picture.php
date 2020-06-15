@@ -20,7 +20,12 @@ class Picture extends Content
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $picturePath;
+    private $picturePath="";
+
+    public function __toString()
+    {
+        return  $this->picturePath;
+    }
 
     public function getId(): ?int
     {

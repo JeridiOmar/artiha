@@ -1,18 +1,18 @@
 <div class="card img-fluid " style="width:650px">
     <h5 class="card-title">
-        <a href="{{ path('profile', {'id': 'post.user.id'}) }}">
+        <a href="# ">
         <img class="rounded-circle mr-2-3" src="{{ post.user.profilePicture }}" alt="" height="30px" width="30px"></a>
-        <a href="{{ path('profile', {'id': 'post.user.id'}) }}" class="ml-2">{{ post.user.nom }}</a>
+        <a href="#" class="ml-2">{{ post.user.nom }}</a>
     </h5>
-    <h6 class="card-subtitle mb-2 text-muted">
-        <i class="fa fa-hourglass" style=' padding:5px;font-size:18px;color:cornflowerblue'></i>
-        {{ post.createdAt || format_datetime('full', 'full', locale='fr') }}
-    </h6>
+{#    <h6 class="card-subtitle mb-2 text-muted">#}
+{#        <i class="fa fa-hourglass" style=' padding:5px;font-size:18px;color:cornflowerblue'></i>#}
+{#        {{ post.createdAt  }}#}
+{#    </h6>#}
 
     <div class="card-opacity">
-        {% if post.type == PHOTO %}
-        <img class="card-img-top" style="width:650px;height:520px" src="{{ post.type }}" alt="Card image">
-        {% elseif post.type== VIDEO %}
+        {% if post.type == "PHOTO" %}
+        <img class="card-img-top" style="width:650px;height:520px" src="{{ post.content }}" alt="Card image">
+        {% elseif post.type== "VIDEO" %}
         <video class="img-fluid" style="width: 650px;height: 520px" playsinline autoplay muted loop>
          <source src="https://mdbootstrap.com/img/video/animation-intro.mp4" type="video/mp4">
       </video>
