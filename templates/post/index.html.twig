@@ -4,6 +4,7 @@
 
 {% block body %}
     <div id="wrapper">
+
         <div class="overlay"></div>
 
         <!-- Sidebar -->
@@ -29,8 +30,8 @@
                             </div>
                         {% endfor %}
                         <div class="d-flex justify-content-end mb-3 ">
-                            {{ knp_pagination_sortable(posts,'Likes','p.likes') }}
-                            {{ knp_pagination_sortable(posts,'Comments','p.comments') }}
+                            {{ knp_pagination_sortable(posts,'Likes','p.nblikes') }}
+                            {{ knp_pagination_sortable(posts,'Comments','p.nbcomments') }}
                         </div>
                         <div class="grid">
                             {% for post in posts %}
@@ -172,12 +173,12 @@
         }
 
         .card:hover .card__type{
-            top: 443px;
+            top: 442px;
         }
         .card__type{
             position: absolute;
             left: 0;
-            top: 563px;
+            top: 562px;
             height: 30px;
             padding: 0 15px ;
             color: white;
@@ -189,6 +190,7 @@
             transition: top 0.4s;
 
         }
+
         .card_description{
             font-size: 16px;
             line-height: 25px;

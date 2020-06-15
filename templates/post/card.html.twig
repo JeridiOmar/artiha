@@ -4,10 +4,10 @@
         <img class="rounded-circle mr-2-3" src="{{ post.user.profilePicture }}" alt="" height="30px" width="30px"></a>
         <a href="#" class="ml-2">{{ post.user.nom }}</a>
     </h5>
-{#    <h6 class="card-subtitle mb-2 text-muted">#}
-{#        <i class="fa fa-hourglass" style=' padding:5px;font-size:18px;color:cornflowerblue'></i>#}
-{#        {{ post.createdAt  }}#}
-{#    </h6>#}
+    <h6 class="card-subtitle mb-2 text-muted">
+        <i class="fa fa-hourglass" style=' padding:5px;font-size:18px;color:cornflowerblue'></i>
+        {{ post.createdAt | date("F jS \\a\\t g:ia")  }}
+    </h6>
 
     <div class="card-opacity">
         {% if post.type == "PHOTO" %}
@@ -21,16 +21,21 @@
     </div>
     <div class="card__type"> {{ post.type }}</div>
 
-    <div class="card-img-top">
+    <div class="card-img-top p-2">
         <h4 class="card-title card__title text-success">{{ post.title }}</h4>
         <div>
             {% for c in post.categories %}
 
-                <em class="text-danger text-italic text-muted">{{ c }}</em>
+                <em class="text-muted  text-italic "> - {{ c }}</em>
 
             {% endfor %}
         </div>
         <p class="card-text font-weight-bolder card_description text-dark">{{ post.description }}</p>
+        {% for t in post.tags %}
+
+            <a href="#" class="text-primary text-italic ">#{{ t }}</a>
+
+        {% endfor %}
         <div class="row">
             <div class="col-8">
                 <h6 class="card-subtitle mb-2 text-muted">
