@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Form\SearchForm;
+use App\Form\FiltreForm;
 use App\Home\SearchHome;
 use App\Repository\PostRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -23,7 +23,7 @@ class PostController extends AbstractController
     {
         $data =new SearchHome();
         $data->page=$request->get('page',1);
-        $form =$this->createForm(SearchForm::class,$data);
+        $form =$this->createForm(FiltreForm::class,$data);
         $form->handleRequest($request);
         $posts=$repository->findSearch($data);
 

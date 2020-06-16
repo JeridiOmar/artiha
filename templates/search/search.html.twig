@@ -1,0 +1,113 @@
+{%  extends 'base.html.twig' %}
+{% block title %}
+    Search Page
+{% endblock %}
+{% block stylesheets  %}
+{{ parent() }}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<style >
+
+    .header {
+        height: 100vh;
+
+        background-image: linear-gradient(rgba(0,0,0,0.2),rgba(0,0,0,0.2)),url("{{ asset('light-sea-dawn-landscape-33545.jpg') }}");
+        background-size: cover;
+        background-position: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: sans-serif;
+    }
+    h1{
+        color: snow;
+        padding-left: 10%;
+        text-decoration-color: #f1f2f3;
+        margin-bottom:70px ;
+        font-size:45px;
+        letter-spacing: 2px;
+
+    }
+    .search-field{
+        height: 50px;
+
+        width: 90vh;
+        padding: 10px;
+        border:none;
+        border-radius:25px;
+        outline:none;
+        color: black;
+        background: linear-gradient(snow, rgba(0,0,0,0.7));
+
+    }
+    .search-field::placeholder{
+        color: rgba(0,0,0,0.5);
+    }
+    .btn-search{
+        margin-left: 70vh;
+        height: 50px;
+        width:140px;
+        background: -webkit-linear-gradient(right, #6a11cb, #2575fc);
+        background: -o-linear-gradient(right, #6a11cb, #2575fc);
+        background: -moz-linear-gradient(right, #6a11cb, #2575fc);
+        background: linear-gradient(right, #6a11cb, #2575fc);
+        border: none;
+        color: #000;
+        border-radius:25px ;
+    }
+    .btn-search:hover{
+        background: -webkit-linear-gradient(right, #580081, #008590);
+        background: -o-linear-gradient(right, #580081, #008590);
+        background: -moz-linear-gradient(right, #580081, #008590);
+        background: linear-gradient(right, #580081, #008590);
+    }
+    .button-search{
+        color: black;
+        font-size: 20px;
+        padding: 10px;
+        background: -webkit-linear-gradient(right, #90000b, #7a9085);
+        background: -o-linear-gradient(right, #90000b, #7a9085);
+        background: -moz-linear-gradient(right, #90000b, #7a9085);
+        background: linear-gradient(right, #90000b, #7a9085);
+        border-radius:25px ;
+    }
+    .check{
+        height: 20px;
+        width: 20px;
+        padding: 4px;
+        background: #C82829;
+
+    }
+    .form-box{
+        background: rgba(0,0,0,0.5);
+        padding: 40px;
+        border-radius: 30px;
+    }
+
+</style>
+{% endblock %}
+{% block body %}
+    <div class="header">
+
+
+
+        {{ form_start(form) }}
+        <h1> Life is a search for yourself </h1>
+        <div class="form-box">
+        <div class="search-box">
+            {{ form_row(form.motCle)}}
+        </div>
+            {{form_row(form.choice)}}
+            <button class="btn-search " type="submit"> Search</button>
+        </div>
+        {{ form_end(form) }}
+
+
+    </>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+{% endblock %}

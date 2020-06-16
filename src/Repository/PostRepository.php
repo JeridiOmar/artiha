@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Post;
+use App\Home\SearchEntity;
 use App\Home\SearchHome;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -81,5 +82,42 @@ class PostRepository extends ServiceEntityRepository
             $search->page,
             10
         );
+    }
+
+    public function findByTagName(SearchEntity $search)
+    {
+        $query =$this
+            ->createQueryBuilder('p')
+            ->select('t','p')
+            ->join('p.tags','t');
+         $query=$query
+                ->andWhere('t.value IN (:tag)')
+                ->setParameter('tag',$search->motCle);
+
+
+        return $results= $query->getQuery()->getResult();
+
+    }
+
+    public function findByPostTitle(SearchEntity $search)
+    {
+        $query =$this
+            ->createQueryBuilder('p')
+            ->select('p')
+            ->Where('p.title LIKE :motCle')
+            ->setParameter('motCle',"%{$search->motCle}%");
+        return $results= $query->getQuery()->getResult();
+
+    }
+
+
+    public function findDescriptipn(SearchEntity $search)
+    {
+        $query =$this
+            ->createQueryBuilder('p')
+            ->select('p')
+            ->Where('p.description LIKE :motCle')
+            ->setParameter('motCle',"%{$search->motCle}%");
+        return $results= $query->getQuery()->getResult();
     }
 }

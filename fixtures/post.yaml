@@ -17,7 +17,7 @@ App\Entity\Category:
   Category_{1..10}:
     intitule: <company()>
 App\Entity\Picture:
-  Picture_{1..3000}:
+  Picture_{1..50}:
     picturePath: "http://lorempixel.com/<numberBetween(400,800)>/<numberBetween(400,800)>"
 
 
@@ -30,7 +30,7 @@ App\Entity\Post:
     createdAt: <dateTime()>
     description: <text(150)>
     type: "PHOTO"
-    content: '@Picture_*'
+    content: '@Picture_<current()>'
     user : '@User_*'
     tags: '<numberBetween(1,5)>x @Tag_*'
 
