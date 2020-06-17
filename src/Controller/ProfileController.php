@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\RegistrationType;
+use App\Repository\PostRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -20,7 +21,7 @@ class ProfileController extends AbstractController {
     /**
      * @Route("/profile/{id<\d+>}", name="profile")
      */
-    public function profile($id, User $user,Request $request, SluggerInterface $slugger, UserPasswordEncoderInterface $encoder) {
+    public function profile($id, User $user,Request $request, SluggerInterface $slugger, UserPasswordEncoderInterface $encoder,PostRepository $postRepository) {
 
         //$form=$this->createForm(RegistrationType::class,$user)->add('bio');
         $manager=$this->getDoctrine()->getManager();
@@ -38,6 +39,7 @@ class ProfileController extends AbstractController {
                     'placeholder'=>"prenom"
                 ]
             ])
+
             ->add('ProfilePicture', FileType::class, [
                 'label' => 'Photo de profile',
                 'constraints' => [
@@ -94,11 +96,15 @@ class ProfileController extends AbstractController {
             $manager->flush();
             $this->addFlash('success', 'Vos Données sont modifiées');
         }
+        $posts=$postRepository->findBy([
+            'user'=>$user
+        ]);
 
         return $this->render('profile/profile.html.twig', [
             'user'=>$user,
             'profile_pictures_path'=>$this->getParameter('profile_pictures_path'),
-            'form'=>$form->createView()
+            'form'=>$form->createView(),
+            'posts'=>$posts
         ]);
     }
 }

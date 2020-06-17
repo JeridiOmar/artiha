@@ -12,8 +12,12 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @UniqueEntity(
- *     fields={"Email"},
+ *     fields={"Email",},
  *     message="l'email que vous avez entrer est deja utilise"
+ * )
+ * @UniqueEntity(
+ *     fields={"username"},
+ *     message="le username que vous avez entrer est deja utilise"
  * )
  */
 class User implements UserInterface
@@ -111,6 +115,18 @@ class User implements UserInterface
      * @ORM\OneToMany(targetEntity=Post::class, mappedBy="user")
      */
     private $posts;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     *   @Assert\Length(
+     *      min = 3,
+     *      max = 50,
+     *      minMessage = "votre prenom doit avoir au moins {{ limit }} characteres ",
+     *      maxMessage = "Votre prenom doit avoir au plus {{ limit }} characteres",
+     *      allowEmptyString = false
+     * )
+     */
+    private $username;
 
 
 
@@ -252,7 +268,7 @@ class User implements UserInterface
      */
     public function getUsername() {
         // TODO: Implement getUsername() method.
-        return $this->getEmail();
+        return $this->username;
     }
 
     /**
@@ -289,6 +305,13 @@ class User implements UserInterface
                 $post->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function setUsername(string $username): self
+    {
+        $this->username = $username;
 
         return $this;
     }

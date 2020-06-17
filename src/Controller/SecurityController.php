@@ -4,7 +4,9 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\RegistrationType;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use http\Env\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 use Symfony\Component\HttpFoundation\Request;
@@ -65,6 +67,17 @@ class SecurityController extends AbstractController {
         }
         return $this->render('security/registration.html.twig', [
             'form_registration' => $form->createView()]);
+    }
+    /**
+     * @Route("/usernames/{username}", name="usernameTester")
+     */
+    public function usernameTester($username,UserRepository $repository){
+        if($repository->findOneBy([
+            'username'=>$username
+        ])){
+            return $this->json(['isUnique'=>'no'],200);
+        }
+        return $this->json(['isUnique'=>'yes'],200);
     }
 
 

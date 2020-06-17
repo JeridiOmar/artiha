@@ -29,6 +29,13 @@ class RegistrationType extends AbstractType {
                     'placeholder'=>"prenom"
                 ]
             ])
+            ->add('username',TextType::class,[
+                'label'=>'username',
+                'attr'=>[
+                    'placeholder'=>"artzy.tn/profile/username",
+                    "class"=>"js-username"
+                ]
+            ])
             ->add('Email',TextType::class,[
                 'label'=>'Email',
                 'attr'=>[

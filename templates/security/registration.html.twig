@@ -42,7 +42,7 @@
                         <img src="https://image.ibb.co/n7oTvU/logo_white.png" alt=""/>
                         <h3>Bienvenue</h3>
                         <p>Vous pouvez rejoindre notre communauté et partager vos chef d'oevre  !</p>
-                        <div class="btn btn-success"><a href="#">login</a></div><br/><!-- nguedouha baad login -->
+                        <div class="btn btn-success"><a href="{{path('app_login')}}">login</a></div><br/><!-- nguedouha baad login -->
                     </div>
                     <div class="col-md-9 register-right">
 
@@ -63,6 +63,38 @@
                 </div>
 {% endblock %}
 {% block javascripts %}
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<!-- pour verif de username avec ajax-->
+<script>
+usernameField=document.querySelector(".js-username");
+usernameField.addEventListener('input',onTypeUsername);
+let diva = document.createElement('div');
+var validation =usernameField.parentElement.appendChild(diva);
+//var validation = usernameField.nextElementSibling;
+function onTypeUsername(event){
+     const base='{{ url('usernameTester',{'username':'baseUsername'}) }}';
+
+
+    const username =this.value;
+    const url =base.replace('baseUsername',+username);
+
+    axios.get(url).then(function(response) {
+        if(response.data.isUnique==="yes"){
+            usernameField.setAttribute("class", " form-control is-valid");
+                        validation.setAttribute("class", "valid-feedback");
+                        validation.textContent = "username unique";
+
+        }
+        else{
+            usernameField.setAttribute("class", " form-control is-invalid");
+            validation.setAttribute("class", "invalid-feedback")
+            validation.textContent =username+ " est deja utilise";
+        }
+
+
+    })
+}
+</script>
 
     <script type="application/javascript">
         //pour afficher nom du fichier
