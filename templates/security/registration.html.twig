@@ -19,7 +19,7 @@
 {% endblock %}
 {% block body %}
 
-    <div class="container">
+    <div >
         {% for type, messages in app.session.flashbag.all() %}
             {% for message in messages %}
                 <div class="alert alert-{{ type }} alert-dismissible" role="alert">
@@ -36,7 +36,7 @@
 
 
     </div>
-   <div class="container register">
+   <div class="m-0 register">
                 <div class="row">
                     <div class="col-md-3 register-left">
                         <img src="https://image.ibb.co/n7oTvU/logo_white.png" alt=""/>
@@ -49,13 +49,34 @@
                         <div class="tab-content" id="myTabContent">
                             <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                                 <h3 class="register-heading">Inscription</h3>
-                                <div class="row register-form">
+
                                       {{ form_start(form_registration) }}
+                                      <div class="row register-form">
+                                         <div class="col-md-6">
+                                         {{ form_row(form_registration.nom) }}
+                                         {{ form_row(form_registration.Email) }}
+                                         {{ form_row(form_registration.password) }}
+                                         {{ form_row(form_registration.sexe) }}
+                                         {{ form_row(form_registration.ProfilePicture) }}
+                                         {{ form_row(form_registration.Enregistrer) }}
+
+                                        </div>
 
 
+                                        <div class="col-md-6">
+                                        {{ form_row(form_registration.prenom) }}
+                                        {{ form_row(form_registration.username) }}
+                                        {{ form_row(form_registration.confirm_password) }}
+                                        {{ form_row(form_registration.birthday) }}
+                                        {{ form_row(form_registration.numTel) }}
 
-                {{ form_end(form_registration) }}
-                                </div>
+
+                                        </div>
+
+
+                                      </div>
+                                     {{ form_end(form_registration) }}
+
                             </div>
 
                         </div>
@@ -72,21 +93,23 @@ let diva = document.createElement('div');
 var validation =usernameField.parentElement.appendChild(diva);
 //var validation = usernameField.nextElementSibling;
 function onTypeUsername(event){
+
      const base='{{ url('usernameTester',{'username':'baseUsername'}) }}';
 
 
-    const username =this.value;
-    const url =base.replace('baseUsername',+username);
+    const username =usernameField.value;
+    console.log(username)
+    const url =base.replace('baseUsername',username);
 
     axios.get(url).then(function(response) {
         if(response.data.isUnique==="yes"){
-            usernameField.setAttribute("class", " form-control is-valid");
+            usernameField.setAttribute("class", "js-username form-control is-valid");
                         validation.setAttribute("class", "valid-feedback");
                         validation.textContent = "username unique";
 
         }
         else{
-            usernameField.setAttribute("class", " form-control is-invalid");
+            usernameField.setAttribute("class", " js-username form-control is-invalid");
             validation.setAttribute("class", "invalid-feedback")
             validation.textContent =username+ " est deja utilise";
         }
