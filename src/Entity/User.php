@@ -128,11 +128,23 @@ class User implements UserInterface
      */
     private $username;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=User::class, inversedBy="subscribers")
+     */
+    private $subscribedTo;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=User::class, mappedBy="subscribedTo")
+     */
+    private $subscribers;
+
 
 
     public function __construct()
     {
         $this->posts = new ArrayCollection();
+        $this->subscribedTo = new ArrayCollection();
+        $this->subscribers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -312,6 +324,60 @@ class User implements UserInterface
     public function setUsername(string $username): self
     {
         $this->username = $username;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|self[]
+     */
+    public function getSubscribedTo(): Collection
+    {
+        return $this->subscribedTo;
+    }
+
+    public function addSubscribedTo(self $subscribedTo): self
+    {
+        if (!$this->subscribedTo->contains($subscribedTo)) {
+            $this->subscribedTo[] = $subscribedTo;
+        }
+
+        return $this;
+    }
+
+    public function removeSubscribedTo(self $subscribedTo): self
+    {
+        if ($this->subscribedTo->contains($subscribedTo)) {
+            $this->subscribedTo->removeElement($subscribedTo);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|self[]
+     */
+    public function getSubscribers(): Collection
+    {
+        return $this->subscribers;
+    }
+
+    public function addSubscriber(self $subscriber): self
+    {
+        if (!$this->subscribers->contains($subscriber)) {
+            $this->subscribers[] = $subscriber;
+            $subscriber->addSubscribedTo($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSubscriber(self $subscriber): self
+    {
+        if ($this->subscribers->contains($subscriber)) {
+            $this->subscribers->removeElement($subscriber);
+            $subscriber->removeSubscribedTo($this);
+        }
 
         return $this;
     }

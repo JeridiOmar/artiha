@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\RegistrationType;
 use App\Repository\PostRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -21,25 +22,24 @@ class ProfileController extends AbstractController {
     /**
      * @Route("/profile/{id<\d+>}", name="profile")
      */
-    public function profile($id, User $user,Request $request, SluggerInterface $slugger, UserPasswordEncoderInterface $encoder,PostRepository $postRepository) {
+    public function profile($id, User $user, Request $request, SluggerInterface $slugger, UserPasswordEncoderInterface $encoder, PostRepository $postRepository, UserRepository $userRepository) {
 
         //$form=$this->createForm(RegistrationType::class,$user)->add('bio');
-        $manager=$this->getDoctrine()->getManager();
+        $manager = $this->getDoctrine()->getManager();
 
         $form = $this->get('form.factory')->createBuilder(FormType::class, $user)
-            ->add('nom',TextType::class,[
-                'label'=>'nom',
-                'attr'=>[
-                    'placeholder'=>"nom"
+            ->add('nom', TextType::class, [
+                'label' => 'nom',
+                'attr' => [
+                    'placeholder' => "nom"
                 ]
             ])
-            ->add('prenom',TextType::class,[
-                'label'=>'prenom',
-                'attr'=>[
-                    'placeholder'=>"prenom"
+            ->add('prenom', TextType::class, [
+                'label' => 'prenom',
+                'attr' => [
+                    'placeholder' => "prenom"
                 ]
             ])
-
             ->add('ProfilePicture', FileType::class, [
                 'label' => 'Photo de profile',
                 'constraints' => [
@@ -49,9 +49,9 @@ class ProfileController extends AbstractController {
                 // unmapped means that this field is not associated to any entity property
                 'mapped' => false
             ])
-            ->add('Enregistrer',SubmitType::class,[
-                'attr'=>[
-                    'class'=>'btn btn-success'
+            ->add('Enregistrer', SubmitType::class, [
+                'attr' => [
+                    'class' => 'btn btn-success'
                 ]
             ])
             ->add('bio')
@@ -91,20 +91,45 @@ class ProfileController extends AbstractController {
             //fin traitement du pic
 
 
-
             $manager->persist($user);
             $manager->flush();
             $this->addFlash('success', 'Vos Données sont modifiées');
         }
-        $posts=$postRepository->findBy([
-            'user'=>$user
+        $posts = $postRepository->findBy([
+            'user' => $user
         ]);
 
+        $followed=$user;
+
         return $this->render('profile/profile.html.twig', [
-            'user'=>$user,
-            'profile_pictures_path'=>$this->getParameter('profile_pictures_path'),
-            'form'=>$form->createView(),
-            'posts'=>$posts
+            'user' => $user,
+            'profile_pictures_path' => $this->getParameter('profile_pictures_path'),
+            'form' => $form->createView(),
+            'posts' => $posts,
+            'following' => $this->getUser()->getSubscribedTo()->contains($followed)
         ]);
+    }
+
+    /**
+     * @Route("/subscribe/{followed_id<\d+>}",name="subscribe")
+     */
+    public function subscribe( $followed_id, UserRepository $userRepository, EntityManagerInterface $entityManager) {
+        $followed = $userRepository->find($followed_id);
+        $following = $this->getUser();
+        if ($followed->getSubscribers()->contains($following)) {
+            $followed->removeSubscriber($following);
+
+        } else {
+            $followed->addSubscriber($following);
+        }
+        $entityManager->persist($followed);
+        $entityManager->flush();
+
+        return $this->json([
+            'following' => $following->getSubscribedTo()->contains($followed),
+            'nombre_followers' => $followed->getSubscribers()->count()
+        ], 200);
+
+
     }
 }

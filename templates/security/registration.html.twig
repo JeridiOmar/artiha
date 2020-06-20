@@ -88,7 +88,7 @@
 <!-- pour verif de username avec ajax-->
 <script>
 usernameField=document.querySelector(".js-username");
-usernameField.addEventListener('input',onTypeUsername);
+usernameField.addEventListener('change',onTypeUsername);
 let diva = document.createElement('div');
 var validation =usernameField.parentElement.appendChild(diva);
 //var validation = usernameField.nextElementSibling;
@@ -98,8 +98,9 @@ function onTypeUsername(event){
 
 
     const username =usernameField.value;
-    console.log(username)
+    console.log(username);
     const url =base.replace('baseUsername',username);
+
 
     axios.get(url).then(function(response) {
         if(response.data.isUnique==="yes"){

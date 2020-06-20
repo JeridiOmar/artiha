@@ -20,6 +20,52 @@
 
         }
 
+        .not-following {
+            color: #3399FF;
+            font-family: "Helvetica";
+            font-size: 10pt;
+            background-color: #ffffff;
+            border: 1px solid;
+            border-color: #3399FF;
+            border-radius: 3px;
+            width: 155px;
+            height: 30px;
+
+            top: 50px;
+            left: 50px;
+            cursor: hand;
+
+
+        }
+        .following{
+            color: #fff;
+            font-family: "Helvetica";
+            font-size: 10pt;
+            background-color: #2EB82E;
+            border: 1px solid;
+
+            border-color: #2EB82E;
+            border-radius: 3px;
+            width: 200px;
+            height: 30px;
+
+            top: 50px;
+            left: 50px;
+            cursor: hand;
+
+        }
+
+        .js-nbFollow {
+            border: 1px solid;
+            border-radius: 3px;
+            border-color: #1e43ff;
+            background-color: #f1f1f1;
+
+            margin: 0px;
+            padding: 0px;
+            color:black;
+        }
+
 
     </style>
 {% endblock %}
@@ -53,14 +99,56 @@
                     <div class="text-center">
 
                         <a href="#">
-                            {#<img src="{{ asset('/uploads/files/profile_pictures/'~ user.profilePicture) }}"#}
-                            <img src="{{ asset('/uploads/files/profile_pictures/'~ user.profilePicture) }}"
+                            <img src="{{ user.profilePicture }}" class="img-thumb rounded-circle      "
+                                 width="220" height="220"
+                                 alt="avatar">
+                            {#<img src="{{ asset('/uploads/files/profile_pictures/'~ user.profilePicture) }}"
                                  class="img-thumb rounded-circle      " width="220" height="220"
-                                 alt="avatar"></a>
+                                 alt="avatar">#}</a>
 
 
                     </div>
                     <h3><a href="{{ path('profile',{'id':user.id}) }}">@{{ user.username }}</a></h3>
+                    {% if following==false %}
+
+                    <div class="text-center ">
+                        <a class="js-followLink"
+                           href="{{ path('subscribe',{'followed_id':user.id }) }}">
+                            <button class="js-follow-button not-following container ">
+
+                                <div class="row ">
+                                    <div class="   text-center  col-8 ">
+                                        <div class="pl-4  follow "> + Follow</div>
+                                    </div>
+                                    <div class="  pl-4 float-left">
+                                        <div class="pl-1 pr-1  js-nbFollow  ">0</div>
+                                    </div>
+                                </div>
+
+                            </button>
+                        </a>
+                    </div>
+                        {% elseif following==true %}
+                            <div class="text-center ">
+                                <a class="js-followLink"
+                                   href="{{ path('subscribe',{'followed_id':user.id ,'following_id':11}) }}">
+                                    <button class="js-follow-button following container ">
+
+                                        <div class="row ">
+                                            <div class="   text-center  col-8 ">
+                                                <div class="pl-4  follow ">  Following</div>
+                                            </div>
+                                            <div class="  pl-4 float-left">
+                                                <div class="pl-1 pr-1  js-nbFollow  ">0</div>
+                                            </div>
+                                        </div>
+
+                                    </button>
+                                </a>
+                            </div>
+                    {% endif %}
+
+
                     </hr><br>
 
 
@@ -72,10 +160,12 @@
 
                     <ul class="list-group">
                         <li class="list-group-item text-muted">Activity <i class="fa fa-dashboard fa-1x"></i></li>
-                        <li class="list-group-item text-right"><span class="pull-left"><strong>Posts</strong></span> 0
+                        <li class="list-group-item text-right"><span
+                                    class="pull-left"><strong>Posts</strong></span> {{ posts|length }}
                         </li>
                         <!-- nbadlouha baad manamlou l post -->
-                        <li class="list-group-item text-right"><span class="pull-left"><strong>Likes</strong></span> 0
+                        <li class="list-group-item text-right"><span
+                                    class="pull-left"><strong>Likes</strong></span>0
                         </li>
 
                     </ul>
@@ -200,6 +290,36 @@
         </div>
     </div>
     </div>
+    <!-- traitement de follow -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+
+        const followButton = document.querySelector('.js-follow-button');
+        const followLink = document.querySelector('.js-followLink');
+        const followCount = document.querySelector('.js-nbFollow');
+        const url = followLink.href;
+        followLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            axios.get(url).then(function (response) {
+                followCount.textContent=response.data.nombre_followers;
+                if(response.data.following==true){
+                    followButton.setAttribute('class','js-follow-button following container');
+                    document.querySelector('.follow').textContent="following";
+
+                }else{
+                    followButton.setAttribute('class','js-follow-button not-following container');
+                    document.querySelector('.follow').textContent=" + follow";
+                }
+
+            })
+
+
+        })
+
+
+    </script>
+
+
     <script>
         $(document).ready(function () {
             $("img").click(function () {
