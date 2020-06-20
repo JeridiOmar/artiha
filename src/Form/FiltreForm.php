@@ -49,7 +49,8 @@ class FiltreForm extends AbstractType
     {
         $resolver->setDefaults([
             'data_class'=>SearchHome::class,
-            'method'=>'GET'
+            'method'=>'GET',
+            'csrf_protection'=>false
         ]);
     }
 

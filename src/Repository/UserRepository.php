@@ -8,6 +8,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 
 /**
@@ -20,20 +21,35 @@ class UserRepository extends ServiceEntityRepository
 {
 
 
-    public function __construct(ManagerRegistry $registry)
+    /**
+     * @var PaginatorInterface
+     */
+    private $paginator;
+
+    public function __construct(ManagerRegistry $registry, PaginatorInterface $paginator)
     {
         parent::__construct($registry, User::class);
+        $this->paginator = $paginator;
     }
 
-
-    public function findSearch(SearchEntity $search)
+    /**
+     * @param SearchEntity $search
+     * @return PaginationInterface
+     */
+    public function findSearch(SearchEntity $search,Request $request):PaginationInterface
     {
         $query =$this
             ->createQueryBuilder('p')
             ->select('p')
             ->Where('p.nom LIKE :motCle')
             ->setParameter('motCle',"%{$search->motCle}%");
-       return $results= $query->getQuery()->getResult();
+       $results= $query->getQuery();
+
+       return $this->paginator->paginate(
+            $results,
+           $request->query->getInt('page', 1), /*page number*/
+            10
+        );
 
     }
 }

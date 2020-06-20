@@ -27,51 +27,75 @@ class SearchController extends AbstractController
         $search=new SearchEntity();
         $form= $this->createForm(SearchForm::class,$search);
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()){
-           if ($search->choice=="Users"){
-               $users=$userRepository->findSearch($search);
-               return$this->render('search/usersSearch.html.twig',[
-                   'users'=>$users,
-                   'tag'=>$search->motCle,
-                   'type'=>'User'
-               ]);
-           }
-           if ($search->choice=="Tags"){
-               $posts=$postRepository->findByTagName($search);
-               return$this->render('search/postSearch.html.twig',[
-                   'posts'=>$posts,
-                   'tag'=>$search->motCle,
-                   'type'=>'TAG'
-               ]);
-           }  if ($search->choice=="Post Title"){
-               $posts=$postRepository->findByPostTitle($search);
-               return$this->render('search/postSearch.html.twig',[
-                   'posts'=>$posts,
-                   'tag'=>$search->motCle,
-                   'type'=>'PostTitle'
-               ]);
-           }  if ($search->choice=="Description"){
-               $posts=$postRepository->findDescriptipn($search);
-               return$this->render('search/postSearch.html.twig',[
-                   'posts'=>$posts,
-                   'tag'=>$search->motCle,
-                   'type'=>'Description'
-               ]);
-           }
+            if ($search->choice=="Users"||$request->request->get('choice')=="Users"){
+                $users=$userRepository->findSearch($search,$request);
+                return$this->render('search/usersSearch.html.twig',[
+                    'users'=>$users,
+                    'tag'=>$search->motCle,
+                    'type'=>'User'
+                ]);
+            }
+            if ($search->choice=="Tags"){
+                $posts=$postRepository->findByTagName($search,$request);
+                return$this->render('search/postSearch.html.twig',[
+                    'posts'=>$posts,
+                    'tag'=>$search->motCle,
+                    'type'=>'TAG'
+                ]);
+            }  if ($search->choice=="Post Title"){
+                $posts=$postRepository->findByPostTitle($search,$request);
+                return$this->render('search/postSearch.html.twig',[
+                    'posts'=>$posts,
+                    'tag'=>$search->motCle,
+                    'type'=>'PostTitle'
+                ]);
+            }  if ($search->choice=="Description"){
+                $posts=$postRepository->findDescriptipn($search,$request);
+                return$this->render('search/postSearch.html.twig',[
+                    'posts'=>$posts,
+                    'tag'=>$search->motCle,
+                    'type'=>'Description'
+                ]);
+            }
 
         }
+        if ($request->query->get('choice')=="Users"){
+            $users=$userRepository->findSearch($search,$request);
+            return$this->render('search/usersSearch.html.twig',[
+                'users'=>$users,
+                'tag'=>$search->motCle,
+                'type'=>'User'
+            ]);
+        }
+        if ($request->query->get('choice')=="Description"){
+            $posts=$postRepository->findDescriptipn($search,$request);
+            return$this->render('search/postSearch.html.twig',[
+                'posts'=>$posts,
+                'tag'=>$search->motCle,
+                'type'=>'Description'
+            ]);
+        }
+        if ($request->query->get('choice')=="Post Title") {
+            $posts = $postRepository->findByPostTitle($search, $request);
+            return $this->render('search/postSearch.html.twig', [
+                'posts' => $posts,
+                'tag' => $search->motCle,
+                'type' => 'PostTitle'
+            ]);
+        }
+        if ($request->query->get('choice')=="Tags"){
+            $posts=$postRepository->findByTagName($search,$request);
+            return$this->render('search/postSearch.html.twig',[
+                'posts'=>$posts,
+                'tag'=>$search->motCle,
+                'type'=>'TAG'
+            ]);
+        }
         return $this->render('search/search.html.twig', [
-         'form'=>$form->createView()
+            'form'=>$form->createView()
         ]);
     }
-///**
-// * @Route("/user",name="userSearch")
-// */
-//public function userSearch(UserRepository){
-//    $users=$userRepository->findSearch("s");
-//    return$this->render('search/usersSearch.html.twig',[
-//        'users'=>"users"
-//    ]);
-//
-//}
+
 }

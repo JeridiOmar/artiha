@@ -2,6 +2,7 @@ App\Entity\User:
   User_{1..25}:
     Sexe: "male"
     Prenom: <titleMale()>
+    username: <titleMale()>
     Nom: <name()>
     Email: <email()>
     Password: <password()>

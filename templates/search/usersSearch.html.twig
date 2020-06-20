@@ -99,8 +99,12 @@
             font-family: 'MuseoModerno', cursive;
         }
 
-        .pagination-search {
+
+        .search-pagination{
+            position: center;
             margin-left: 35%;
+            color: black;
+
         }
     </style>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -145,8 +149,9 @@
             {% endfor %}
             </tbody>
         </table>
+                <div class="search-pagination p-4">{{ knp_pagination_render(users) }}</div>
 
-    </div>
+            </div>
     </div>
 
 {% endblock %}

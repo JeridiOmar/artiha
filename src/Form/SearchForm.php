@@ -43,7 +43,8 @@ class SearchForm extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => SearchEntity::class,
-            'method' => 'GET'
+            'method' => 'GET',
+            'csrf_protection'=>false
         ]);
     }
 

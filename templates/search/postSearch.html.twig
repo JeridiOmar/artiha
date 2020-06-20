@@ -156,6 +156,14 @@
         .color_comments_like {
             color: black;
         }
+
+
+        .search-pagination{
+            position: center;
+            margin-left: 40%;
+            color: black;
+
+        }
     </style>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
@@ -172,6 +180,7 @@
                     {% include 'post/card.html.twig' with {post: post} only %}
                 {% endfor %}
             </div>
+            <div class="search-pagination p-4">{{ knp_pagination_render(posts) }}</div>
         </div>
     </div>
 {% endblock %}
