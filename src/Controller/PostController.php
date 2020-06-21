@@ -39,9 +39,40 @@ class PostController extends AbstractController
         }
         return $this->render('post/index.html.twig', [
             'posts'=>$posts,
+            'type'=>'1',
             'form'=>$form->createView()
         ]);
     }
 
+    /**
+     * @Route("/subscribers", name="subscribers_home")
+     * @param Request $request
+     * @param PostRepository $postRepository
+     * @return Response
+     */
+    public function subscribers(Request $request,PostRepository $repository)
+    {
+        $data = new SearchHome();
+        $user = $this->getUser();
+        $data->page=$request->get('page',1);
+        $form =$this->createForm(FiltreForm::class,$data);
+        $form->handleRequest($request);
+        $posts=$repository->findPost($user,$request,$data);
+
+        if ($form->isSubmitted() && $form->isValid()){
+            $minPost=$request->get('min');
+            $maxPost=$request->get('max');
+            if($minPost>$maxPost){
+                $this->addFlash('error_max<min', ' Error : le nombre de likes maximum doit être superieur au nombre de likes minimum');
+                $posts=$repository->findCategory($data,$request);
+            }
+
+        }
+        return $this->render('post/index.html.twig', [
+            'posts'=>$posts,
+            'type'=>'2',
+            'form'=>$form->createView()
+        ]);
+    }
 
 }

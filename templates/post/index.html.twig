@@ -53,7 +53,11 @@
 {% block stylesheets  %}
     <style>
         body{
+        {% if type  in '1' %}
             background-image: linear-gradient(rgba(0,0,0,0),rgba(0,0,0,0)),url({{ asset('background_images/pawel-czerwinski-xWSUI7tpiTY-unsplash.jpg') }});
+        {% else  %}
+            background-image: linear-gradient(rgba(0,0,0,0),rgba(0,0,0,0)),url({{ asset('background_images/jr-korpa-4DykvhW8SsI-unsplash.jpg') }});
+        {% endif %}
             background-size: cover;
             background-position: center;
             display: flex;

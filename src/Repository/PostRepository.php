@@ -12,6 +12,7 @@ use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use phpDocumentor\Reflection\Types\This;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @method Post|null find($id, $lockMode = null, $lockVersion = null)
@@ -150,6 +151,49 @@ class PostRepository extends ServiceEntityRepository
             $request->query->getInt('page', 1), /*page number*/
             10
         );
+
+
+    }
+
+    /**
+     * @param UserInterface|null $user
+     * @param Request $request
+     * @param SearchHome $search
+     * @return PaginationInterface
+     */
+
+    public function findPost(?UserInterface $user, Request $request, SearchHome $search):PaginationInterface
+    {
+
+        $query = $this
+            ->createQueryBuilder('p')
+            ->select('u', 'p')
+            ->join('p.user', 'u')
+        ->andWhere('u.id IN (:motCle)')
+        ->setParameter('motCle', $user->getSubscribedTo());
+        if (!empty($search->getMin())) {
+            $query = $query
+                ->andWhere('p.nblikes >= :min')
+                ->setParameter('min', $search->getMin());
+        }
+        if (!empty($search->getMax())) {
+            $query = $query
+                ->andWhere('p.nblikes <= :max')
+                ->setParameter('max', $search->getMax());
+        }
+        if (!empty($search->getCategories())) {
+            $query = $query
+                ->andWhere('c.id IN (:categories)')
+                ->setParameter('categories', $search->getCategories());
+        }
+
+        $results = $query->getQuery();
+        return $this->paginator->paginate(
+            $results,
+            $request->query->getInt('page', 1), /*page number*/
+            10
+        );
+
 
     }
 
