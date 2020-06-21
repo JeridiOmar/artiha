@@ -106,7 +106,8 @@ class ProfileController extends AbstractController {
             'profile_pictures_path' => $this->getParameter('profile_pictures_path'),
             'form' => $form->createView(),
             'posts' => $posts,
-            'following' => $this->getUser()->getSubscribedTo()->contains($followed)
+            'following' => $this->getUser()->getSubscribedTo()->contains($followed),
+            'nombre_followers' => $followed->getSubscribers()->count()
         ]);
     }
 
