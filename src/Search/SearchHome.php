@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Home;
+namespace App\Search;
 
 
 use App\Entity\Category;

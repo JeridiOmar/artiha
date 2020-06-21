@@ -3,10 +3,11 @@
 namespace App\Controller;
 
 use App\Form\FiltreForm;
-use App\Home\SearchHome;
+use App\Search\SearchHome;
 use App\Repository\PostRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -32,7 +33,7 @@ class PostController extends AbstractController
             $maxPost=$request->get('max');
             if($minPost>$maxPost){
                 $this->addFlash('error_max<min', ' Error : le nombre de likes maximum doit être superieur au nombre de likes minimum');
-                $posts=$repository->findCategory($data);
+                $posts=$repository->findCategory($data,$request);
             }
 
         }
@@ -41,4 +42,6 @@ class PostController extends AbstractController
             'form'=>$form->createView()
         ]);
     }
+
+
 }

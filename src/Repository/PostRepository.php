@@ -3,8 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Post;
-use App\Home\SearchEntity;
-use App\Home\SearchHome;
+use App\Entity\User;
+use App\Search\SearchEntity;
+use App\Search\SearchHome;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Component\Pager\Pagination\PaginationInterface;
@@ -151,4 +152,6 @@ class PostRepository extends ServiceEntityRepository
         );
 
     }
+
+
 }

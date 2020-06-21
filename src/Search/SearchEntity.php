@@ -1,15 +1,15 @@
 <?php
 
 
-namespace App\Home;
+namespace App\Search;
 
 
 class SearchEntity
 {
     /**
-     * @var integer
+     * @var string
      */
-    public $page =1 ;
+   public $view;
     /**
      * @var string
      */

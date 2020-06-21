@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Post;
 use App\Form\SearchForm;
-use App\Home\SearchEntity;
+use App\Search\SearchEntity;
 use App\Repository\PostRepository;
 use App\Repository\TagRepository;
 use App\Repository\UserRepository;
@@ -29,9 +29,15 @@ class SearchController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()){
-            if ($search->choice=="Users"||$request->request->get('choice')=="Users"){
+            if ($search->choice=="Users"){
                 $users=$userRepository->findSearch($search,$request);
-                return$this->render('search/usersSearch.html.twig',[
+                if ($search->view=="Normal"){
+                    $view='search/usersSearch.html.twig';
+                }
+                else{
+                    $view='search/sliderUser.html.twig';
+                }
+                return$this->render($view,[
                     'users'=>$users,
                     'tag'=>$search->motCle,
                     'type'=>'User'
@@ -39,21 +45,41 @@ class SearchController extends AbstractController
             }
             if ($search->choice=="Tags"){
                 $posts=$postRepository->findByTagName($search,$request);
-                return$this->render('search/postSearch.html.twig',[
+                if ($search->view=="Normal"){
+                    $view='search/postSearch.html.twig';
+                }
+                else{
+                    $view='search/sliderPost.html.twig';
+                }
+                return$this->render($view,[
                     'posts'=>$posts,
                     'tag'=>$search->motCle,
                     'type'=>'TAG'
                 ]);
-            }  if ($search->choice=="Post Title"){
+            }
+            if ($search->choice=="Post Title"){
                 $posts=$postRepository->findByPostTitle($search,$request);
-                return$this->render('search/postSearch.html.twig',[
+                if ($search->view=="Normal"){
+                    $view='search/postSearch.html.twig';
+                }
+                else{
+                    $view='search/sliderPost.html.twig';
+                }
+                return$this->render($view,[
                     'posts'=>$posts,
                     'tag'=>$search->motCle,
-                    'type'=>'PostTitle'
+                    'type'=>'Post'
                 ]);
-            }  if ($search->choice=="Description"){
+            }
+            if ($search->choice=="Description"){
                 $posts=$postRepository->findDescriptipn($search,$request);
-                return$this->render('search/postSearch.html.twig',[
+                if ($search->view=="Normal"){
+                    $view='search/postSearch.html.twig';
+                }
+                else{
+                    $view='search/sliderPost.html.twig';
+                }
+                return$this->render($view,[
                     'posts'=>$posts,
                     'tag'=>$search->motCle,
                     'type'=>'Description'
@@ -63,31 +89,55 @@ class SearchController extends AbstractController
         }
         if ($request->query->get('choice')=="Users"){
             $users=$userRepository->findSearch($search,$request);
-            return$this->render('search/usersSearch.html.twig',[
+            if ($request->query->get('view')=="Normal"){
+                $view='search/usersSearch.html.twig';
+            }
+            else{
+                $view='search/sliderUser.html.twig';
+            }
+            return$this->render($view,[
                 'users'=>$users,
                 'tag'=>$search->motCle,
                 'type'=>'User'
             ]);
         }
-        if ($request->query->get('choice')=="Description"){
+        if ($request->query->get('view')=="Description"){
             $posts=$postRepository->findDescriptipn($search,$request);
-            return$this->render('search/postSearch.html.twig',[
+            if ($search->view=="Normal"){
+                $view='search/postSearch.html.twig';
+            }
+            else{
+                $view='search/sliderPost.html.twig';
+            }
+            return$this->render($view,[
                 'posts'=>$posts,
                 'tag'=>$search->motCle,
                 'type'=>'Description'
             ]);
         }
-        if ($request->query->get('choice')=="Post Title") {
+        if ($request->query->get('view')=="Post Title") {
             $posts = $postRepository->findByPostTitle($search, $request);
-            return $this->render('search/postSearch.html.twig', [
-                'posts' => $posts,
-                'tag' => $search->motCle,
-                'type' => 'PostTitle'
+            if ($search->view=="Normal"){
+                $view='search/postSearch.html.twig';
+            }
+            else{
+                $view='search/sliderPost.html.twig';
+            }
+            return$this->render($view,[
+                'posts'=>$posts,
+                'tag'=>$search->motCle,
+                'type'=>'Post'
             ]);
         }
-        if ($request->query->get('choice')=="Tags"){
+        if ($request->query->get('view')=="Tags"){
             $posts=$postRepository->findByTagName($search,$request);
-            return$this->render('search/postSearch.html.twig',[
+            if ($search->view=="Normal"){
+                $view='search/postSearch.html.twig';
+            }
+            else{
+                $view='search/sliderPost.html.twig';
+            }
+            return$this->render($view,[
                 'posts'=>$posts,
                 'tag'=>$search->motCle,
                 'type'=>'TAG'
