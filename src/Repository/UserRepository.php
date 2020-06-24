@@ -9,6 +9,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
+use App\Repository;
 
 
 /**
@@ -52,4 +53,13 @@ class UserRepository extends ServiceEntityRepository
         );
 
     }
+
+    public function countUsers(){
+        $q = Doctrine_Query::create()
+            ->select('COUNT(u.*)')
+            ->from('User u');
+        $total = $q->execute(array(), Doctrine_Core::HYDRATE_NONE);
+        $total = $total[0][0];
+    }
 }
+
