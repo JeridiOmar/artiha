@@ -39,6 +39,8 @@ class PostFixtures extends Fixture
             $user->setNumTel($faker->numberBetween(21000000,29990970));
             $user->setProfilePicture($faker->imageUrl($width=640,$height=480));
             $user->setUsername($faker->userName());
+            $user->setIsAdmin(false);
+            $user->setIsDeleted(false);
             $manager->persist($user);
         }
         for ($i = 0; $i < 25; $i++) {
