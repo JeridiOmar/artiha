@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+{% block title %}ForgotPwd{% endblock %}
+{% block stylesheets %}
+    <style>
+
+    </style>
+{% endblock %}
+{% block body %}
+    {% if false_attempt is defined %}
+        <h1 class="alert alert-danger ">Wrong code</h1><br>
+        <h1>You have to verify you identity </h1>
+    {% else %}
+        <h1>Code resent ✅</h1>
+    {% endif %}
+{% endblock %}

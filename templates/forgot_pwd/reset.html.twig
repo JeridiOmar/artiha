@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+{% block title %}ForgotPwdController{% endblock %}
+{% block stylesheets %}
+    <style>
+        .box{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 80vh;
+        }
+        .form-group {
+            display: inline-block;
+            margin: 5px auto;
+        }
+        div.form-group{
+            width: 250px;
+        }
+        .reset-box{
+            width: 40%;
+            border: #aeb0b2 solid 1px ;
+            border-radius: 4px;
+            padding: 30px;
+        }
+        .fa-eye-slash fa fa-eye{
+            padding-left: 5px;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    {% for name in app.session.flashbag.get('erreur') %}
+        <div class="alert alert-danger">{{ name }}</div>
+    {% endfor%}
+    <div class=" box">
+        <div class="reset-box">
+            <h3 >We have sent you an email with your old password please reset it</h3>
+            {{ form_start(form,{'attr':{'class':'reset-form'}}) }}
+            {{ form_row(form.oldpwd) }}
+            {{ form_row(form.newpwd,{'attr':{'class':'testing'}}) }}  <span id="gly1" onclick="myFunction('testing','gly1')" class="fa fa-eye-slash"></span>
+            {#                <div class="pull-right "><input type="checkbox" onclick="myFunction('testing')" >show password</div>#}
+            <br>
+            {{ form_row(form.confirmpwd,{'attr':{'class':'testing2'}}) }}  <span id="gly2" onclick="myFunction('testing2','gly2')" class="fa fa-eye-slash"></span>
+            {#                <div class="pull-right"><input type="checkbox" onclick="myFunction('testing2')" value="show password">show password</div>#}
+            <br>
+            {{ form_rest(form) }}
+        </div>
+    </div>
+
+{% endblock %}
+{% block javascripts %}
+    <script>
+        function myFunction(classname,id) {
+            var x = document.querySelector("."+classname);
+            if (x.type === "password") {
+                x.type = "text";
+                document.getElementById(id).className="fa fa-eye";
+            } else {
+                x.type = "password";
+                document.getElementById(id).className="fa fa-eye";
+
+            }
+        }
+    </script>
+{% endblock%}
+

@@ -148,6 +148,11 @@ class User implements UserInterface
      */
     private $isDeleted = false;
 
+    /**
+     * @ORM\OneToMany(targetEntity=ChangePwd::class, mappedBy="user", orphanRemoval=true)
+     */
+    private $changePwds;
+
 
 
     public function __construct()
@@ -155,6 +160,7 @@ class User implements UserInterface
         $this->posts = new ArrayCollection();
         $this->subscribedTo = new ArrayCollection();
         $this->subscribers = new ArrayCollection();
+        $this->changePwds = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -206,6 +212,37 @@ class User implements UserInterface
     public function setPassword(string $password): self
     {
         $this->password = $password;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ChangePwd[]
+     */
+    public function getChangePwds(): Collection
+    {
+        return $this->changePwds;
+    }
+
+    public function addChangePwd(ChangePwd $changePwd): self
+    {
+        if (!$this->changePwds->contains($changePwd)) {
+            $this->changePwds[] = $changePwd;
+            $changePwd->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeChangePwd(ChangePwd $changePwd): self
+    {
+        if ($this->changePwds->contains($changePwd)) {
+            $this->changePwds->removeElement($changePwd);
+            // set the owning side to null (unless already changed)
+            if ($changePwd->getUser() === $this) {
+                $changePwd->setUser(null);
+            }
+        }
 
         return $this;
     }
