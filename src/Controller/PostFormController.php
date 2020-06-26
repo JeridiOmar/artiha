@@ -26,68 +26,96 @@ use Symfony\Component\Validator\Constraints\Image;
 class PostFormController extends AbstractController
 {
     /**
-     * @Route("/post/text/{id}", name="post_form")
+     * @Route("/post/text/{id?0}", name="post_form")
      * @param Request $request
+     * @param Post|null $post
      * @param EntityManagerInterface $entityManager
-     * @param User $user
      * @param TagRepository $tagrepo
      * @return Response
      */
-    public function index(Request $request,EntityManagerInterface $entityManager,User $user,TagRepository $tagrepo)
+    public function index(Request $request,Post $post = null,EntityManagerInterface $entityManager,TagRepository $tagrepo)
     {
-        $post=new Post();
+        if(! $post) {
+            $post = new Post();
+        }
+        //temporary user
+        $user=$entityManager->getRepository(User::class)->findOneBy(['id'=>2]);
+        //dd($user->getPosts()->toArray(),$entityManager->getRepository(User::class)->findOneBy(['id'=>1])->getPosts()->toArray());
+        //$user=$this->getUser();
         $form=$this->createForm(PostType::class,$post);
         $form->add('text',TextType::class,array('mapped'=>false))
             ->add('submit',SubmitType::class);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
-            $post->setCreatedAt(new \DateTime());
-            $post->setType('text');
-            $content=new Text();
+            if (!$post->getCreatedAt()) {
+                $post->setCreatedAt(new \DateTime());
+                $post->setUser($user);
+                $post->setType('text');
+            }
+            $content = new Text();
             $content->setText($form['text']->getData());
             $post->setContent($content);
-            $post->setUser($user);
-            $tagData=explode(" ",$form->get('tags')->getData());
-            if(!$tagData[0]==="") {
+            $tagData = explode(" ", $form->get('tags')->getData());
+            //dd(!$tagData[0]==="",$form->get('tags')->getData());
+            if (!($tagData[0] === "")) {
                 foreach ($tagData as $item) {
                     if ($item[0] == "#") {
                         $item = str_replace("#", "", $item);
                         $tagfound = $tagrepo->findOneBy(['value' => $item]);
+                        //dd($tagfound);
                         if (!isset($tagfound)) {
                             $tag = new Tag();
                             $tag->setValue($item);
                             $tag->addPost($post);
+                            $post->addTag($tag);
                             $entityManager->persist($tag);
                         } else {
                             $tagfound->addPost($post);
+                            $post->addTag($tagfound);
                         }
                     }
                 }
             }
-
+//            dd($user);
             $entityManager->persist($post);
             $entityManager->flush();
             return $this->render('post_form/index.html.twig', [
                 'controller_name' => 'updatePersonController',
             ]);
         }
+        $tagforrender="";
+        $textforrender=null;
+        if ($post->getContent()) {
+            $textforrender = $post->getContent()->getChildContent();
+            foreach ($post->getTags()->toArray() as $a) {
+                $tagforrender .= "#" . $a . " ";
+            }
+        }
 
+
+        //dd($tagforrender);
         return $this->render('post_form/text.html.twig', [
             'form' => $form->createView(),
+            'tag' => $tagforrender,
+            'text'=>$textforrender
         ]);
     }
 
     /**
-     * @Route("/post/picture/{id}")
+     * @Route("/post/picture/{id?0}")
      * @param Request $request
-     * @param User $user
+     * @param Post|null $post
      * @param EntityManagerInterface $entityManager
      * @param TagRepository $tagrepo
      * @return Response
      */
-    public function index2(Request $request,User $user,EntityManagerInterface $entityManager,TagRepository $tagrepo)
+    public function index2(Request $request,Post $post = null,EntityManagerInterface $entityManager,TagRepository $tagrepo)
     {
-        $post=new Post();
+        if(!$post){
+            $post=new Post();
+        }
+        $user=$entityManager->getRepository(User::class)->findOneBy(['id'=>2]);
+
         $form=$this->createForm(PostType::class,$post);
         $form->add('picture',FileType::class,array('mapped'=>false,
             'required'=>true ,
@@ -97,25 +125,25 @@ class PostFormController extends AbstractController
         if($form->isSubmitted() && $form->isValid()){
             $post->setCreatedAt(new \DateTime());
             $post->setType('picture');
-            if(isset($form['picture'])){
-                $picture=$form['picture']->getData();
-                $picpath=md5(uniqid()).$picture->getClientOriginalName();
-                $destination=__DIR__."/../../public/uploads/files/post_pictures";
-                try{
-                    $picture->move($destination,$picpath);
-                    $content=new Picture();
-                    $content->setPicturePath('public/uploads/files/post_pictures/'.$picpath);
-                    $post->setContent($content);
-                }
-                catch (FileException $fe){
-                    echo $fe;
-                }
-            }
+//            if(isset($form['picture'])){
+//                $picture=$form['picture']->getData();
+//                $picpath=md5(uniqid()).$picture->getClientOriginalName();
+//                $destination=__DIR__."/../../public/uploads/files/post_pictures";
+//                try{
+//                    $picture->move($destination,$picpath);
+//                    $content=new Picture();
+//                    $content->setPicturePath('public/uploads/files/post_pictures/'.$picpath);
+//                    $post->setContent($content);
+//                }
+//                catch (FileException $fe){
+//                    echo $fe;
+//                }
+//            }
             $post->setUser($user);
             $tagData=explode(" ",$form->get('tags')->getData());
-            if(!$tagData[0]===""){
+            if(!($tagData[0]==="")){
                 foreach ($tagData as $item) {
-                    if($item[0]=="#"){
+                    if($item[0]==="#"){
                         $item=str_replace("#","",$item);
                         $tagfound=$tagrepo->findOneBy(['value'=>$item]);
                         if(!isset($tagfound)){
@@ -138,22 +166,39 @@ class PostFormController extends AbstractController
             ]);
         }
 
+        $tagforrender="";
+        $picforrender=null;
+        if ($post->getContent()) {
+            $picforrender = $post->getContent()->getChildContent();
+            foreach ($post->getTags()->toArray() as $a) {
+                $tagforrender .= "#" . $a . " ";
+            }
+        }
+
+
+        //dd($tagforrender);
         return $this->render('post_form/picture.html.twig', [
             'form' => $form->createView(),
+            'tag' => $tagforrender,
+            'pic'=>$picforrender
         ]);
     }
 
     /**
-     * @Route("/post/recording/{id}")
+     * @Route("/post/recording/{id?0}")
      * @param Request $request
-     * @param User $user
+     * @param Post $post
      * @param EntityManagerInterface $entityManager
      * @param TagRepository $tagrepo
      * @return Response
      */
-    public function index3(Request $request,User $user, EntityManagerInterface $entityManager,TagRepository $tagrepo)
+    public function index3(Request $request,Post $post = null, EntityManagerInterface $entityManager,TagRepository $tagrepo)
     {
-        $post=new Post();
+        if (!$post) {
+            $post = new Post();
+        }
+        $user=$entityManager->getRepository(User::class)->findOneBy(['id'=>2]);
+        //$user=$this->>getUser();
         $form=$this->createForm(PostType::class,$post);
         $form->add('recording',FileType::class,array('mapped'=>false,
             'required'=>true ,
@@ -179,7 +224,7 @@ class PostFormController extends AbstractController
             }
             $post->setUser($user);
             $tagData=explode(" ",$form->get('tags')->getData());
-            if(!$tagData[0]===""){
+            if(!($tagData[0]==="")){
             foreach ($tagData as $item) {
                 if($item[0]=="#"){
                     $item=str_replace("#","",$item);
@@ -204,22 +249,39 @@ class PostFormController extends AbstractController
             ]);
         }
 
-        return $this->render('post_form/recording.html.twig', [
+        $tagforrender="";
+        $recforrender=null;
+        if ($post->getContent()) {
+            $recforrender = $post->getContent()->getChildContent();
+            foreach ($post->getTags()->toArray() as $a) {
+                $tagforrender .= "#" . $a . " ";
+            }
+        }
+
+
+        //dd($tagforrender);
+        return $this->render('post_form/picture.html.twig', [
             'form' => $form->createView(),
+            'tag' => $tagforrender,
+            'rec'=>$recforrender
         ]);
     }
 
     /**
-     * @Route("/post/video/{id}")
+     * @Route("/post/video/{id?0}")
      * @param Request $request
-     * @param User $user
+     * @param Post $post
      * @param EntityManagerInterface $entityManager
      * @param TagRepository $tagrepo
      * @return Response
      */
-    public function index4(Request $request,User $user,EntityManagerInterface $entityManager,TagRepository $tagrepo)
+    public function index4(Request $request,Post $post = null,EntityManagerInterface $entityManager,TagRepository $tagrepo)
     {
-        $post=new Post();
+        if(!$post) {
+            $post = new Post();
+        }
+        $user=$entityManager->getRepository(User::class)->findOneBy(['id'=>2]);
+        //$user=$this->>getUser();
         $form=$this->createForm(PostType::class,$post);
         $form->add('video',FileType::class,array('mapped'=>false,
             'required'=>true ,
@@ -256,7 +318,7 @@ class PostFormController extends AbstractController
             }
             $post->setUser($user);
             $tagData=explode(" ",$form->get('tags')->getData());
-            if(!$tagData[0]===""){
+            if(!($tagData[0]==="")){
             foreach ($tagData as $item) {
                 if($item[0]=="#"){
                     $item=str_replace("#","",$item);
@@ -280,8 +342,21 @@ class PostFormController extends AbstractController
             ]);
         }
 
-        return $this->render('post_form/video.html.twig', [
+        $tagforrender="";
+        $videoforrender=null;
+        if ($post->getContent()) {
+            $videoforrender = $post->getContent()->getChildContent();
+            foreach ($post->getTags()->toArray() as $a) {
+                $tagforrender .= "#" . $a . " ";
+            }
+        }
+
+
+        //dd($tagforrender);
+        return $this->render('post_form/picture.html.twig', [
             'form' => $form->createView(),
+            'tag' => $tagforrender,
+            'pic'=>$videoforrender
         ]);
     }
 }

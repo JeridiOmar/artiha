@@ -11,9 +11,11 @@
         {{ form_start(form) }}
         <div class="row">
             <div class="col-lg-6"> {{ form_row(form.title) }}</div>
-            <div class="col-lg-6"> {{ form_row(form.tags) }}</div>
+            <div class="col-lg-6"> {{ form_row(form.tags,{'attr':{ 'value': tag ? tag : '' }})}}</div>
         </div>
+        {{ form_row(form.description) }}
+        {{ form_row(form.Categories) }}
+        {{ form_row(form.text,{'attr':{ 'value': rec ? rec : '' }}) }}
         {{ form_end(form) }}
-        <img src="" alt="">
     </div>
 {% endblock %}

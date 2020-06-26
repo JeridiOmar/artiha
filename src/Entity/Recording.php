@@ -38,4 +38,8 @@ class Recording extends Content
 
         return $this;
     }
+    public function getChildContent()
+    {
+        return $this->getRecordingPath();
+    }
 }

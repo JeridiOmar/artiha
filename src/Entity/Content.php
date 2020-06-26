@@ -30,4 +30,5 @@ abstract class Content
     {
         return $this->id;
     }
+    public abstract function getChildContent();
 }

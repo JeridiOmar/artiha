@@ -61,6 +61,7 @@ class SecurityController extends AbstractController {
             $user->setPassword($hash);
 
 
+
             $manager->persist($user);
             $manager->flush();
             $this->addFlash('success', 'Vous etes maintenant inscrit <a href="#" class="alert-link">Connectez-vous!</a>');

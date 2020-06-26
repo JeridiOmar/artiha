@@ -43,4 +43,8 @@ class Picture extends Content
 
         return $this;
     }
+    public function getChildContent()
+    {
+        return $this->getPicturePath();
+    }
 }

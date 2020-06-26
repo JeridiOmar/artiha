@@ -59,4 +59,8 @@ class Video extends Content
 
         return $this;
     }
+    public function getChildContent()
+    {
+        return array('videoPath'=>$this->videoPath,'thumbnailPath'=>$this->thumbnailPath);
+    }
 }

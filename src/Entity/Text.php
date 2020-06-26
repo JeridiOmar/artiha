@@ -38,4 +38,8 @@ class Text extends Content
 
         return $this;
     }
+    public function getChildContent(): ?string
+    {
+        return $this->text;
+    }
 }
