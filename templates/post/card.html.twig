@@ -1,4 +1,4 @@
-<div class="card img-fluid " style="width:620px">
+<div class="card img-fluid " style="width:760px">
     <h5 class="card-title">
         <a href="# ">
             <img class="rounded-circle mr-2-3" src="{{ post.user.profilePicture }}"
@@ -13,9 +13,9 @@
     <div class="card-opacity">
         {% if post.type == "PHOTO" %}
 
-         <img class="card-img-top" style="width:620px;height:520px" src="{{ post.content }}" alt="Card image">
+         <img class="card-img-top" style="width:760px;height:450px" src="{{ post.content }}" alt="Card image">
         {% elseif post.type== "VIDEO" %}
-        <video class="img-fluid" style="width: 650px;height: 520px" playsinline autoplay muted loop>
+        <video class="img-fluid" style="width: 650px;height: 450px" playsinline autoplay muted loop>
             <source src="https://mdbootstrap.com/img/video/animation-intro.mp4" type="video/mp4">
         </video>
     </div>
@@ -24,7 +24,7 @@
 <div class="card__type"> {{ post.type }}</div>
 
 <div class="card-img-top p-2">
-    <h4 class="card-title card__title text-success">{{ post.title }}</h4>
+    <h4 class="card-title text-center text-black font-weight-bold text-danger">{{ post.title }}</h4>
     <div>
         {% for c in post.categories %}
 

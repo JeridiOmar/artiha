@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20200624232245 extends AbstractMigration
+final class Version20200627155023 extends AbstractMigration
 {
     public function getDescription() : string
     {
@@ -24,6 +24,7 @@ final class Version20200624232245 extends AbstractMigration
 
         $this->addSql('CREATE TABLE change_pwd (id INT AUTO_INCREMENT NOT NULL, user_id INT NOT NULL, oldpwd VARCHAR(255) NOT NULL, newpwd VARCHAR(255) NOT NULL, date_de_changement DATETIME NOT NULL, INDEX IDX_5034992FA76ED395 (user_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('ALTER TABLE change_pwd ADD CONSTRAINT FK_5034992FA76ED395 FOREIGN KEY (user_id) REFERENCES user (id)');
+        $this->addSql('ALTER TABLE user ADD is_admin TINYINT(1) NOT NULL, ADD is_deleted TINYINT(1) NOT NULL');
     }
 
     public function down(Schema $schema) : void
@@ -32,5 +33,6 @@ final class Version20200624232245 extends AbstractMigration
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('DROP TABLE change_pwd');
+        $this->addSql('ALTER TABLE user DROP is_admin, DROP is_deleted');
     }
 }
