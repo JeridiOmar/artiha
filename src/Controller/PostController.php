@@ -31,7 +31,7 @@ class PostController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()){
             $minPost=$request->get('min');
             $maxPost=$request->get('max');
-            if($minPost>$maxPost){
+            if(($minPost>$maxPost) &&($maxPost!=null)){
                 $this->addFlash('error_max<min', ' Error : le nombre de likes maximum doit être superieur au nombre de likes minimum');
                 $posts=$repository->findCategory($data,$request);
             }

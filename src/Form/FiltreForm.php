@@ -32,14 +32,15 @@ class FiltreForm extends AbstractType
                 'required'=>false,
                 'attr'=>[
                     'placeholder'=>'likes min ',
-                    'class'=>'form-group-edit',
+                    'class'=>'form-group-edit search-field',
                 ]
             ])
             ->add('max',IntegerType::class,[
                 'required'=>false,
                 'attr'=>[
                     'placeholder'=>'likes max ',
-                    'class'=>'form-group-edit',
+                    'class'=>'form-group-edit search-field',
+
 
                 ]
                 ]);
