@@ -4,6 +4,12 @@
         #form_id{
             padding: 30px;
         }
+        video {
+            margin: 10px;
+        }
+        img{
+            margin: 10px;
+        }
     </style>
 {% endblock%}
 {% block body %}
@@ -15,7 +21,48 @@
         </div>
         {{ form_row(form.description) }}
         {{ form_row(form.Categories) }}
-        {{ form_row(form.text,{'attr':{ 'value': video ? video : '' }}) }}
+        {{ form_row(form.video,{'attr':{
+            'value': video ? video : '',
+            'id' : 'ImageFileUpload',
+            'onchange' : "readURL(this);",
+            'runat' : 'server'}}) }}
+        <video id="myVideo" hidden width="500" controls height="176">
+            <source src="" type="video/mp4">
+            Your browser does not support HTML5 video.
+        </video>
+        {{ form_row(form.thumbnail,{'attr':{
+            'value': thumbnail ? thumbnail : '',
+            'id' : 'ImageFileUpload',
+            'onchange' : "readURL(this);",
+            'runat' : 'server'}}) }}
+        <img id="myThumbnail" src="" alt="?" hidden style="height: 500px;"  />
         {{ form_end(form) }}
     </div>
+{% endblock %}
+{% block javascripts %}
+    <script>
+        function readURL(input) {
+            if (input.files && input.files[0]) {//Check if input has files.
+                var reader = new FileReader(); //Initialize FileReader.
+                reader.onload = function (e) {
+                    if (input.id === "post_video") {
+                        $('#myVideo').attr('src', e.target.result);
+                        $("#myVideo")[0].hidden = false;
+
+                    } else {
+                        $('#myThumbnail').attr('src', e.target.result);
+                        $("#myThumbnail")[0].hidden = false;
+
+                    }
+                };
+                reader.readAsDataURL(input.files[0]);
+                input.hidden = false;
+            } else {
+                $("#myVideo")[0].hidden = true;
+                $("#myThumbnail")[0].hidden = true;
+                $('#myVideo').attr('src', "#");
+                $('#myThumbnail').attr('src', "#");
+            }
+        }
+    </script>
 {% endblock %}

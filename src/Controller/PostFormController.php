@@ -260,7 +260,7 @@ class PostFormController extends AbstractController
 
 
         //dd($tagforrender);
-        return $this->render('post_form/picture.html.twig', [
+        return $this->render('post_form/recording.html.twig', [
             'form' => $form->createView(),
             'tag' => $tagforrender,
             'rec'=>$recforrender
@@ -342,10 +342,12 @@ class PostFormController extends AbstractController
             ]);
         }
 
+        $thumbnailtorender=null;
         $tagforrender="";
         $videoforrender=null;
         if ($post->getContent()) {
-            $videoforrender = $post->getContent()->getChildContent();
+            $videoforrender = $post->getContent()->getChildContent()['videoPath'];
+            $thumbnailtorender=$post->getContent()->getChildContent()['thumbnailPath'];
             foreach ($post->getTags()->toArray() as $a) {
                 $tagforrender .= "#" . $a . " ";
             }
@@ -353,10 +355,11 @@ class PostFormController extends AbstractController
 
 
         //dd($tagforrender);
-        return $this->render('post_form/picture.html.twig', [
+        return $this->render('post_form/video.html.twig', [
             'form' => $form->createView(),
             'tag' => $tagforrender,
-            'pic'=>$videoforrender
+            'video'=>$videoforrender,
+            'thumbnail'=>$thumbnailtorender
         ]);
     }
 }

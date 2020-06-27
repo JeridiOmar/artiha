@@ -4,6 +4,9 @@
         #form_id{
             padding: 30px;
         }
+        img{
+            margin: 20px;
+        }
     </style>
 {% endblock%}
 {% block body %}
@@ -15,7 +18,31 @@
         </div>
         {{ form_row(form.description) }}
         {{ form_row(form.Categories) }}
-        {{ form_row(form.picture,{'attr':{ 'value': pic ? pic : '' }}) }}
+        {{ form_row(form.picture,{'attr':{  'value': pic ? pic : '',
+                                            'id' : 'ImageFileUpload',
+                                            'onchange' : "readURL(this);",
+                                            'runat' : 'server'}}) }}
+        <img id="PreviewImage" src="" alt="?" hidden style="height: 500px;"  />
         {{ form_end(form) }}
     </div>
+{% endblock %}
+{% block javascripts %}
+    <script>
+        function readURL(input) {
+            $("#PreviewImage")[0].hidden = false;
+            if (input.files && input.files[0]) {//Check if input has files.
+                var reader = new FileReader(); //Initialize FileReader.
+                reader.onload = function (e) {
+                    $('#PreviewImage').attr('src', e.target.result);
+                    $("#PreviewImage").resize({ aspectRatio: true, maxHeight: 500 });
+                };
+                reader.readAsDataURL(input.files[0]);
+                input.hidden=false;
+            }
+            else {
+                $("#PreviewImage")[0].hidden = true;
+                $('#PreviewImage').attr('src', "#");
+            }
+        }
+    </script>
 {% endblock %}
