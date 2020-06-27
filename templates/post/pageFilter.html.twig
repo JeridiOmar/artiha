@@ -1,21 +1,24 @@
-<div class="sidebar-header">
-    <div class="sidebar-brand">
-        <a href="#">Filtrer la recherche</a></div></div>
-<div class="form_edit">
-    {{ form_start(form,{attr: {class: 'filter'}}) }}
-    <hr class="style_edit">
-    <h4 class=title-filter>Categories</h4>
-    <hr class="style_edit">
-    {{ form_row(form.categories) }}
-    <hr class="style_edit">
-    <h4 class="title-filter">likes</h4>
-    <hr class="style_edit">
-    <div class="row align-items-end">
-        <div class="col-md-6"  >{{ form_row(form.min) }}
-        </div>
-        <div class="col-md-6" >{{ form_row(form.max) }}
-        </div>
+{{ form_start(form,{attr: {class: 'filter'}}) }}
+
+<div class="card my-4">
+    <h5 class="card-header">Categories</h5>
+    <div class="card-body">
+        {{ form_row(form.categories) }}
     </div>
+</div>
+<div class="card my-4">
+    <h5 class="card-header">likes</h5>
+    <div class="card-body">
+        <div class="row align-items-end">
+            <div class="col-md-6"  >{{ form_row(form.min) }}
+            </div>
+            <div class="col-md-6" >{{ form_row(form.max) }}
+            </div>
+        </div>    </div>
+</div>
+
+    <hr class="style_edit">
+
     <div class="form-group"><button type="submit" class="btn btn-danger w-100">Filtrer</button>
     </div>
     {{ form_end(form) }}
