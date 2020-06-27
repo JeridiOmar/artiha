@@ -1,38 +1,167 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello IndividualPostController!{% endblock %}
+{% block title %}{{ post.title }}{% endblock %}
 
 {% block body %}
 <style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+
+
+
+    body{
+    background: #DCDCDC	;
+
+    font-family: Arial, Helvetica, sans-serif;
+    }
+
+    /* Style the header */
+    header {
+        background-color: #666;
+        padding: 30px;
+        text-align: center;
+        font-size: 35px;
+        color: white;
+    }
+
+    /* Create two columns/boxes that floats next to each other */
+    nav {
+        float: left;
+        width: 30%;
+        height: 300px; /* only for demonstration, should be removed */
+
+        padding: 20px;
+    }
+
+    /* Style the list inside the menu */
+
+    article {
+        float: left;
+        padding: 20px;
+        width: 70%;
+
+
+    }
+
+    /* Clear floats after the columns */
+    section:after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+
+
+
+    /* Responsive layout - makes the two columns/boxes stack on top of each other instead of next to each other, on small screens */
+    @media (max-width: 600px) {
+        nav, article {
+            width: 100%;
+            height: auto;
+        }
+    }</style>
 
     <!-- Blog Post -->
-    <div class="card mb-4">
-        <img class="card-img-top" src="http://placehold.it/750x300" alt="Card image cap">
-        <div class="card-body">
-            <h2 class="card-title">Post Title</h2>
-            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis aliquid atque, nulla? Quos cum ex quis soluta, a laboriosam. Dicta expedita corporis animi vero voluptate voluptatibus possimus, veniam magni quis!</p>
-            <a href="#" class="btn btn-primary">Read More &rarr;</a>
-        </div>
-        <div class="card-footer text-muted">
-            Posted on January 1, 2020 by
-            <a href="#">Start Bootstrap</a>
-        </div>
-    </div>
+    <div >
 
-    <!-- Blog Post -->
-    <div class="card mb-4">
-        <img class="card-img-top" src="http://placehold.it/750x300" alt="Card image cap">
-        <div class="card-body">
-            <h2 class="card-title">Post Title</h2>
-            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis aliquid atque, nulla? Quos cum ex quis soluta, a laboriosam. Dicta expedita corporis animi vero voluptate voluptatibus possimus, veniam magni quis!</p>
-            <a href="#" class="btn btn-primary">Read More &rarr;</a>
+        <section>
+            <nav>
+        {% if post.type == "PHOTO" %}
+
+         <img class="figure-img img-fluid rounded" src="{{ post.content }}" alt="Card image">
+        {% elseif post.type== "VIDEO" %}
+        <video class="img-fluid" playsinline autoplay muted loop>
+            <source src="https://mdbootstrap.com/img/video/animation-intro.mp4" type="video/mp4">
+        </video>
+    {% endif %}
+            </nav>
+            <article>
+            <h2 class="card-title" style="color: #cfa0e9">{{ post.title }}</h2>
+            <div class="text-muted">
+                Posted on January 1, 2020 by
+                <img class="rounded-circle mr-2-3" src="{{ post.user.profilePicture }}"
+                     href="{{ path('profile',{id:post.user.id}) }} " alt="" height="30px" width="30px"></a>
+                <a  style="color: #cfa0e9" href="{{ path('profile',{id:post.user.id}) }}" class="ml-2">{{ post.user.nom }} {{ post.user.prenom }}</a>
         </div>
-        <div class="card-footer text-muted">
-            Posted on January 1, 2020 by
-            <a href="#">Start Bootstrap</a>
-        </div>
+                <div class="card-img-top p-2">
+                    <div>
+                        {% for c in post.categories %}
+
+                            <em class="text-muted  text-italic "> - {{ c }}</em>
+
+                        {% endfor %}
+                    </div>
+                    <p class="card-text font-weight-bolder card_description text-dark">{{ post.description }}</p>
+                    {% for t in post.tags %}
+
+                        <a href="#" style="color: #cfa0e9" class="text-italic ">#{{ t }}</a>
+
+                    {% endfor %}
+                    <div class="row">
+                        <div class="col-8">
+{#                            <a href="{{ path('subscribe'"#}
+                            <h6 class="card-subtitle mb-2 text-black color_comments_like">
+                                <i class='fas fa-thumbs-up color' style="padding:10px;font-size:20px;color: #cfa0e9"></i>
+                                {{ post.nblikes }}
+                            </h6>
+                        </div>
+                        <div class="col-4">
+                            <h6 class="card-subtitle mb-2  text-black">
+                                <i class='fas fa-comment-dots color_comments_like'
+                                   style="padding:10px;font-size:20px;color: #cfa0e9"></i>
+                                {{ post.nbcomment }}
+                            </h6>
+                        </div>
+                    </div>
+                    <div class="card my-4">
+                        <h5 class="card-header">Leave a Comment:</h5>
+                        <div class="card-body">
+                            <form>
+                                <div class="form-group">
+                                    <textarea class="form-control" rows="3"></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Single Comment -->
+                    <div class="media mb-4">
+                        <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
+                        <div class="media-body">
+                            <h5 class="mt-0">Commenter Name</h5>
+                            Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+                        </div>
+                    </div>
+
+                </div>
+            </article>
+        </section>
+
     </div>
+    <script>
+
+        const likeButton = document.querySelector('.js-follow-button');
+        const followLink = document.querySelector('.js-followLink');
+        const followCount = document.querySelector('.js-nbFollow');
+        const url = followLink.href;
+        followLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            axios.get(url).then(function (response) {
+                followCount.textContent=response.data.nombre_followers;
+                if(response.data.following==true){
+                    followButton.setAttribute('class','js-follow-button following container');
+                    document.querySelector('.follow').textContent="following";
+
+                }else{
+                    followButton.setAttribute('class','js-follow-button not-following container');
+                    document.querySelector('.follow').textContent=" + follow";
+                }
+
+            })
+
+
+        })
+
+
+    </script>
+
+
 {% endblock %}

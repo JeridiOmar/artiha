@@ -204,7 +204,7 @@ class PostRepository extends ServiceEntityRepository
             ->andWhere('p.id IN (:postId)')
             ->setParameter('postId', $id);
         $result = $query->getQuery();
-        return $result->getResult();
+        return $result->getResult()[0];
     }
 
 

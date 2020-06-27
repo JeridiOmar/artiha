@@ -24,4 +24,15 @@ class IndividualPostController extends AbstractController
             'post' => $post,
         ]);
     }
+
+//    /**
+//     * @Route("/like{idPost<\d+>}{idUser<\d+>}", name="individual_post")
+//     */
+//    public function index($id, PostRepository $postRepository)
+//    {
+//        $post = $postRepository->findPostById($id);
+//        return $this->render('individual_post/index.html.twig', [
+//            'post' => $post,
+//        ]);
+//    }
 }
