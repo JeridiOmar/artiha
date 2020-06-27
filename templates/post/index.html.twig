@@ -3,76 +3,90 @@
 {% block title %}Tous le posts!{% endblock %}
 
 {% block body %}
-    <div id="wrapper">
+    {#    <div id="wrapper">#}
 
-        <div class="overlay"></div>
+    {#        <div class="overlay"></div>#}
 
-        <!-- Sidebar -->
-        <nav class="navbar  navbar-inverse fixed-top " style="margin-top: 41px" id="sidebar-wrapper" role="navigation">
-            <ul class="nav sidebar-nav">
-                {% include 'post/pageFilter.html.twig' with {form: form} only %}
+    {#        <!-- Sidebar -->#}
+    {#        <nav class="navbar  navbar-inverse fixed-top " style="margin-top: 41px" id="sidebar-wrapper" role="navigation">#}
+    {#            <ul class="nav sidebar-nav">#}
+    {#                {% include 'post/pageFilter.html.twig' with {form: form} only %}#}
 
-            </ul>
-        </nav>
+    {#            </ul>#}
+    {#        </nav>#}
 
-        <!-- Page Content -->
-        <div id="page-content-wrapper">
-            <button type="button" class="hamburger animated fadeInLeft is-closed" data-toggle="offcanvas">
-                <span class="hamb-top"></span>
-                <span class="hamb-middle"></span>
-                <span class="hamb-bottom"></span>
-            </button>
-            <div class="container">
-                <div class="row">
-                    <div > {% for message in app.flashes('error_max<min') %}
-                            <div class="alert alert-danger">
-                                {{ message }}
-                            </div>
-                        {% endfor %}
-                        <div class="d-flex justify-content-end mb-3 ">
-                            {{ knp_pagination_sortable(posts,'Likes','p.nblikes') }}
-                            {{ knp_pagination_sortable(posts,'Comments','p.nbcomments') }}
-                        </div>
-                        <div class="grid">
-                            {% for post in posts %}
-                                {% include 'post/card.html.twig' with {post: post} only %}
-                            {% endfor %}
-                        </div>
-                        <div class="p-4">
-                            {{ knp_pagination_render(posts) }}
-                        </div>
-                    </div>
-                </div>
+    {#        <!-- Page Content -->#}
+    {#        <div id="page-content-wrapper">#}
+    {#            <button type="button" class="hamburger animated fadeInLeft is-closed" data-toggle="offcanvas">#}
+    {#                <span class="hamb-top"></span>#}
+    {#                <span class="hamb-middle"></span>#}
+    {#                <span class="hamb-bottom"></span>#}
+    {#            </button>#}
+    {#            <div class="container">#}
+    {#                <div class="row">#}
+    {#                    <div > {% for message in app.flashes('error_max<min') %}#}
+    {#                            <div class="alert alert-danger">#}
+    {#                                {{ message }}#}
+    {#                            </div>#}
+    {#                        {% endfor %}#}
+    {#                        <div class="d-flex justify-content-end mb-3 ">#}
+    {#                            {{ knp_pagination_sortable(posts,'Likes','p.nblikes') }}#}
+    {#                            {{ knp_pagination_sortable(posts,'Comments','p.nbcomments') }}#}
+    {#                        </div>#}
+    {#                        <div class="grid">#}
+    {#                            {% for post in posts %}#}
+    {#                                {% include 'post/card.html.twig' with {post: post} only %}#}
+    {#                            {% endfor %}#}
+    {#                        </div>#}
+    {#                        <div class="p-4">#}
+    {#                            {{ knp_pagination_render(posts) }}#}
+    {#                        </div>#}
+    {#                    </div>#}
+    {#                </div>#}
+    {#            </div>#}
+    {#        </div>#}
+    {#        <!-- /#page-content-wrapper -->#}
+
+    {#    </div>#}
+    {#    <!-- /#wrapper -->#}
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col-4">
+
+            </div>
+            <div class="col-8">
+                    {% for post in posts %}
+                        {% include 'post/card.html.twig' with {post: post} only %}
+                    {% endfor %}
+
             </div>
         </div>
-        <!-- /#page-content-wrapper -->
-
     </div>
-    <!-- /#wrapper -->
 {% endblock %}
-{% block stylesheets  %}
+{% block stylesheets %}
     <style>
-        body{
-        {% if type  in '1' %}
-            background-image: linear-gradient(rgba(0,0,0,0),rgba(0,0,0,0)),url({{ asset('background_images/pawel-czerwinski-xWSUI7tpiTY-unsplash.jpg') }});
-        {% else  %}
-            background-image: linear-gradient(rgba(0,0,0,0),rgba(0,0,0,0)),url({{ asset('background_images/jr-korpa-4DykvhW8SsI-unsplash.jpg') }});
-        {% endif %}
-            background-size: cover;
+        body {
+        {% if type  in '1' %} background: lightgray;
+        {% else  %} background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url({{ asset('background_images/jr-korpa-4DykvhW8SsI-unsplash.jpg') }});
+        {% endif %} background-size: cover;
             background-position: center;
             display: flex;
+            padding-top: 50px;
             height: 100%;
             min-height: 100vh;
             font-family: sans-serif;
         }
-        hr.style_edit{
+
+        hr.style_edit {
             padding-bottom: 1px;
             height: 5px;
             background: silver repeat-x 0 0;
             border: 0;
         }
 
-        .styled{
+        .styled {
             font-family: 'Piedra', cursive;
             text-decoration: underline;
             padding-left: 10px;
@@ -81,72 +95,61 @@
             text-decoration-line: underline !important;
 
         }
+
         .title-filter {
-            color: rgba(255,255,255,01);
+            color: rgba(255, 255, 255, 01);
             text-shadow: 0 1px 0 #ccc,
             0 2px 0 #c9c9c9,
             0 3px 0 #bbb,
             0 4px 0 #b9b9b9,
             0 5px 0 #aaa,
-            0 6px 1px rgba(0,0,0,.1),
-            0 0 5px rgba(0,0,0,.1),
-            0 1px 3px rgba(0,0,0,.3),
-            0 3px 5px rgba(0,0,0,.2),
-            0 5px 10px rgba(0,0,0,.25),
-            0 10px 10px rgba(0,0,0,.2),
-            0 20px 20px rgba(0,0,0,.15);
+            0 6px 1px rgba(0, 0, 0, .1),
+            0 0 5px rgba(0, 0, 0, .1),
+            0 1px 3px rgba(0, 0, 0, .3),
+            0 3px 5px rgba(0, 0, 0, .2),
+            0 5px 10px rgba(0, 0, 0, .25),
+            0 10px 10px rgba(0, 0, 0, .2),
+            0 20px 20px rgba(0, 0, 0, .15);
         }
 
 
-        .container {
-            margin-left: 100px;
-        }
-
-        .form-group-edit{
-            background:rgba(255,255,255,0.2);
-            border-radius:0px;
-            border:0px;
-            border-bottom:1px solid white;
-            font-size:18px;
+        .form-group-edit {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 0px;
+            border: 0px;
+            border-bottom: 1px solid white;
+            font-size: 18px;
             color: #f1f2f3;
         }
 
-        .sidebar-nav{
+        .sidebar-nav {
             color: snow;
             padding: 40px;
         }
-        .form_edit{
+
+        .form_edit {
             padding: 20px;
         }
-        .grid{
-            display: grid;
-            grid-template-columns: repeat(2,1fr);
-            grid-gap: 40px;
-        }
-        .grid.toggled{
-            grid-template-columns: repeat(1,1fr);
-        }
 
-        .card{
+        /*.grid {*/
+        /*    display: grid;*/
+        /*    grid-template-columns: repeat(1, 1fr);*/
+        /*    grid-gap: 40px;*/
+        /*}*/
+
+        /*.grid.toggled {*/
+        /*    grid-template-columns: repeat(1, 1fr);*/
+        /*}*/
+
+        .card {
             background: -webkit-linear-gradient(right, transparent, #fff);
-            box-shadow: 0 0 19px rgba(0,0,0,0.1);
+            box-shadow: 0 0 19px rgba(0, 0, 0, 0.1);
             transition: box-shadow 0.3s;
-
-        }
-        @media only screen and (max-width: 1400px) {
-            .grid {
-                padding-left: 20%;
-                display: grid;
-                grid-template-columns: repeat(1,1fr);
-                grid-gap: 40px;
-            }
-            .card{
-                width: 80%;
-            }
-
+            padding: 20px;
+            margin: 20px;
         }
 
-        .card__category{
+        .card__category {
             position: absolute;
             height: 25px;
             top: -25px;
@@ -157,15 +160,16 @@
             color: #f1f2f3;
 
         }
+
         .card-opacity {
             background: #000;
-            height: 520px;
+            height: 450px;
             overflow: hidden;
             transition: height 0.4s;
 
         }
 
-        .card-opacity img{
+        .card-opacity img {
             display: block;
             opacity: 1;
             transition: opacity 0.4s, transform 0.3s;
@@ -176,25 +180,26 @@
 
         }
 
-        .card:hover .card-opacity{
-            height: 400px;
+        .card:hover .card-opacity {
+            height: 380px;
         }
 
-        .card:hover .card-opacity img{
+        .card:hover .card-opacity img {
             opacity: 0.6;
             transform: scale(1.3);
 
         }
 
-        .card:hover .card__type{
+        .card:hover .card__type {
             top: 442px;
         }
-        .card__type{
+
+        .card__type {
             position: absolute;
-            left: 0;
-            top: 562px;
+            left: 20px;
+            top: 512px;
             height: 30px;
-            padding: 0 15px ;
+            padding: 0 15px;
             color: white;
             font-family: 'Lexend Tera', sans-serif;
             background: #C82829;
@@ -205,23 +210,32 @@
 
         }
 
-        .card_description{
+        .card_description {
             font-size: 16px;
             line-height: 25px;
         }
-        .card__title{
-            text-shadow: 0px 5px 5px rgba(0,0,0,0.5);
+
+        .card__title {
+            text-shadow: 0px 5px 5px rgba(0, 0, 0, 0.2);
+
         }
-        body {
+
+        /*body {
             position: relative;
             overflow-x: hidden;
             background-color: #CFD8DC;
-        }
+        }*/
+
         body,
-        html { height: 100%;}
+        html {
+            height: 100%;
+        }
+
         .nav .open > a,
         .nav .open > a:hover,
-        .nav .open > a:focus {background-color: transparent;}
+        .nav .open > a:focus {
+            background-color: transparent;
+        }
 
         /*-------------------------------*/
         /*           Wrappers            */
@@ -305,23 +319,25 @@
             width: 3px;
             background-color: #1c1c1c;
             -webkit-transition: width .2s ease-in;
-            -moz-transition:  width .2s ease-in;
-            -ms-transition:  width .2s ease-in;
+            -moz-transition: width .2s ease-in;
+            -ms-transition: width .2s ease-in;
             transition: width .2s ease-in;
 
         }
-        .sidebar-nav li:hover{
+
+        .sidebar-nav li:hover {
             background: skyblue !important;
             border-radius: 10px;
             margin-left: 10px;
             margin-right: 10px;
         }
+
         .sidebar-nav li:hover:before,
         .sidebar-nav li.open:hover:before {
             width: 100%;
             -webkit-transition: width .2s ease-in;
-            -moz-transition:  width .2s ease-in;
-            -ms-transition:  width .2s ease-in;
+            -moz-transition: width .2s ease-in;
+            -ms-transition: width .2s ease-in;
             transition: width .2s ease-in;
 
         }
@@ -338,11 +354,12 @@
         .sidebar-nav li a:focus,
         .sidebar-nav li.open a:hover,
         .sidebar-nav li.open a:active,
-        .sidebar-nav li.open a:focus{
+        .sidebar-nav li.open a:focus {
             color: #fff;
             text-decoration: none;
             background-color: transparent;
         }
+
         .sidebar-header {
             text-align: center;
             font-size: 20px;
@@ -350,27 +367,32 @@
             width: 100%;
             display: inline-block;
         }
+
         .sidebar-brand {
             height: 65px;
             position: relative;
-            background:#212531;
+            background: #212531;
             background: linear-gradient(to right bottom, #2f3441 50%, #212531 50%);
             padding-top: 1em;
         }
+
         .sidebar-brand a {
             color: #ddd;
         }
+
         .sidebar-brand a:hover {
             color: #fff;
             text-decoration: none;
         }
+
         .dropdown-header {
             text-align: center;
             font-size: 1em;
             color: #ddd;
-            background:#212531;
+            background: #212531;
             background: linear-gradient(to right bottom, #2f3441 50%, #212531 50%);
         }
+
         .sidebar-nav .dropdown-menu {
             position: relative;
             width: 100%;
@@ -381,9 +403,11 @@
             background-color: #222;
             box-shadow: none;
         }
+
         .dropdown-menu.show {
             top: 0;
         }
+
         /*Fontawesome icons*/
         .nav.sidebar-nav li a::before {
             font-family: fontawesome;
@@ -392,49 +416,64 @@
             display: inline-block;
             padding-right: 5px;
         }
+
         a[href*="#home"]::before {
             content: "\f015" !important;
         }
+
         a[href*="#about"]::before {
             content: "\f129" !important;
         }
+
         a[href*="#events"]::before {
             content: "\f073" !important;
         }
+
         a[href*="#events"]::before {
             content: "\f073" !important;
         }
+
         a[href*="#team"]::before {
             content: "\f0c0" !important;
         }
+
         a[href*="#works"]::before {
             content: "\f0b1" !important;
         }
+
         a[href*="#pictures"]::before {
             content: "\f03e" !important;
         }
+
         a[href*="#videos"]::before {
             content: "\f03d" !important;
         }
+
         a[href*="#books"]::before {
             content: "\f02d" !important;
         }
+
         a[href*="#art"]::before {
             content: "\f1fc" !important;
         }
+
         a[href*="#awards"]::before {
             content: "\f02e" !important;
         }
+
         a[href*="#services"]::before {
             content: "\f013" !important;
         }
+
         a[href*="#contact"]::before {
             content: "\f086" !important;
         }
+
         a[href*="#followme"]::before {
             content: "\f099" !important;
             color: #0084b4;
         }
+
         /*-------------------------------*/
         /*       Hamburger-Cross         */
         /*-------------------------------*/
@@ -450,11 +489,13 @@
             background: transparent;
             border: none;
         }
+
         .hamburger:hover,
         .hamburger:focus,
         .hamburger:active {
             outline: none;
         }
+
         .hamburger.is-closed:before {
             content: '';
             display: block;
@@ -464,13 +505,14 @@
             line-height: 32px;
             text-align: center;
             opacity: 0;
-            -webkit-transform: translate3d(0,0,0);
+            -webkit-transform: translate3d(0, 0, 0);
             -webkit-transition: all .35s ease-in-out;
         }
+
         .hamburger.is-closed:hover:before {
             opacity: 1;
             display: block;
-            -webkit-transform: translate3d(-100px,0,0);
+            -webkit-transform: translate3d(-100px, 0, 0);
             -webkit-transition: all .35s ease-in-out;
         }
 
@@ -485,19 +527,23 @@
             height: 4px;
             width: 100%;
         }
+
         .hamburger.is-closed .hamb-top,
         .hamburger.is-closed .hamb-middle,
         .hamburger.is-closed .hamb-bottom {
             background-color: #1a1a1a;
         }
+
         .hamburger.is-closed .hamb-top {
             top: 5px;
             -webkit-transition: all .35s ease-in-out;
         }
+
         .hamburger.is-closed .hamb-middle {
             top: 50%;
             margin-top: -2px;
         }
+
         .hamburger.is-closed .hamb-bottom {
             bottom: 5px;
             -webkit-transition: all .35s ease-in-out;
@@ -507,29 +553,38 @@
             top: 0;
             -webkit-transition: all .35s ease-in-out;
         }
+
         .hamburger.is-closed:hover .hamb-bottom {
             bottom: 0;
             -webkit-transition: all .35s ease-in-out;
         }
+
         .hamburger.is-open .hamb-top,
         .hamburger.is-open .hamb-middle,
         .hamburger.is-open .hamb-bottom {
             background-color: #1a1a1a;
         }
+
         .hamburger.is-open .hamb-top,
         .hamburger.is-open .hamb-bottom {
             top: 50%;
             margin-top: -2px;
         }
+
         .hamburger.is-open .hamb-top {
             -webkit-transform: rotate(45deg);
-            -webkit-transition: -webkit-transform .2s cubic-bezier(.73,1,.28,.08);
+            -webkit-transition: -webkit-transform .2s cubic-bezier(.73, 1, .28, .08);
         }
-        .hamburger.is-open .hamb-middle { display: none; }
+
+        .hamburger.is-open .hamb-middle {
+            display: none;
+        }
+
         .hamburger.is-open .hamb-bottom {
             -webkit-transform: rotate(-45deg);
-            -webkit-transition: -webkit-transform .2s cubic-bezier(.73,1,.28,.08);
+            -webkit-transition: -webkit-transform .2s cubic-bezier(.73, 1, .28, .08);
         }
+
         .hamburger.is-open:before {
             content: '';
             display: block;
@@ -539,13 +594,14 @@
             line-height: 32px;
             text-align: center;
             opacity: 0;
-            -webkit-transform: translate3d(0,0,0);
+            -webkit-transform: translate3d(0, 0, 0);
             -webkit-transition: all .35s ease-in-out;
         }
+
         .hamburger.is-open:hover:before {
             opacity: 1;
             display: block;
-            -webkit-transform: translate3d(-100px,0,0);
+            -webkit-transform: translate3d(-100px, 0, 0);
             -webkit-transition: all .35s ease-in-out;
         }
 
