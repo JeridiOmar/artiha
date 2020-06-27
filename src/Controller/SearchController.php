@@ -8,10 +8,12 @@ use App\Search\SearchEntity;
 use App\Repository\PostRepository;
 use App\Repository\TagRepository;
 use App\Repository\UserRepository;
+use phpDocumentor\Reflection\DocBlock\Tag;
+use phpDocumentor\Reflection\Type;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
 /**
  * Class SearchController
  * @package App\Controller
@@ -148,6 +150,23 @@ class SearchController extends AbstractController
         ]);
     }
 
+    /**
+     * @param $id
+     * @param PostRepository $repository
+     * @param Request $request
+     * @return Response
+     * @Route("/tags/{id<\d+>}",name="tagg")
+     */
+public function tagFinder($id,PostRepository $repository,Request $request,TagRepository $tagRepository){
+    $tagName=$tagRepository->findTagById($id);
+    $posts = $repository->findPostByTag($tagName,$request);
+    dd($posts);
+    return $this->render('search/postSearch.html.twig', [
+        'posts' => $posts,
+        'type'=>'TAG',
+        'tag'=>'salem'
+    ]);
 
+}
 
 }

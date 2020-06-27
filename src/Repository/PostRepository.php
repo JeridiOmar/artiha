@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Post;
+use App\Entity\Tag;
 use App\Entity\User;
 use App\Search\SearchEntity;
 use App\Search\SearchHome;
@@ -94,7 +95,7 @@ class PostRepository extends ServiceEntityRepository
      * @param Request $request
      * @return PaginationInterface
      */
-    public function findByTagName(SearchEntity $search,Request $request):PaginationInterface
+    public function findByTagName(SearchEntity $search, Request $request): PaginationInterface
     {
         $query = $this
             ->createQueryBuilder('p')
@@ -118,7 +119,7 @@ class PostRepository extends ServiceEntityRepository
      * @param Request $request
      * @return PaginationInterface
      */
-    public function findByPostTitle(SearchEntity $search,Request $request): PaginationInterface
+    public function findByPostTitle(SearchEntity $search, Request $request): PaginationInterface
     {
         $query = $this
             ->createQueryBuilder('p')
@@ -162,15 +163,15 @@ class PostRepository extends ServiceEntityRepository
      * @return PaginationInterface
      */
 
-    public function findPost(?UserInterface $user, Request $request, SearchHome $search):PaginationInterface
+    public function findPost(?UserInterface $user, Request $request, SearchHome $search): PaginationInterface
     {
 
         $query = $this
             ->createQueryBuilder('p')
             ->select('u', 'p')
             ->join('p.user', 'u')
-        ->andWhere('u.id IN (:motCle)')
-        ->setParameter('motCle', $user->getSubscribedTo());
+            ->andWhere('u.id IN (:motCle)')
+            ->setParameter('motCle', $user->getSubscribedTo());
         if (!empty($search->getMin())) {
             $query = $query
                 ->andWhere('p.nblikes >= :min')
@@ -197,17 +198,35 @@ class PostRepository extends ServiceEntityRepository
 
     }
 
-    public function findPostById($id){
-        $query = $this
-            ->createQueryBuilder('p')
-            ->select('p')
-            ->andWhere('p.id IN (:postId)')
-            ->setParameter('postId', $id);
-        $result = $query->getQuery();
-        return $result->getResult()[0];
+//    public function findPostById($id){
+//        $query = $this
+//            ->createQueryBuilder('p')
+//            ->select('p')
+//            ->andWhere('p.id IN (:postId)')
+//            ->setParameter('postId', $id);
+//        $result = $query->getQuery();
+//        return $result->getResult()[0];
+//    }
+//
+//
+//
+//        $results = $query->getQuery();
+//        return $this->paginator->paginate(
+//            $results,
+//            $request->query->getInt('page', 1), /*page number*/
+//            10
+//        );
+//    }
+
+    public function findPostByTag(Tag $tag, Request $request)
+    {
+        /* $query = $this
+             ->createQueryBuilder('p')
+             ->select('t', 'p')
+             ->join('p.tags', 't');
+         $query = $query
+             ->andWhere('p.tags IN (:tag)')
+             ->setParameter('id', $tag->getValue());*/
+
     }
-
-
-
-
 }

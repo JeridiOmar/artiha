@@ -29,6 +29,8 @@ App\Entity\User:
 App\Entity\Tag:
   Tag_{1..40}:
     value: <text(12)>
+
+
 App\Entity\Category:
   Category_{1..10}:
     intitule: <company()>
@@ -50,3 +52,9 @@ App\Entity\Post:
     user : '@User_*'
     tags: '<numberBetween(1,5)>x @Tag_*'
 
+App\Entity\Comment:
+  Comments_{1..80}:
+    content: <text(90)>
+    createdAt: <dateTime()>
+    user:  '@User_*'
+    post:  '@Post_*'
