@@ -1,25 +1,31 @@
-{{ form_start(form,{attr: {class: 'filter'}}) }}
-
+{{ form_start(form,{attr: {class: 'filtre'}}) }}
 <div class="card my-4">
-    <h5 class="card-header">Categories</h5>
+    <h5 class="card-header font-weight-bolder">Categories</h5>
     <div class="card-body">
-        {{ form_row(form.categories) }}
+        {{ form_widget(form.categories) }}
     </div>
 </div>
 <div class="card my-4">
-    <h5 class="card-header">likes</h5>
+    <h5 class="card-header font-weight-bolder">likes</h5>
     <div class="card-body">
         <div class="row align-items-end">
-            <div class="col-md-6"  >{{ form_row(form.min) }}
+            <div class="col-md-6">{{ form_row(form.min) }}
             </div>
-            <div class="col-md-6" >{{ form_row(form.max) }}
+            <div class="col-md-6">{{ form_row(form.max) }}
             </div>
-        </div>    </div>
-</div>
-
-    <hr class="style_edit">
-
-    <div class="form-group"><button type="submit" class="btn btn-danger w-100">Filtrer</button>
+        </div>
     </div>
-    {{ form_end(form) }}
 </div>
+
+<hr class="style_edit">
+
+<div class="form-group">
+    <button type="submit" class="btn btn-danger w-100">Filtrer</button>
+</div>
+{{ form_end(form) }}
+ <style>
+ .filtre{
+     display: block;
+     position: sticky;
+     top: 20px;
+ }</style>

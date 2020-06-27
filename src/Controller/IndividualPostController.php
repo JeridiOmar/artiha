@@ -20,6 +20,7 @@ class IndividualPostController extends AbstractController
     public function index($id, PostRepository $postRepository)
     {
         $post = $postRepository->findPostById($id);
+
         return $this->render('individual_post/index.html.twig', [
             'post' => $post,
         ]);

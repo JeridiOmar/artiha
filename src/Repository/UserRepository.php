@@ -9,7 +9,6 @@ use Doctrine\Persistence\ManagerRegistry;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
-use App\Repository;
 
 
 /**
@@ -42,14 +41,14 @@ class UserRepository extends ServiceEntityRepository
         $query =$this
             ->createQueryBuilder('p')
             ->select('p')
-            ->Where('p.nom LIKE :motCle')
+            ->Where('p.username LIKE :motCle')
             ->setParameter('motCle',"%{$search->motCle}%");
        $results= $query->getQuery();
 
        return $this->paginator->paginate(
             $results,
            $request->query->getInt('page', 1), /*page number*/
-            10
+            20
         );
 
     }
