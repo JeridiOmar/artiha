@@ -4,3 +4,9 @@
 app_logout:
     path: /logout
     controller: App\Controller\LoginController::logout
+#comment:
+#    pattern:  /comment/{post_id}
+#    controller: App\Controller\IndividualPostContoller::comment
+#    requirements:
+#        _method:  POST
+#        blog_id: \d+

@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Comment;
 use App\Entity\Picture;
 use App\Entity\Post;
 use App\Entity\Tag;
@@ -68,6 +69,7 @@ class PostFixtures extends Fixture
 
             $post->setUser();
         }*/
+
 
 
         $manager->flush();

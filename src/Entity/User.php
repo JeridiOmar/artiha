@@ -154,7 +154,7 @@ class User implements UserInterface
     private $changePwds;
 
     /**
-     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="User", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="user", orphanRemoval=true)
      */
     private $comments;
 

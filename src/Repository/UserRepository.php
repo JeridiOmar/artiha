@@ -52,6 +52,15 @@ class UserRepository extends ServiceEntityRepository
         );
 
     }
+    public function findUserById($id){
+        $query = $this
+            ->createQueryBuilder('u')
+            ->select('u')
+            ->andWhere('u.id IN (:userId)')
+            ->setParameter('userId', $id);
+        $result = $query->getQuery();
+        return $result->getResult()[0];
+    }
 
 
 }

@@ -198,15 +198,15 @@ class PostRepository extends ServiceEntityRepository
 
     }
 
-//    public function findPostById($id){
-//        $query = $this
-//            ->createQueryBuilder('p')
-//            ->select('p')
-//            ->andWhere('p.id IN (:postId)')
-//            ->setParameter('postId', $id);
-//        $result = $query->getQuery();
-//        return $result->getResult()[0];
-//    }
+    public function findPostById($id){
+        $query = $this
+            ->createQueryBuilder('p')
+            ->select('p')
+            ->andWhere('p.id IN (:postId)')
+            ->setParameter('postId', $id);
+        $result = $query->getQuery();
+        return $result->getResult()[0];
+    }
 //
 //
 //

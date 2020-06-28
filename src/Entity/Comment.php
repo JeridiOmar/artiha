@@ -21,13 +21,13 @@ class Comment
      * @ORM\ManyToOne(targetEntity=user::class, inversedBy="comments")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $User;
+    private $user;
 
     /**
      * @ORM\ManyToOne(targetEntity=post::class, inversedBy="comments")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $Post;
+    private $post;
 
     /**
      * @ORM\Column(type="datetime")
@@ -37,7 +37,7 @@ class Comment
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $Content;
+    private $content;
 
     public function getId(): ?int
     {
@@ -91,4 +91,6 @@ class Comment
 
         return $this;
     }
+
+
 }

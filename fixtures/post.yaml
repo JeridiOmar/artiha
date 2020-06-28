@@ -52,9 +52,4 @@ App\Entity\Post:
     user : '@User_*'
     tags: '<numberBetween(1,5)>x @Tag_*'
 
-App\Entity\Comment:
-  Comments_{1..80}:
-    content: <text(90)>
-    createdAt: <dateTime()>
-    user:  '@User_*'
-    post:  '@Post_*'
+

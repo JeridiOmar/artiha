@@ -75,7 +75,7 @@
             <article>
             <h2 class="card-title" style="color: #cfa0e9">{{ post.title }}</h2>
             <div class="text-muted">
-                Posted on January 1, 2020 by
+                Posted on {{ post.createdAt }} by
                 <img class="rounded-circle mr-2-3" src="{{ post.user.profilePicture }}"
                      href="{{ path('profile',{id:post.user.id}) }} " alt="" height="30px" width="30px"></a>
                 <a  style="color: #cfa0e9" href="{{ path('profile',{id:post.user.id}) }}" class="ml-2">{{ post.user.nom }} {{ post.user.prenom }}</a>
@@ -114,54 +114,61 @@
                         <h5 class="card-header">Leave a Comment:</h5>
                         <div class="card-body">
                             <form>
+                                {{ form_start(form) }}
                                 <div class="form-group">
-                                    <textarea class="form-control" rows="3"></textarea>
+{#                                     <textarea class="form-control" rows="3">  </textarea>#}
+                                    {{ form_widget(form.content) }}
                                 </div>
-                                <button type="submit" class="btn btn-primary">Submit</button>
+{#                                <button type="submit" class="btn btn-primary">Submit</button>#}
+                                {{ form_widget(form.Enregistrer) }}
+                                {{ form_rest(form) }}
+                                {{ form_end(form) }}
+
                             </form>
                         </div>
                     </div>
 
-                    <!-- Single Comment -->
+                    {% for comment in comments %}
                     <div class="media mb-4">
-                        <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
-                        <div class="media-body">
-                            <h5 class="mt-0">Commenter Name</h5>
-                            Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-                        </div>
+                        Posted on {{ comment.createdAt }} by
+                        <img class="rounded-circle mr-2-3" src="{{ post.user.profilePicture }}"
+                             href="{{ path('profile',{id:comment.user.id}) }} " alt="" height="30px" width="30px"></a>
+                        <a  style="color: #cfa0e9" href="{{ path('profile',{id:comment.user.id}) }}" class="ml-2">{{ comment.user.nom }} {{ comment.user.prenom }}</a>
+                         <p>{{ comment.content }}</p>
                     </div>
+                    {% endfor %}
 
                 </div>
             </article>
         </section>
 
     </div>
-    <script>
+{#    <script>#}
 
-        const likeButton = document.querySelector('.js-follow-button');
-        const followLink = document.querySelector('.js-followLink');
-        const followCount = document.querySelector('.js-nbFollow');
-        const url = followLink.href;
-        followLink.addEventListener('click', (e) => {
-            e.preventDefault();
-            axios.get(url).then(function (response) {
-                followCount.textContent=response.data.nombre_followers;
-                if(response.data.following==true){
-                    followButton.setAttribute('class','js-follow-button following container');
-                    document.querySelector('.follow').textContent="following";
+{#        const likeButton = document.querySelector('.js-follow-button');#}
+{#        const followLink = document.querySelector('.js-followLink');#}
+{#        const followCount = document.querySelector('.js-nbFollow');#}
+{#        const url = followLink.href;#}
+{#        followLink.addEventListener('click', (e) => {#}
+{#            e.preventDefault();#}
+{#            axios.get(url).then(function (response) {#}
+{#                followCount.textContent=response.data.nombre_followers;#}
+{#                if(response.data.following==true){#}
+{#                    followButton.setAttribute('class','js-follow-button following container');#}
+{#                    document.querySelector('.follow').textContent="following";#}
 
-                }else{
-                    followButton.setAttribute('class','js-follow-button not-following container');
-                    document.querySelector('.follow').textContent=" + follow";
-                }
+{#                }else{#}
+{#                    followButton.setAttribute('class','js-follow-button not-following container');#}
+{#                    document.querySelector('.follow').textContent=" + follow";#}
+{#                }#}
 
-            })
-
-
-        })
+{#            })#}
 
 
-    </script>
+{#        })#}
+
+
+{#    </script>#}
 
 
 {% endblock %}
