@@ -12,19 +12,23 @@
 <div class="container filter_ajax">
     <div class="row">
 
-        <div class="col-8 content_ajax ">
-             {% for message in app.flashes('error_max<min') %}
-                    <div class="alert alert-danger">
-                        {{ message }}
-                    </div>
-                {% endfor %}
+        <div class="col-8  ">
+
                 <div class="d-flex justify-content-end mb-3 sort_ajax">
                     {{ knp_pagination_sortable(posts,'Likes ','p.nblikes') }}
                     {{ knp_pagination_sortable(posts,'Date ','p.createdAt') }}
                 </div>
+            <div class="content_ajax">
+                {% for message in app.flashes('error_max<min') %}
+                    <div class="alert alert-danger">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+
                 {% for post in posts %}
                     {% include 'post/card.html.twig' with {post: post} only %}
                 {% endfor %}
+            </div>
                 <div class="p-2 pagination_ajax">
                     {{ knp_pagination_render(posts) }}
                 </div>
@@ -95,16 +99,6 @@
             .form_edit {
                 padding: 20px;
             }
-
-            /*.grid {*/
-            /*    display: grid;*/
-            /*    grid-template-columns: repeat(1, 1fr);*/
-            /*    grid-gap: 40px;*/
-            /*}*/
-
-            /*.grid.toggled {*/
-            /*    grid-template-columns: repeat(1, 1fr);*/
-            /*}*/
 
             .post {
                 background: -webkit-linear-gradient(right, transparent, #fff);
@@ -195,3 +189,5 @@
         </style>
     {% endblock %}
 
+{% block javascripts %}
+{% endblock %}

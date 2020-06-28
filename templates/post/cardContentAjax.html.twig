@@ -1,0 +1,8 @@
+{% for message in app.flashes('error_max<min') %}
+    <div class="alert alert-danger">
+        {{ message }}
+    </div>
+{% endfor %}
+{% for post in posts %}
+    {% include 'post/card.html.twig' with {post: post} only %}
+{% endfor %}

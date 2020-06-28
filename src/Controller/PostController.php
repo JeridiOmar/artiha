@@ -5,7 +5,9 @@ namespace App\Controller;
 use App\Form\FiltreForm;
 use App\Search\SearchHome;
 use App\Repository\PostRepository;
+use phpDocumentor\Reflection\Types\This;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -68,6 +70,7 @@ class PostController extends AbstractController
             }
 
         }
+
         return $this->render('post/index.html.twig', [
             'posts'=>$posts,
             'type'=>'2',
