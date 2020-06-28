@@ -36,23 +36,25 @@ class UserRepository extends ServiceEntityRepository
      * @param SearchEntity $search
      * @return PaginationInterface
      */
-    public function findSearch(SearchEntity $search,Request $request):PaginationInterface
+    public function findSearch(SearchEntity $search, Request $request): PaginationInterface
     {
-        $query =$this
+        $query = $this
             ->createQueryBuilder('p')
             ->select('p')
             ->Where('p.username LIKE :motCle')
-            ->setParameter('motCle',"%{$search->motCle}%");
-       $results= $query->getQuery();
+            ->setParameter('motCle', "%{$search->motCle}%");
+        $results = $query->getQuery();
 
-       return $this->paginator->paginate(
+        return $this->paginator->paginate(
             $results,
-           $request->query->getInt('page', 1), /*page number*/
-            20
+            $request->query->getInt('page', 1), /*page number*/
+            15
         );
 
     }
-    public function findUserById($id){
+
+    public function findUserById($id)
+    {
         $query = $this
             ->createQueryBuilder('u')
             ->select('u')
@@ -63,5 +65,24 @@ class UserRepository extends ServiceEntityRepository
     }
 
 
+    public function findRandom()
+    {
+        $max = $this
+            ->createQueryBuilder('u')
+            ->select('MAX(u.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
+           $min = $this
+               ->createQueryBuilder('u')
+               ->select('MIN(u.id)')
+               ->getQuery()
+               ->getSingleScalarResult();
+        $query=$this->createQueryBuilder('u')
+            ->select('u')
+            ->where('u.id >= :rand')
+            ->setParameter('rand',rand($min,$max))
+            ->setMaxResults(5);
+        return $query->getQuery()->getResult();
+    }
 }
 

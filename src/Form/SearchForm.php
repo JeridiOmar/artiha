@@ -22,7 +22,7 @@ class SearchForm extends AbstractType
                 'label' => false,
                 'attr' => [
                     'placeholder' => "  What do you want to search ...",
-                    "class" => "search-field p-1"
+//                    "class" => "search-field p-1"
                 ]
             ])
             ->add('choice', ChoiceType::class, [
@@ -35,7 +35,7 @@ class SearchForm extends AbstractType
 
                 ],
                 "attr"=>[
-                    'class'=>"button-search"
+//                    'class'=>"button-search"
                 ]
                 ])
             ->add('view',ChoiceType::class,[
@@ -46,6 +46,7 @@ class SearchForm extends AbstractType
                     'Normal' => 'Normal',
                     'Slider' => 'Slider'
                     ],
+                'data'=>'Normal',
                 'attr'=>[
                   'class'=>'radio-choice'
                 ],

@@ -47,13 +47,13 @@ class TagRepository extends ServiceEntityRepository
         ;
     }
     */
-   /* public function findTagById($id){
+    public function findTagById($id){
         $query = $this
             ->createQueryBuilder('p')
             ->select('p')
             ->andWhere('p.id IN (:tagId)')
             ->setParameter('tagId', $id);
         $result = $query->getQuery();
-        return $result->getScalarResult();
-    }*/
+        return $result->getResult()[0];
+    }
 }

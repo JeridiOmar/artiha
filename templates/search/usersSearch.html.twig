@@ -6,7 +6,7 @@
 
             height: 50px;
             width:100px;
-            background: -webkit-linear-gradient(right, #0f4384, #843550);
+            background: -webkit-linear-gradient(right, royalblue, lightgray);
             background: -o-linear-gradient(right, #920513, #909284);
             background: -moz-linear-gradient(right, #920513, #909284);
             background: linear-gradient(right, #920513, #909284);
@@ -15,7 +15,7 @@
             border-radius:25px ;
         }
         .btn-search:hover{
-            background: -webkit-linear-gradient(left,  #0f4384, #843550);
+            background: -webkit-linear-gradient(left, royalblue, whitesmoke);
             background: -o-linear-gradient(left, #920513, #909284);
             background: -moz-linear-gradient(left, #920513, #909284);
             background: linear-gradient(left, #920513, #909284);
@@ -23,7 +23,7 @@
             margin-left: 90%;
             height: 50px;
             width:100px;
-            background: -webkit-linear-gradient(right, #909284, #6b6e67);
+                         background: -webkit-linear-gradient(right, royalblue, lightgray);
             background: -o-linear-gradient(right, #920513, #909284);
             background: -moz-linear-gradient(right, #920513, #909284);
             background: linear-gradient(right, #920513, #909284);
@@ -32,25 +32,15 @@
             border-radius:15px ;
         }
         .btn-search2:hover{
-            background: -webkit-linear-gradient(left, #909284, #6b6e67);
+            background: -webkit-linear-gradient(left, royalblue, gainsboro);
             background: -o-linear-gradient(left, #920513, #909284);
             background: -moz-linear-gradient(left, #920513, #909284);
             background: linear-gradient(left, #920513, #909284);
         }
-    .header {
-        background-image: linear-gradient(rgba(0,0,0,0),rgba(0,0,0,0)),url({{ asset('background_images/derick-mckinney-oARTWhz1ACc-unsplash.jpg') }});
-        background-size: cover;
-        background-position: center;
-        display: flex;
-        height: 100%;
-        min-height: 100vh;
-        justify-content: center;
-        align-items: center;
-        font-family: sans-serif;
-    }
-        .table-dark{
-            background-color: #846365
-        }
+
+     body{
+         background: Snow;
+     }
         img{
             border-radius: 60px;
             position: center;
@@ -79,25 +69,23 @@
         }
         td{
             font-family: 'MuseoModerno', cursive;
-            text-shadow: 0 2px 0 #000 ;
             font-weight: bold;
             padding-left: 4px;
         }
         p{
-            color: whitesmoke;
-            padding-left: 30%;
+            margin-left: 10%;
             margin-bottom:10px ;
             font-size:30px;
             letter-spacing: 2px;
 
         }
-        th{
+       /* th{
             padding-left: 4px;
             color: snow;
             font-size: 20px;
             text-shadow: 0 3px 0 #000 ;
             font-family: 'MuseoModerno', cursive;
-        }
+        }*/
 
 
         .search-pagination{
@@ -113,18 +101,14 @@
     </style>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
-    <div class="header">
             <div class="container">
+                <div class="jumbotron jumbotron-fluid p-4">
+                        <h1 class="display-4" style="color:#720026">List Of  Users </h1>
+                        <p class="lead font-weight-bold" style="color: black" >This is the result of your search {{ type }} : "{{ tag }}"</p>
+                    </div>
 
-                <h2>List Of  Users</h2>
-
-                <p> This is the result of your search {{ type }} : "{{ tag }}"</p>
-                <a href="{{ path('search') }}"><button class="btn-search2 " type="button">
-                        <i class="material-icons" style="font-size:36px">search</i> </button></a>
-
-
-                <table class="table table-striped  table-dark  table-hover">
-            <thead class="table-color">
+                <table class="table table-striped    table-hover">
+            <thead class="table-secondary" >
             <tr>
                 <th>Photo</th>
                 <th>UserName</th>
@@ -156,6 +140,5 @@
                 <div class="search-pagination p-4">{{ knp_pagination_render(users) }}</div>
 
             </div>
-    </div>
 
 {% endblock %}

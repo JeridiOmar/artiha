@@ -10,8 +10,8 @@
             left: 4px;
 
             height: 50px;
-            width:100px;
-            background: -webkit-linear-gradient(right, #909284, #6b6e67);
+            width:70px;
+            background: -webkit-linear-gradient(right, royalblue, whitesmoke);
             background: -o-linear-gradient(right, #920513, #909284);
             background: -moz-linear-gradient(right, #920513, #909284);
             background: linear-gradient(right, #920513, #909284);
@@ -20,7 +20,7 @@
             border-radius:15px ;
         }
         .btn-search2:hover{
-            background: -webkit-linear-gradient(left, #909284, #6b6e67);
+            background: -webkit-linear-gradient(left, royalblue, whitesmoke);
             background: -o-linear-gradient(left, #920513, #909284);
             background: -moz-linear-gradient(left, #920513, #909284);
             background: linear-gradient(left, #920513, #909284);
@@ -107,9 +107,10 @@
         }
     </style>
 {% endblock %}
+{% block navbar %} {% endblock %}
 {% block body %}
-    <a href="{{ path('search') }}"><button class="btn-search2 " type="button">
-            <i class="material-icons" style="font-size:36px">search</i> </button></a>
+    <a href="{{ path('post') }}"><button class="btn-search2 " type="button">
+            <i class="fa fa-home" style="font-size:36px"></i> </button></a>
     <div class="swiper-container">
         <div class="swiper-wrapper">
             {% for person in users %}

@@ -3,15 +3,12 @@
 namespace App\Repository;
 
 use App\Entity\Post;
-use App\Entity\Tag;
-use App\Entity\User;
 use App\Search\SearchEntity;
 use App\Search\SearchHome;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
-use phpDocumentor\Reflection\Types\This;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -135,17 +132,35 @@ class PostRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param SearchEntity $search
+     * @param SearchEntity $data
      * @param Request $request
      * @return PaginationInterface
      */
-    public function findDescriptipn(SearchEntity $search, Request $request): PaginationInterface
+    public function findDescriptipn(SearchEntity $data, Request $request/*,SearchHome $search*/): PaginationInterface
     {
         $query = $this
             ->createQueryBuilder('p')
             ->select('p')
+/*            ->join('p.Categories', 'c')*/
             ->Where('p.description LIKE :motCle')
-            ->setParameter('motCle', "%{$search->motCle}%");
+            ->setParameter('motCle', "%{$data->motCle}%");
+        /*if (!empty($search->getMin())) {
+            $query = $query
+                ->andWhere('p.nblikes >= :min')
+                ->setParameter('min', $search->getMin());
+        }
+        if (!empty($search->getMax())) {
+            $query = $query
+                ->andWhere('p.nblikes <= :max')
+                ->setParameter('max', $search->getMax());
+        }
+        if (!empty($search->getCategories())) {
+            $query = $query
+                ->andWhere('c.id IN (:categories)')
+                ->setParameter('categories', $search->getCategories());
+        }*/
+
+
         $results = $query->getQuery();
         return $this->paginator->paginate(
             $results,
@@ -198,7 +213,8 @@ class PostRepository extends ServiceEntityRepository
 
     }
 
-    public function findPostById($id){
+    public function findPostById($id)
+    {
         $query = $this
             ->createQueryBuilder('p')
             ->select('p')
@@ -218,15 +234,61 @@ class PostRepository extends ServiceEntityRepository
 //        );
 //    }
 
-    public function findPostByTag(Tag $tag, Request $request)
+    public function findPostByTag(string $tag, Request $request, SearchHome $search)
     {
-        /* $query = $this
-             ->createQueryBuilder('p')
-             ->select('t', 'p')
-             ->join('p.tags', 't');
-         $query = $query
-             ->andWhere('p.tags IN (:tag)')
-             ->setParameter('id', $tag->getValue());*/
+        $query = $this
+            ->createQueryBuilder('p')
+            ->select('t', 'p', 'c')
+            ->join('p.tags', 't')
+            ->join('p.Categories', 'c')
+            ->andWhere('t.value IN (:tag)')
+            ->setParameter('tag', $tag);
+        if (!empty($search->getMin())) {
+            $query = $query
+                ->andWhere('p.nblikes >= :min')
+                ->setParameter('min', $search->getMin());
+        }
+        if (!empty($search->getMax())) {
+            $query = $query
+                ->andWhere('p.nblikes <= :max')
+                ->setParameter('max', $search->getMax());
+        }
+        if (!empty($search->getCategories())) {
+            $query = $query
+                ->andWhere('c.id IN (:categories)')
+                ->setParameter('categories', $search->getCategories());
+        }
 
+        $results = $query->getQuery();
+        return $this->paginator->paginate(
+            $results,
+            $request->query->getInt('page', 1), /*page number*/
+            10
+        );
+
+    }
+
+    public function findTagCategory($tagName,SearchHome $search, Request $request)
+    {
+        $query = $this
+            ->createQueryBuilder('p')
+            ->select('c', 'p')
+            ->join('p.tags', 't')
+            ->join('p.Categories', 'c')
+            ->andWhere('t.value IN (:tag)')
+            ->setParameter('tag', $tagName);
+
+        if (!empty($search->getCategories())) {
+            $query = $query
+                ->andWhere('c.id IN (:categories)')
+                ->setParameter('categories', $search->getCategories());
+        }
+
+        $results = $query->getQuery();
+        return $this->paginator->paginate(
+            $results,
+            $request->query->getInt('page', 1), /*page number*/
+            10
+        );
     }
 }

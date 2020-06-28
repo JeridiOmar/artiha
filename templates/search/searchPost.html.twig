@@ -1,41 +1,63 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    {% if type in '1' %}Tous le posts!
-    {% elseif type in '2' %} Subscribers Posts
-    {% endif %}
+    Search
 {% endblock %}
 
 {% block body %}
 
 
-<div class="container filter_ajax">
-    <div class="row">
-
-        <div class="col-8 content_ajax ">
-             {% for message in app.flashes('error_max<min') %}
+    <div class="container filter_ajax">
+        <div class="jumbotron jumbotron-fluid">
+            <div class="container">
+                <h1 class="display-4" style="color:#720026">List Of  Posts</h1>
+                <p class="lead font-weight-bold">This is the result of your search {{ type }} : "{{ tag }}"</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-8 content_ajax ">
+                {%  if ok in '1' %}{#{% for message in app.flashes('error_max<min') %}
                     <div class="alert alert-danger">
                         {{ message }}
                     </div>
-                {% endfor %}
-                <div class="d-flex justify-content-end mb-3 sort_ajax">
-                    {{ knp_pagination_sortable(posts,'Likes ','p.nblikes') }}
-                    {{ knp_pagination_sortable(posts,'Date ','p.createdAt') }}
-                </div>
-                {% for post in posts %}
-                    {% include 'post/card.html.twig' with {post: post} only %}
-                {% endfor %}
-                <div class="p-2 pagination_ajax">
-                    {{ knp_pagination_render(posts) }}
-                </div>
+                {% endfor %}#}
+                    <div class="d-flex justify-content-end mb-3 sort_ajax">
+                        {{ knp_pagination_sortable(posts,'Likes ','p.nblikes') }}
+                        {{ knp_pagination_sortable(posts,'Date ','p.createdAt') }}
+                    </div>
+                    {% for post in posts %}
+                        {% include 'post/card.html.twig' with {post: post} only %}
+                    {% endfor %}
+                    <div class="p-2 pagination_ajax">
+                        {{ knp_pagination_render(posts) }}
+                    </div>
+                {% elseif ok in '0' %}
+                    <h1 class="text-danger"> Pas de Resultat pour cette recherche</h1>
+                    <div style="margin-left: 50%"><a href="{{ path('post') }}"> <h3 >Retourner à la page d'acceuil</h3></a></div>
+                {% endif %}
             </div>
             <div class="col-4 form_ajax ">
-                {% include 'post/pageFilter.html.twig' with {form: form} only %}
+                <div class="card my-4" style="top: 20px;position: sticky">
+                    <h5 class="card-header font-weight-bolder">Suggestions</h5>
+                    <div class="card-body">
+                        <table class="table">
+                            {% for person  in userSuggestions %}
+                            <tr>
+                                <th scope="row"><img src="{{ person.profilePicture }}" height="50px" width="50px" style="border-radius: 30px" alt=""></th>
+                                <td>
+                                    <a href="{{ path('profile',{id:person.id}) }}" class="ml-2">{{ person.nom }}{{ person.prenom }}</a>
+                                </td>
+
+                            </tr>
+                    {% endfor %}
+                        </table>
+                    </div>
+
 
             </div>
         </div>
     </div>
-    {% endblock %}
+{% endblock %}
     {% block stylesheets %}
         <style>
 
@@ -44,6 +66,9 @@
                 display: block;
             }
 
+            body {
+                background: snow;
+            }
 
             hr.style_edit {
                 padding-bottom: 1px;
@@ -191,7 +216,14 @@
                 height: 100%;
             }
 
-
+            p {
+                color: black;
+                font-weight: bold;
+                padding-left: 10%;
+                margin-bottom: 10px;
+                font-size: 50px;
+                letter-spacing: 2px;
+            }
         </style>
     {% endblock %}
 

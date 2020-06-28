@@ -1,0 +1,15 @@
+{{ form_start(form1 ,{'attr': {'class':'navbar-form navrbar-right','action': path('search')}})}}
+<div class="row">
+
+
+      <div class="col-4">  {{ form_row(form1.motCle)}}</div>
+      <div class="col-4">  {{form_row(form1.choice)}}</div>
+      <div class="col-2">  {{ form_row(form1.view)}}</div>
+      <div class="col-2">   <button class="form-group btn-primary " type="submit"> Search</button></div>
+
+
+</div>
+
+{{ form_end(form1) }}
+
+
