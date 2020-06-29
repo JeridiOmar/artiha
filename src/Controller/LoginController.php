@@ -16,7 +16,7 @@ class LoginController extends AbstractController
     {
         if($this->isGranted("IS_AUTHENTICATED_FULLY"))
         {
-            return $this->redirectToRoute("welcomePage");
+            return $this->redirectToRoute("post");
         }
         // if ($this->getUser()) {
         //     return $this->redirectToRoute('target_path');
@@ -38,11 +38,5 @@ class LoginController extends AbstractController
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
     }
 
-    /**
-     * @Route("/welcome", name="welcomePage")
-     */
-    public function welcome()
-    {
-       return new Response("<html><body><p><b>aaslema ya 7mema</b></p></body></html>");
-    }
+
 }

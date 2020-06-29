@@ -42,14 +42,14 @@
         <div class="col-8">
             <h6 class="card-subtitle mb-2 text-black color_comments_like">
                 <i class='fas fa-thumbs-up color' style="padding:10px;font-size:20px;color:cornflowerblue"></i>
-                {{ post.nblikes }} likes
+                {{ post.likes | length }} likes
             </h6>
         </div>
         <div class="col-4">
             <h6 class="card-subtitle mb-2  text-black">
                 <i class='fas fa-comment-dots color_comments_like'
                    style="padding:10px;font-size:20px;color:cornflowerblue"></i>
-                {{ post.nbcomment }} comments
+                {{ post.comments | length }} comments
             </h6>
         </div>
     </div>
