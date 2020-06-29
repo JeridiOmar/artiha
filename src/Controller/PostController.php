@@ -24,6 +24,10 @@ class PostController extends AbstractController
      */
     public function index(PostRepository $repository,Request $request)
     {
+        if(!$this->isGranted("IS_AUTHENTICATED_FULLY"))
+        {
+            return $this->redirectToRoute("app_login");
+        }
         $data =new SearchHome();
         $data->page=$request->get('page',1);
         $form =$this->createForm(FiltreForm::class,$data);
@@ -55,6 +59,10 @@ class PostController extends AbstractController
      */
     public function subscribers(Request $request,PostRepository $repository)
     {
+        if(!$this->isGranted("IS_AUTHENTICATED_FULLY"))
+        {
+            return $this->redirectToRoute("app_login");
+        }
         $data = new SearchHome();
         $user = $this->getUser();
         $data->page=$request->get('page',1);

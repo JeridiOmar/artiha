@@ -24,8 +24,8 @@ App\Entity\User:
     Birthday: <dateTime()>
     NumTel: <numberBetween(21000000,29990970)>
     ProfilePicture: "http://lorempixel.com/<numberBetween(400,800)>/<numberBetween(400,800)>"
-    IsAdmin: "true"
-    IsDeleted: "true"
+    IsAdmin: "false"
+    IsDeleted: "false"
 App\Entity\Tag:
   Tag_{1..40}:
     value: <text(12)>

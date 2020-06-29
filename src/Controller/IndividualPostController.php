@@ -92,6 +92,21 @@ class IndividualPostController extends AbstractController
 
     }
 
+    /**
+     * @Route("/{id<\d+>}/delete", name="delete")
+     */
+    public function delete($id, EntityManagerInterface $manager, PostRepository $postRepository) {
+        $post = $postRepository->findPostById($id);
+        $user = $this->getUser();
+        if (( $user->getId() == $post->getUser()->getId())||($user->getIsAdmin())){
+            $manager->remove($post);
+            $manager->flush();
+        }
+
+        return $this->redirectToRoute("post");
+
+    }
+
 //
 //    /**
 //     * @Route("/comment/{id<\d+>}", name="commentCreation")

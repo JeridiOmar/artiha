@@ -27,6 +27,10 @@ class SearchController extends AbstractController
      */
     public function search(Request $request,TagRepository $tagRepository,PostRepository $postRepository,UserRepository $userRepository)
     {
+        if(!$this->isGranted("IS_AUTHENTICATED_FULLY"))
+        {
+            return $this->redirectToRoute("app_login");
+        }
         $userSuggestions=$userRepository->findRandom();
         $search=new SearchEntity();
         $form= $this->createForm(SearchForm::class,$search);
@@ -174,6 +178,10 @@ class SearchController extends AbstractController
      * @Route("/tags/{id<\d+>}",name="tagg")
      */
 public function tagFinder($id,PostRepository $repository,Request $request,TagRepository $tagRepository){
+    if(!$this->isGranted("IS_AUTHENTICATED_FULLY"))
+    {
+        return $this->redirectToRoute("app_login");
+    }
     $data =new SearchHome();
     $data->page=$request->get('page',1);
     $form =$this->createForm(FiltreForm::class,$data);

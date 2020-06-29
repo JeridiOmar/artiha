@@ -16,7 +16,7 @@ class LoginController extends AbstractController
     {
         if($this->isGranted("IS_AUTHENTICATED_FULLY"))
         {
-            return $this->redirectToRoute("post");
+            return $this->redirectToRoute('post');
         }
         // if ($this->getUser()) {
         //     return $this->redirectToRoute('target_path');

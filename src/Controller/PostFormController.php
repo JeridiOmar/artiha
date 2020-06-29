@@ -35,6 +35,10 @@ class PostFormController extends AbstractController
      */
     public function index(Request $request,Post $post = null,EntityManagerInterface $entityManager,TagRepository $tagrepo)
     {
+        if(!$this->isGranted("IS_AUTHENTICATED_FULLY"))
+        {
+            return $this->redirectToRoute("app_login");
+        }
         if(! $post) {
             $post = new Post();
         }
@@ -111,6 +115,10 @@ class PostFormController extends AbstractController
      */
     public function index2(Request $request,Post $post = null,EntityManagerInterface $entityManager,TagRepository $tagrepo)
     {
+        if(!$this->isGranted("IS_AUTHENTICATED_FULLY"))
+        {
+            return $this->redirectToRoute("app_login");
+        }
         if(!$post){
             $post=new Post();
         }
@@ -194,6 +202,10 @@ class PostFormController extends AbstractController
      */
     public function index3(Request $request,Post $post = null, EntityManagerInterface $entityManager,TagRepository $tagrepo)
     {
+        if(!$this->isGranted("IS_AUTHENTICATED_FULLY"))
+        {
+            return $this->redirectToRoute("app_login");
+        }
         if (!$post) {
             $post = new Post();
         }
@@ -277,6 +289,10 @@ class PostFormController extends AbstractController
      */
     public function index4(Request $request,Post $post = null,EntityManagerInterface $entityManager,TagRepository $tagrepo)
     {
+        if(!$this->isGranted("IS_AUTHENTICATED_FULLY"))
+        {
+            return $this->redirectToRoute("app_login");
+        }
         if(!$post) {
             $post = new Post();
         }

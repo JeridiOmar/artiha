@@ -23,7 +23,10 @@ class ProfileController extends AbstractController {
      * @Route("/profile/{id<\d+>}", name="profile")
      */
     public function profile($id, User $user, Request $request, SluggerInterface $slugger, UserPasswordEncoderInterface $encoder, PostRepository $postRepository, UserRepository $userRepository) {
-
+        if(!$this->isGranted("IS_AUTHENTICATED_FULLY"))
+        {
+            return $this->redirectToRoute("app_login");
+        }
         //$form=$this->createForm(RegistrationType::class,$user)->add('bio');
         $manager = $this->getDoctrine()->getManager();
 
@@ -115,6 +118,10 @@ class ProfileController extends AbstractController {
      * @Route("/subscribe/{followed_id<\d+>}",name="subscribe")
      */
     public function subscribe( $followed_id, UserRepository $userRepository, EntityManagerInterface $entityManager) {
+        if(!$this->isGranted("IS_AUTHENTICATED_FULLY"))
+        {
+            return $this->redirectToRoute("app_login");
+        }
         $followed = $userRepository->find($followed_id);
         $following = $this->getUser();
         if ($followed->getSubscribers()->contains($following)) {
