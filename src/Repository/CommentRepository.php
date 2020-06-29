@@ -23,12 +23,23 @@ class CommentRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('c')
             ->select('c')
-            ->where('c.post = :userId')
+            ->where('c.post = :postId')
             ->addOrderBy('c.createdAt')
             ->setParameter('postId', $postId);
 
         return $qb->getQuery()
             ->getResult();
+    }
+
+    public function findCommentById($id)
+    {
+        $query = $this
+            ->createQueryBuilder('c')
+            ->select('c')
+            ->andWhere('p.id IN (:commentId)')
+            ->setParameter('commentId', $id);
+        $result = $query->getQuery();
+        return $result->getResult()[0];
     }
 
     // /**

@@ -76,12 +76,18 @@ class Post
      */
     private $comments;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Like::class, mappedBy="post", orphanRemoval=true)
+     */
+    private $likes;
+
 
     public function __construct()
     {
         $this->Categories = new ArrayCollection();
         $this->tags = new ArrayCollection();
         $this->comments = new ArrayCollection();
+        $this->likes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -271,5 +277,57 @@ class Post
 
         return $this;
     }
+
+    /**
+     * @return Collection|Like[]
+     */
+    public function getLikes(): Collection
+    {
+        return $this->likes;
+    }
+
+    public function addLike(Like $like): self
+    {
+        if (!$this->likes->contains($like)) {
+            $this->likes[] = $like;
+            $like->setPost($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLike(Like $like): self
+    {
+        if ($this->likes->contains($like)) {
+            $this->likes->removeElement($like);
+            // set the owning side to null (unless already changed)
+            if ($like->getPost() === $this) {
+                $like->setPost(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function isLikedByUser(User $user) : bool {
+        foreach ($this->likes as $like){
+            if ($like->getUser() === $user){
+                return true;
+            }
+        }
+        return false;
+
+    }
+    public function hasCommented(Comment $userComment) :  bool {
+        foreach ($this->comments as $comment){
+            if ($comment.getId() === $userComment.getId()){
+                return true;
+            }
+        }
+        return false;
+
+    }
+
+
 
 }

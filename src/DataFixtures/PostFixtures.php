@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Comment;
+use App\Entity\Like;
 use App\Entity\Picture;
 use App\Entity\Post;
 use App\Entity\Tag;
@@ -20,6 +21,7 @@ class PostFixtures extends Fixture
         // $product = new Product();
         // $manager->persist($product);
         $faker=Factory::create();
+
         for ($i = 0; $i < 25; $i++) {
             $user=new User();
 
@@ -43,6 +45,7 @@ class PostFixtures extends Fixture
             $user->setIsAdmin(false);
             $user->setIsDeleted(false);
             $manager->persist($user);
+            $users[]= $user;
         }
         for ($i = 0; $i < 25; $i++) {
             $text=new Text();
@@ -59,16 +62,21 @@ class PostFixtures extends Fixture
             $image->setPicturePath($faker->imageUrl($width=640,$height=480));
             $manager->persist($image);
         }
-  /*      for ($i = 0; $i < 100; $i++) {
+        for ($i = 0; $i < 100; $i++) {
             $post=new Post();
             $post->setTitle($faker->title);
             $post->setDescription($faker->text(150));
             $post->setCreatedAt($faker->dateTime);
-            $post->setNblikes($faker->numberBetween(0,4040));
+            $post->setUser($faker->randomElement($users));
+//            for ($j=0; $j<20; $j++){
+//                $like = new Like();
+//                $like->setPost($post)
+//                    ->setUser($faker->randomElement($users));
+//                $manager->persist($like);
+//            }
             $post->setNbcomment($faker->numberBetween(0,1004));
 
-            $post->setUser();
-        }*/
+        }
 
 
 

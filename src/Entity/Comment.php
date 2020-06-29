@@ -4,6 +4,10 @@ namespace App\Entity;
 
 use App\Repository\CommentRepository;
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\Types\AbstractList;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\FormBuilderInterface;
 
 /**
  * @ORM\Entity(repositoryClass=CommentRepository::class)
@@ -91,6 +95,15 @@ class Comment
 
         return $this;
     }
+
+    public function __construct()
+    {
+        $this->setCreatedAt(new \DateTime());
+
+    }
+
+
+
 
 
 }
