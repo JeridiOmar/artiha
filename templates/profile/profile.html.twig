@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 {% block title %}
-  Profile de {{ user.nom }}
-{% endblock  %}
+    Profile de {{ user.nom }}
+{% endblock %}
 {% block stylesheets %}
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
@@ -39,7 +39,8 @@
 
 
         }
-        .following{
+
+        .following {
             color: #fff;
             font-family: "Helvetica";
             font-size: 10pt;
@@ -65,7 +66,12 @@
 
             margin: 0px;
             padding: 0px;
-            color:black;
+            color: black;
+        }
+
+        button:focus {
+
+            outline: 0px #3399FF !important;
         }
 
 
@@ -101,35 +107,36 @@
                     <div class="text-center">
 
                         <a href="#">
-                            <img src="{{ user.profilePicture }}" class="img-thumb rounded-circle      "
+                            {#<img src="{{ user.profilePicture }}" class="img-thumb rounded-circle      "
                                  width="220" height="220"
-                                 alt="avatar">
-                            {#<img src="{{ asset('/uploads/files/profile_pictures/'~ user.profilePicture) }}"
+                                 alt="avatar">#}
+                            <img src="{{ asset('/uploads/files/profile_pictures/'~ user.profilePicture) }}"
                                  class="img-thumb rounded-circle      " width="220" height="220"
-                                 alt="avatar">#}</a>
+                                 alt="avatar"></a>
 
 
                     </div>
                     <h3><a href="{{ path('profile',{'id':user.id}) }}">@{{ user.username }}</a></h3>
-                    {% if following==false %}
+                    {% if not isMyProfile %}
+                        {% if following==false %}
 
-                    <div class="text-center ">
-                        <a class="js-followLink"
-                           href="{{ path('subscribe',{'followed_id':user.id }) }}">
-                            <button class="js-follow-button not-following container ">
+                            <div class="text-center ">
+                                <a class="js-followLink"
+                                   href="{{ path('subscribe',{'followed_id':user.id }) }}">
+                                    <button class="js-follow-button not-following container ">
 
-                                <div class="row ">
-                                    <div class="   text-center  col-8 ">
-                                        <div class="pl-4  follow "> + Follow</div>
-                                    </div>
-                                    <div class="  pl-4 float-left">
-                                        <div class="pl-1 pr-1  js-nbFollow  ">{{nombre_followers}}</div>
-                                    </div>
-                                </div>
+                                        <div class="row ">
+                                            <div class="   text-center  col-8 ">
+                                                <div class="pl-4  follow "> + Follow</div>
+                                            </div>
+                                            <div class="  pl-4 float-left">
+                                                <div class="pl-1 pr-1  js-nbFollow  ">{{ nombre_followers }}</div>
+                                            </div>
+                                        </div>
 
-                            </button>
-                        </a>
-                    </div>
+                                    </button>
+                                </a>
+                            </div>
                         {% elseif following==true %}
                             <div class="text-center ">
                                 <a class="js-followLink"
@@ -138,16 +145,17 @@
 
                                         <div class="row ">
                                             <div class="   text-center  col-8 ">
-                                                <div class="pl-4  follow ">  Following</div>
+                                                <div class="pl-4  follow "> Following</div>
                                             </div>
                                             <div class="  pl-4 float-left">
-                                                <div class="pl-1 pr-1  js-nbFollow  ">{{nombre_followers}}</div>
+                                                <div class="pl-1 pr-1  js-nbFollow  ">{{ nombre_followers }}</div>
                                             </div>
                                         </div>
 
                                     </button>
                                 </a>
                             </div>
+                        {% endif %}
                     {% endif %}
 
 
@@ -168,6 +176,10 @@
                         <!-- nbadlouha baad manamlou l post -->
                         <li class="list-group-item text-right"><span
                                     class="pull-left"><strong>Likes</strong></span>0
+                        </li>
+                        <li class="list-group-item text-right"><span
+                                    class="pull-left "><strong>Followers</strong></span>
+                            <div class="js-nombre2">{{ nombre_followers }}</div>
                         </li>
 
                     </ul>
@@ -300,17 +312,19 @@
         const followLink = document.querySelector('.js-followLink');
         const followCount = document.querySelector('.js-nbFollow');
         const url = followLink.href;
+        const secondNumber = document.querySelector(".js-nombre2")
         followLink.addEventListener('click', (e) => {
             e.preventDefault();
             axios.get(url).then(function (response) {
-                followCount.textContent=response.data.nombre_followers;
-                if(response.data.following==true){
-                    followButton.setAttribute('class','js-follow-button following container');
-                    document.querySelector('.follow').textContent="following";
+                followCount.textContent = response.data.nombre_followers;
+                secondNumber.textContent = response.data.nombre_followers;
+                if (response.data.following == true) {
+                    followButton.setAttribute('class', 'js-follow-button following container');
+                    document.querySelector('.follow').textContent = "following";
 
-                }else{
-                    followButton.setAttribute('class','js-follow-button not-following container');
-                    document.querySelector('.follow').textContent=" + follow";
+                } else {
+                    followButton.setAttribute('class', 'js-follow-button not-following container');
+                    document.querySelector('.follow').textContent = " + follow";
                 }
 
             })

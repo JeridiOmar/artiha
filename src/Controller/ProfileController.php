@@ -103,6 +103,8 @@ class ProfileController extends AbstractController {
         ]);
 
         $followed=$user;
+        $isMyProfile=($this->getUser()== $user);
+
 
         return $this->render('profile/profile.html.twig', [
             'user' => $user,
@@ -110,7 +112,8 @@ class ProfileController extends AbstractController {
             'form' => $form->createView(),
             'posts' => $posts,
             'following' => $this->getUser()->getSubscribedTo()->contains($followed),
-            'nombre_followers' => $followed->getSubscribers()->count()
+            'nombre_followers' => $followed->getSubscribers()->count(),
+            'isMyProfile'=>$isMyProfile
         ]);
     }
 
