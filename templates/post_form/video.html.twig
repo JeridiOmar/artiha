@@ -92,7 +92,9 @@
                 'onchange' : "readURL(this);",
                 'runat' : 'server'}}) }}
             <img id="myThumbnail" src="" alt="?" hidden style="height: 500px;"  />
-            {{ form_row(form.submit) }}
+        {{ form_row(form.submit) }}
+        {{ form_end(form) }}
+
     </div>
 {% endblock %}
 {% block javascripts %}

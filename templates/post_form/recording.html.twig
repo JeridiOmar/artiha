@@ -77,7 +77,8 @@
                 {{ form_row(form.Categories,{'attr':{'class':'scrollable'}}) }}
             </div>
         </div>
-            {{ form_row(form.recording,{'attr':{ 'value': rec ? rec : '' }}) }}
+        {{ form_row(form.recording,{'attr':{ 'value': rec ? rec : '' }}) }}
         {{ form_row(form.submit) }}
+        {{ form_end(form) }}
     </div>
 {% endblock %}

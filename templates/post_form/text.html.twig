@@ -79,6 +79,8 @@
         </div>
         {{ form_row(form.text,{'attr':{ 'value': text ? text : ''}}) }}
         {{ form_row(form.submit) }}
+        {{ form_end(form) }}
+
     </div>
 {% endblock %}
 {% block javascripts %}
