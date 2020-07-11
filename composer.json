@@ -6,6 +6,7 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "doctrine/annotations": "^1.10",
+        "friendsofsymfony/ckeditor-bundle": "^2.2",
         "fzaninotto/faker": "^1.9",
         "knplabs/knp-paginator-bundle": "^5.2",
         "mbezhanov/faker-provider-collection": "^1.2",

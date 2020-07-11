@@ -12,9 +12,11 @@ use App\Entity\Video;
 use App\Form\PostType;
 use App\Repository\TagRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
@@ -47,11 +49,14 @@ class PostFormController extends AbstractController
         //dd($user->getPosts()->toArray(),$entityManager->getRepository(User::class)->findOneBy(['id'=>1])->getPosts()->toArray());
         //$user=$this->getUser();
         $form=$this->createForm(PostType::class,$post);
-        $form->add('text',TextType::class,array('mapped'=>false))
+        $form->add('text',TextareaType::class,array(
+            'mapped'=>false,
+            'attr'=>["rows" => 4,'placeholder'=>'amaze us with your creativity!'],
+            ))
             ->add('submit',SubmitType::class);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
-            if (!$post->getCreatedAt()) {
+            if (!($post->getCreatedAt())) {
                 $post->setCreatedAt(new \DateTime());
                 $post->setUser($user);
                 $post->setType('text');
@@ -377,5 +382,12 @@ class PostFormController extends AbstractController
             'video'=>$videoforrender,
             'thumbnail'=>$thumbnailtorender
         ]);
+    }
+
+    /**
+     * @Route("/couleur")
+     */
+    public function testcouleur(){
+        return $this->render('post_form/couleur.html.twig');
     }
 }

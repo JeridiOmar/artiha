@@ -1,21 +1,88 @@
 {% extends 'base.html.twig' %}
+{% block title %}
+    text
+{% endblock %}
 {% block stylesheets %}
     <style>
-        #form_id{
-            padding: 30px;
+        body{
+            background-color: #fafafa;
+        }
+        .container{
+            width: 60%;
+            height: 100%;
+            border-right:rgba(0,0,0,0.2) solid 1px;
+            border-left:rgba(0,0,0,0.2) solid 1px;
+            box-shadow: 0 -50px 70px.2rem rgba(119,119,119,.25);
+            paddin-top: 20px;
+            padding-bottom: 200px;
+        }
+        .scrollable{
+            height: 140px;
+            overflow-y: scroll;
+        }
+        #form_id > div{
+            margin: 15px;
+        }
+        input{
+            margin: 10px 0;
+            border: 0px;
+        }
+        textarea{
+            resize: none;
+        }
+        input:hover , textarea:hover{
+            border-bottom: #6a11cb solid 2px;
+
+        }
+        .btn-primary{
+            color: black;
+            background-image: url("https://www.casalux.fr/4464-thickbox_default/carrelage-gres-cerame-effet-marbre-poli-calacatta-2-couleurs-rectifie.jpg");
+            border-color: rgba(172, 140, 208, 0.82);
+            background-size: 80px ;
+        }
+        .btn-primary:active:focus{
+            color: black !important;
+            box-shadow: 0 0px 0px.2rem rgba(119,119,119,.25) !important;
+            border-color: rgba(154, 152, 156, 0.82)!important;
+        }
+        .btn-primary:hover{
+            color: black;
+            border-color: rgba(172, 140, 208, 0.82);
         }
     </style>
 {% endblock%}
 {% block body %}
-    <div id="form_id" >
-        {{ form_start(form) }}
-        <div class="row">
-            <div class="col-lg-6"> {{ form_row(form.title) }}</div>
-            <div class="col-lg-6"> {{ form_row(form.tags,{'attr':{ 'value': tag ? tag : '' }})}}</div>
+    <div class="container">
+        <div id="form_id" class="row no-gutters">
+            <div class="col-10 col-sm-6 col-md-8">
+                {{ form_start(form) }}
+                <div class="row">
+                    <div class="col-lg-6 col-md-5">
+                        {{ form_label(form.title) }}
+                        {{ form_widget(form.title,{'attr':{'placeholder': 'Titre' }})}}
+                        {{ form_errors(form.title) }}
+                    </div>
+                    <div class="col-lg-6 col-md-5">
+                        {{ form_label(form.tags) }}
+                        {{ form_widget(form.tags,{'attr':{ 'value': tag ? tag : '','placeholder': 'tags' }})}}
+                        {{ form_errors(form.tags) }}
+                    </div>
+                </div>
+                {{ form_widget(form.description,{'attr':{'placeholder': 'describe your art!'}}) }}
+                {{ form_errors(form.description) }}
+
+            </div>
+            <div class=" col-md-3 " style="padding: 0;">
+                    {{ form_row(form.Categories,{'attr':{'class':'scrollable'}}) }}
+            </div>
+
         </div>
-        {{ form_row(form.description) }}
-        {{ form_row(form.Categories) }}
-        {{ form_row(form.text,{'attr':{ 'value': text ? text : '' }}) }}
-        {{ form_end(form) }}
+        {{ form_row(form.text,{'attr':{ 'value': text ? text : ''}}) }}
+        {{ form_row(form.submit) }}
     </div>
+{% endblock %}
+{% block javascripts %}
+    <script>
+
+    </script>
 {% endblock %}
