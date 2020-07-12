@@ -10,6 +10,8 @@
 {% block body %}
 <style>
     #content {
+        max-height: 500px;
+        max-width: 1000px;
         width: auto;
         height: auto;
     }
@@ -49,7 +51,9 @@
 
 {#{% elseif post.type== "recording" %}#}
 {#    <div class="container text-center" style="background-color: black">#}
-{#        <audio id="content" class="img-fluid " src="{{asset(post.content) }}">#}
+{#        <audio controls id="content">#}
+{#            <source src="{{asset(post.content)}}" type="audio/ogg">#}
+{#            <source src="{{asset(post.content)}}" type="audio/mpeg">#}
 {#        </audio>#}
 {#    </div>#}
 {% elseif post.type== "text" %}
@@ -62,6 +66,10 @@
 
 
 <div class="container border" style="background-color: #f5f5f5">
+    <div>
+        <div class="row" style="font-size: 50px; color: dimgray">
+            {{ post.title }}
+        </div>
     <div class="row ">
         <img class="rounded-circle mr-2-3" src="{{ asset('/uploads/files/profile_pictures/'~ post.user.profilePicture) }}"
              href="{{ path('profile',{id:post.user.id}) }} " alt="" height="30px" width="30px"></a>
@@ -72,6 +80,7 @@
     </div>
 
     <div >
+
         <div class="row">
             {% for c in post.categories %}
                 <em class="text-italic ">  - {{ c }}</em>
@@ -79,11 +88,13 @@
             {% endfor %}
         </div>
         <div class="row">
-            <p class=" text-dark">{{ post.description }}</p>
+            <b>
+                <p class=" text-dark">{{ post.description }}</p>
+            </b>
         </div>
         <div class="row">
             {% for t in post.tags %}
-                <a href="#" style="color: dimgray" class="text-italic ">#{{ t.value }}</a>
+                <a href="{{ path('tagg',{id:t.id}) }}" style="color: dimgray" class="text-italic ">#{{ t.value }}</a>
             {% endfor %}
         </div>
         <div class="container">

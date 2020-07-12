@@ -40,18 +40,17 @@ class IndividualPostController extends AbstractController
      * @param $userRepository
      * @return Response
      */
-    public function index(Request $request,$id, PostRepository $postRepository, CommentRepository $commentRepository,UserRepository $userRepository,EntityManagerInterface $entityManager)
+    public function index(Request $request, $id, PostRepository $postRepository, CommentRepository $commentRepository, UserRepository $userRepository, EntityManagerInterface $entityManager)
     {
         $post = $postRepository->findPostById($id);
-
         $likes = $post->getLikes();
-        $comment=new Comment();
+        $comment = new Comment();
         $form = $this->createForm(CommentType::class, $comment);
         $form->handleRequest($request);
-        if($form->isSubmitted()&&$form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
             $comment->setCreatedAt(new \DateTime());
             $comment->setPost($post);
-            $cnct=$userRepository->findOneBy(['username'=>$this->getUser()->getUsername()]);
+            $cnct = $userRepository->findOneBy(['username' => $this->getUser()->getUsername()]);
 
             $comment->setUser($cnct);
 
@@ -65,10 +64,10 @@ class IndividualPostController extends AbstractController
         $comments = $commentRepository->getCommentsForPost($post->getId());
 
         return $this->render('individual_post/index.html.twig', array(
-            'post'      => $post,
-            'comments'  => $comments,
-        'likes'=>$likes,
-            'form'=>$form->createView()
+            'post' => $post,
+            'comments' => $comments,
+            'likes' => $likes,
+            'form' => $form->createView()
 
         ));
 
@@ -77,15 +76,16 @@ class IndividualPostController extends AbstractController
     /**
      * @Route("/{id<\d+>}/like", name="post_like")
      */
-    public function like($id, EntityManagerInterface $manager, PostRepository $postRepository, LikeRepository $likeRepository) : Response{
+    public function like($id, EntityManagerInterface $manager, PostRepository $postRepository, LikeRepository $likeRepository): Response
+    {
         $post = $postRepository->findPostById($id);
         $user = $this->getUser();
 //        if (!$user) return $this->json(['code'=>403 ,
 //            'error'=>'you\'re not connected']);
-        if($post->isLikedByUser($user)){
+        if ($post->isLikedByUser($user)) {
             $like = $likeRepository->findOneBy([
-                'post'=>$post,
-                'user'=>$user
+                'post' => $post,
+                'user' => $user
             ]);
             $post->removeLike($like);
             $user->removeLike($like);
@@ -95,22 +95,21 @@ class IndividualPostController extends AbstractController
             $manager->flush();
 
 
-        }
-        else{
-        $like = new Like();
-        $like->setPost($post)
-            ->setUser($user);
-        $user->addLike($like);
-        $post->addLike($like);
+        } else {
+            $like = new Like();
+            $like->setPost($post)
+                ->setUser($user);
+            $user->addLike($like);
+            $post->addLike($like);
             $manager->persist($user);
             $manager->persist($post);
-        $manager->persist($like);
-        $manager->flush();
+            $manager->persist($like);
+            $manager->flush();
 
-}
-        return $this->json(['liked'=>$post->isLikedbyUser($user),
-            'nbLike'=>$likeRepository->count(['post'=>$post]),
-        ],200);
+        }
+        return $this->json(['liked' => $post->isLikedbyUser($user),
+            'nbLike' => $likeRepository->count(['post' => $post]),
+        ], 200);
 
 
     }
@@ -118,10 +117,11 @@ class IndividualPostController extends AbstractController
     /**
      * @Route("/{id<\d+>}/delete", name="delete")
      */
-    public function delete($id, EntityManagerInterface $manager, PostRepository $postRepository) {
+    public function delete($id, EntityManagerInterface $manager, PostRepository $postRepository)
+    {
         $post = $postRepository->findPostById($id);
         $user = $this->getUser();
-        if (( $user->getId() == $post->getUser()->getId())||($user->getIsAdmin())){
+        if (($user->getId() == $post->getUser()->getId()) || ($user->getIsAdmin())) {
             $manager->remove($post);
             $manager->flush();
         }
