@@ -24,7 +24,7 @@
             left: 0;
             padding: 0 15px;
             text-transform: uppercase;
-            background-color: #C82829;
+            background-color: dimgray;
             color: #f1f2f3;
 
         }
@@ -66,7 +66,7 @@
             padding: 0 15px ;
             color: white;
             font-family: 'Lexend Tera', sans-serif;
-            background: #C82829;
+            background: dimgray;
             font-size: 15px;
             line-height: 25px;
             text-transform: uppercase;
@@ -88,7 +88,11 @@
 
 
         body {
-            background-image: linear-gradient(rgba(0,0,0,0),rgba(0,0,0,0)),url({{ asset('background_images/sandro-katalina-k1bO_VTiZSs-unsplash.jpg') }});
+            background-image: linear-gradient(rgba(0,0,0,0),rgba(0,0,0,0)),url({{ asset('background_images/black-textile-952670.jpg') }});
+            background:-webkit-linear-gradient(right, black,grey),linear-gradient(rgba(10,10,0,0),rgba(0,20,20,0));
+            background: -o-linear-gradient(right, black, grey);
+            background: -moz-linear-gradient(right, black, grey);
+            background: linear-gradient(right, black, grey);
             margin: 0;
             padding: 0;
             height: 100%;
@@ -96,7 +100,7 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            background-color: #383838;
+            background-color: snow;
         }
 
         .card {
@@ -151,65 +155,53 @@
             line-height: 25px;
         }
         .btn-search{
-            margin-left: 70%;
-            height: 30px;
-            width:50px;
-            background: -webkit-linear-gradient(right, #0f4384, #843550);
-            background: -o-linear-gradient(right, #920513, #909284);
-            background: -moz-linear-gradient(right, #920513, #909284);
-            background: linear-gradient(right, #920513, #909284);
+
+            height: 50px;
+            width:100px;
+            background: -webkit-linear-gradient(right, rgba(195,158,41,0.95), wheat);
+            background: -o-linear-gradient(right, rgba(195,158,41,0.95), wheat);
+            background: -moz-linear-gradient(right, rgba(195,158,41,0.95), wheat);
+            background: linear-gradient(right, rgba(195,158,41,0.95), wheat);
             border: none;
             color: snow;
             border-radius:25px ;
+        }
+        .btn-search:hover{
+            background: -webkit-linear-gradient(right, rgba(195,158,41,0.95), wheat);
+            background: -o-linear-gradient(right, rgba(195,158,41,0.95), wheat);
+            background: -moz-linear-gradient(right, rgba(195,158,41,0.95), wheat);
+            background: linear-gradient(right, rgba(195,158,41,0.95), wheat);
+        }    .btn-search2{
+                 margin-left: 90%;
+                 height: 50px;
+                 width:100px;
+                 background: -webkit-linear-gradient(right, rgba(195,158,41,0.95), wheat);
+                 background: -o-linear-gradient(right, rgba(195,158,41,0.95), wheat);
+                 background: -moz-linear-gradient(right, rgba(195,158,41,0.95), wheat);
+                 background: linear-gradient(right, rgba(195,158,41,0.95), wheat);
+                 border: none;
+                 color: snow;
+                 border-radius:15px ;
+             }
+        .btn-search2:hover{
+            background: -webkit-linear-gradient(right, rgba(195,158,41,0.95), wheat);
+            background: -o-linear-gradient(right, rgba(195,158,41,0.95), wheat);
+            background: -moz-linear-gradient(right, rgba(195,158,41,0.95), wheat);
+            background: linear-gradient(right, rgba(195,158,41,0.95), wheat);
         }
         .search-pagination{
             position: center;
             margin-left: 35%;
             color: black;
         }
-
-        .btn-search2{
-position: absolute;
-            top: 4px;
-            left: 4px;
-
-            height: 50px;
-            width:70px;
-            background: -webkit-linear-gradient(right, royalblue, whitesmoke);
-            background: -o-linear-gradient(right, #920513, #909284);
-            background: -moz-linear-gradient(right, #920513, #909284);
-            background: linear-gradient(right, #920513, #909284);
-            border: none;
-            color: snow;
-            border-radius:15px ;
-        }
-        .btn-search2:hover{
-            background: -webkit-linear-gradient(left, royalblue, whitesmoke);
-            background: -o-linear-gradient(left, #920513, #909284);
-            background: -moz-linear-gradient(left, #920513, #909284);
-            background: linear-gradient(left, #920513, #909284);
-        }
     </style>
 {% endblock %}
-{% block navbar %}
-{% endblock %}
+
 {% block body %}
-    <div><a href="{{ path('post') }}"><button class="btn-search2 " type="button">
-            <i class="fa fa-home" style="font-size:36px"></i> </button></a>
-    </div>
     <div class="swiper-container m-4">
         <div class="swiper-wrapper">
             {% for post in posts %}
                 <div class="swiper-slide">
-{#                    <div class="card" style="width:400px;height: 500px">#}
-{#                        <img class="card-img-top" style="height: 300px" src="{{ person.profilePicture }}" alt="Card image">#}
-{#                        <div class="card-body">#}
-{#                            <h4 class="card-title">{{ person.nom }} {{ person.prenom }}</h4>#}
-{#                            <p class="card-text">{{ person.bio}}</p>#}
-{#                            <a href="{{ path('profile',{id:person.id}) }}"><button class="btn-search " type="button"> Go to</button>#}
-{#                            </a>#}
-{#                        </div>#}
-{#                    </div>#}
 
                     <div class="card img-fluid " style="width:540px ;height: 600px">
                         <h5 class="card-title">
