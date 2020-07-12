@@ -11,22 +11,28 @@
 
             height: 50px;
             width:70px;
-            background: -webkit-linear-gradient(right, royalblue, whitesmoke);
-            background: -o-linear-gradient(right, #920513, #909284);
-            background: -moz-linear-gradient(right, #920513, #909284);
-            background: linear-gradient(right, #920513, #909284);
+            background: -webkit-linear-gradient(right, rgba(195,158,41,0.95), wheat);
+            background: -o-linear-gradient(right, rgba(195,158,41,0.95), wheat);
+            background: -moz-linear-gradient(right, rgba(195,158,41,0.95), wheat);
+            background: linear-gradient(right, rgba(195,158,41,0.95), wheat);
             border: none;
             color: snow;
             border-radius:15px ;
         }
         .btn-search2:hover{
-            background: -webkit-linear-gradient(left, royalblue, whitesmoke);
-            background: -o-linear-gradient(left, #920513, #909284);
-            background: -moz-linear-gradient(left, #920513, #909284);
-            background: linear-gradient(left, #920513, #909284);
+            background: -webkit-linear-gradient(left, rgba(195,158,41,0.95), wheat);
+            background: -o-linear-gradient(left, rgba(195,158,41,0.95), wheat);
+            background: -moz-linear-gradient(left, rgba(195,158,41,0.95), wheat);
+            background: linear-gradient(left, rgba(195,158,41,0.95), wheat);
         }
         body {
-            background-image: linear-gradient(rgba(0,0,0,0),rgba(0,0,0,0)),url({{ asset('background_images/sandro-katalina-k1bO_VTiZSs-unsplash.jpg') }});
+            /*
+{#            background-image: linear-gradient(rgba(0,0,0,0),rgba(0,0,0,0)),url({{ asset('background_images/sandro-katalina-k1bO_VTiZSs-unsplash.jpg') }});#}
+*/
+            background:-webkit-linear-gradient(right, black,grey),linear-gradient(rgba(10,10,0,0),rgba(0,20,20,0));
+            background: -o-linear-gradient(right, black, grey);
+            background: -moz-linear-gradient(right, black, grey);
+            background: linear-gradient(right, black, grey);
             margin: 0;
             padding: 0;
             height: 100%;
@@ -34,7 +40,6 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            background-color: #383838;
         }
 
         .card {
@@ -79,11 +84,11 @@
             width: 400px;
 
         }
-.card-title{
-    text-shadow: 0px 5px 5px rgba(0,0,0,0.5);
+        .card-title{
+            text-shadow: 0px 5px 5px rgba(0,0,0,0.5);
 
 
-}
+        }
         .card-text{
             font-size: 16px;
             line-height: 25px;
@@ -92,10 +97,10 @@
             margin-left: 70%;
             height: 30px;
             width:70px;
-            background: -webkit-linear-gradient(right, #0f4384, #843550);
-            background: -o-linear-gradient(right, #920513, #909284);
-            background: -moz-linear-gradient(right, #920513, #909284);
-            background: linear-gradient(right, #920513, #909284);
+            background: -webkit-linear-gradient(right, rgba(195,158,41,0.95), wheat);
+            background: -o-linear-gradient(right, rgba(195,158,41,0.95), wheat);
+            background: -moz-linear-gradient(right, rgba(195,158,41,0.95), wheat);
+            background: linear-gradient(right, rgba(195,158,41,0.95), wheat);
             border: none;
             color: snow;
             border-radius:25px ;
@@ -107,25 +112,22 @@
         }
     </style>
 {% endblock %}
-{% block navbar %} {% endblock %}
 {% block body %}
-    <a href="{{ path('post') }}"><button class="btn-search2 " type="button">
-            <i class="fa fa-home" style="font-size:36px"></i> </button></a>
     <div class="swiper-container">
         <div class="swiper-wrapper">
             {% for person in users %}
-            <div class="swiper-slide">
-                <div class="card" style="width:400px;height: 500px">
-                    <img class="card-img-top" style="height: 300px" src="{{ person.profilePicture }}" alt="Card image">
-                    <div class="card-body">
-                        <h4 class="card-title">{{ person.nom }} {{ person.prenom }}</h4>
-                        <p class="card-text">{{ person.bio}}</p>
-                        <a href="{{ path('profile',{id:person.id}) }}"><button class="btn-search " type="button"> Go to</button>
-                        </a>
+                <div class="swiper-slide">
+                    <div class="card" style="width:400px;height: 500px">
+                        <img class="card-img-top" style="height: 300px" src="{{ person.profilePicture }}" alt="Card image">
+                        <div class="card-body">
+                            <h4 class="card-title">{{ person.nom }} {{ person.prenom }}</h4>
+                            <p class="card-text">{{ person.bio}}</p>
+                            <a href="{{ path('profile',{id:person.id}) }}"><button class="btn-search " type="button"> Go to</button>
+                            </a>
+                        </div>
                     </div>
-                </div>
 
-            </div>
+                </div>
 
 {% endfor %}
         </div>
