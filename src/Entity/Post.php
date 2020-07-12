@@ -81,6 +81,11 @@ class Post
      */
     private $likes;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isFixture;
+
 
     public function __construct()
     {
@@ -326,6 +331,18 @@ class Post
         }
         return false;
 
+    }
+
+    public function getIsFixture(): ?bool
+    {
+        return $this->isFixture;
+    }
+
+    public function setIsFixture(bool $isFixture): self
+    {
+        $this->isFixture = $isFixture;
+
+        return $this;
     }
 
 

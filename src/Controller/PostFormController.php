@@ -60,6 +60,9 @@ class PostFormController extends AbstractController
             if (!($post->getCreatedAt())) {
                 $post->setCreatedAt(new \DateTime());
                 $post->setUser($user);
+                $post->setNblikes(0);
+                $post->setNbcomment(0);
+                $post->setIsFixture(false);
                 $post->setType('text');
             }
             $content = new Text();
@@ -137,6 +140,9 @@ class PostFormController extends AbstractController
         if($form->isSubmitted() && $form->isValid()){
             $post->setCreatedAt(new \DateTime());
             $post->setType('picture');
+            $post->setNblikes(0);
+            $post->setNbcomment(0);
+            $post->setIsFixture(false);
             if(isset($form['picture'])){
                 $picture=$form['picture']->getData();
                 $picpath=md5(uniqid()).$picture->getClientOriginalName();
@@ -223,6 +229,10 @@ class PostFormController extends AbstractController
         if($form->isSubmitted() && $form->isValid()){
             $post->setCreatedAt(new \DateTime());
             $post->setType('recording');
+            $post->setIsFixture(false);
+
+            $post->setNblikes(0);
+            $post->setNbcomment(0);
             if(isset($form['recording'])){
                 $rec=$form['recording']->getData();
                 $recordingPath=md5(uniqid()).$rec->getClientOriginalName();
@@ -312,7 +322,11 @@ class PostFormController extends AbstractController
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
             $post->setCreatedAt(new \DateTime());
+            $post->setIsFixture(false);
             $post->setType('video');
+
+            $post->setNblikes(0);
+            $post->setNbcomment(0);
             if($form['video']->getNormData()){
                 $video=$form['video']->getData();
                 $thumbnail=null;
