@@ -17,6 +17,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 
 class ForgotPwdController extends AbstractController
@@ -101,13 +102,14 @@ class ForgotPwdController extends AbstractController
         //dd($user,"not if");
         if($form->isSubmitted() && $form->isValid()){
             $change->setDateDeChangement(new \DateTime());
+            $change->setOldpwd($user->getPassword());
             $user->addChangePwd($change);
             $user->setPassword($encoder->encodePassword($user, $change->getNewpwd()));
             //dd($user);
             $entityManager->persist($change);
             $entityManager->persist($user);
             $entityManager->flush();
-            return $this->render("forgot_pwd/index.html.twig");
+            return $this->redirectToRoute("app_login");
         }
         return $this->render('forgot_pwd/reset.html.twig', ['form' => $form->createView(),]);
     }
@@ -117,25 +119,24 @@ class ForgotPwdController extends AbstractController
      * @param Request $request
      * @param SessionInterface $session
      * @param \Swift_Mailer $mailer
-     * @param UserRepository $repository
      * @return Response
      */
-    public function verify(Request $request, SessionInterface $session, \Swift_Mailer $mailer, UserRepository $repository)
+    public function verify(Request $request, SessionInterface $session, \Swift_Mailer $mailer)
     {
         $code_client = $request->get('code');
         $code_server = $session->get('code');
         if ($code_client == $code_server) {
             //send mail containing old password
-            $message = (new \Swift_Message('change your password for security mesurments!'))
-                ->setFrom('artzy.proj@gmail.com')
-                ->setTo($session->get('email'))
-                ->setBody("this is body")
-                ->addPart('
-                    <h3>your request to change your forgotten password was received here is your old pwssword</h3>
-                    <h4>' . $repository->findOneBy(['Email' => $session->get('email')])->getPassword() . '</h4>
-                    <h4>if it wasn\'t you please verify your account information!</h4>',
-                    'text/html');
-            $mailer->send($message);
+//            $message = (new \Swift_Message('change your password for security mesurments!'))
+//                ->setFrom('artzy.proj@gmail.com')
+//                ->setTo($session->get('email'))
+//                ->setBody("this is body")
+//                ->addPart('
+//                    <h3>your request to change your forgotten password was received here is your old pwssword</h3>
+//                    <h4>' . $repository->findOneBy(['Email' => $session->get('email')])->getPassword() . '</h4>
+//                    <h4>if it wasn\'t you please verify your account information!</h4>',
+//                    'text/html');
+//            $mailer->send($message);
             return $this->redirectToRoute('reset');
         } else {
             //send email to zk6 there has been an attempt to reset your password was it you ?
@@ -148,7 +149,8 @@ class ForgotPwdController extends AbstractController
                     <h4>if it wasn\'t you please verify your account information!</h4>',
                     'text/html');
             $mailer->send($message);
-            return $this->render('forgot_pwd/resend.html.twig', ['false_attempt' => true]);
+            $this->addFlash('erreur', 'code faux !');
+            return $this->render('forgot_pwd/index.html.twig');
         }
     }
 }

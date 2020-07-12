@@ -25,7 +25,7 @@
         <p class="card-text font-weight-bolder card_description text-dark">{{ post.description }}</p>
         {% for t in post.tags %}
 
-            <a href="{{ path('tagg',{id:t.id}) }}"  class="text-primary text-italic ">#{{ t }}</a>
+            <a href="{{ path('tagg',{id:t.id}) }}"  class="text-warning text-italic ">#{{ t }}</a>
 
         {% endfor %}
         <div class="row">

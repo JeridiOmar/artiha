@@ -61,9 +61,6 @@ class IndividualPostController extends AbstractController
             $this->addFlash('success', 'Commentaire ajoutée');
         }
 
-        if (!$post) {
-            throw $this->createNotFoundException('Unable to find Blog post.');
-        }
 
         $comments = $commentRepository->getCommentsForPost($post->getId());
 

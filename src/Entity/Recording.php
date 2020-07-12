@@ -42,4 +42,8 @@ class Recording extends Content
     {
         return $this->getRecordingPath();
     }
+    public function __toString()
+    {
+     return $this->getRecordingPath();
+    }
 }

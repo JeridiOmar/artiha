@@ -1,9 +1,13 @@
 {% extends 'base.html.twig' %}
+{% block navbar %}{% endblock %}
 {% block navbar %}
 {% endblock %}
 {% block title %}Mot de passe oublie{% endblock %}
 {% block stylesheets %}
     <style>
+        body{
+            background:url('https://www.thoughtco.com/thmb/5FgguVadP9ll_krLeNcmN2-thBE=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/GettyImages-685117891-59e45cf6aad52b00114255d9.jpg');
+        }
         .bg-modal{
             width: 100%;
             height: 100%;
@@ -34,6 +38,7 @@
             margin: 10px ;
         }
         #bg-form{
+            background-color: rgba(251, 251, 251, 0.8);
             padding: 30px;
             border: #aeb0b2 solid 1px ;
             border-radius: 4px;
@@ -47,6 +52,10 @@
         }
         #reset-form > input {
             display: block;
+        }
+        ul[class*="warning"]{
+            border-color: burlywood;
+            list-style: none;
         }
     </style>
 {% endblock %}
