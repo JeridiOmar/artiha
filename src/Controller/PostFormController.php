@@ -10,6 +10,7 @@ use App\Entity\Text;
 use App\Entity\User;
 use App\Entity\Video;
 use App\Form\PostType;
+use App\Repository\PostRepository;
 use App\Repository\TagRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
@@ -395,9 +396,11 @@ class PostFormController extends AbstractController
     }
 
     /**
-     * @Route("/couleur")
+     * @Route("/aboutus", name="aboutus")
      */
-    public function testcouleur(){
-        return $this->render('post_form/couleur.html.twig');
+    public function aboutus()
+    {
+        return $this->render('about_us/aboutus.html.twig');
+
     }
 }
