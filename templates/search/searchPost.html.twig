@@ -16,11 +16,7 @@
         </div>
         <div class="row">
             <div class="col-8 content_ajax ">
-                {%  if ok in '1' %}{#{% for message in app.flashes('error_max<min') %}
-                    <div class="alert alert-danger">
-                        {{ message }}
-                    </div>
-                {% endfor %}#}
+                {%  if ok in '1' %}
                     <div class="d-flex justify-content-end mb-3 sort_ajax">
                         {{ knp_pagination_sortable(posts,'Likes ','p.nblikes') }}
                         {{ knp_pagination_sortable(posts,'Date ','p.createdAt') }}

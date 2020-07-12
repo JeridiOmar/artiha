@@ -1,0 +1,628 @@
+Index: templates/search/postSearch.html.twig
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>{#{% extends 'base.html.twig'%}#}\r\n{#{% block title %} Post List {% endblock %}#}\r\n{#{% block body %}#}\r\n{#    <style>#}\r\n{#        .btn-search2{#}\r\n{#            margin-left: 90%;#}\r\n{#            height: 50px;#}\r\n{#            width:100px;#}\r\n{#            background: -webkit-linear-gradient(right, #909284, #6b6e67);#}\r\n{#            background: -o-linear-gradient(right, #920513, #909284);#}\r\n{#            background: -moz-linear-gradient(right, #920513, #909284);#}\r\n{#            background: linear-gradient(right, #920513, #909284);#}\r\n{#            border: none;#}\r\n{#            color: snow;#}\r\n{#            border-radius:15px ;#}\r\n{#        }#}\r\n{#        .btn-search2:hover{#}\r\n{#            background: -webkit-linear-gradient(left, #909284, #6b6e67);#}\r\n{#            background: -o-linear-gradient(left, #920513, #909284);#}\r\n{#            background: -moz-linear-gradient(left, #920513, #909284);#}\r\n{#            background: linear-gradient(left, #920513, #909284);#}\r\n{#        }#}\r\n{#        .header {#}\r\n{#            background-image: linear-gradient(rgba(0,0,0,0),rgba(0,0,0,0)),url({{ asset('background_images/derick-mckinney-oARTWhz1ACc-unsplash.jpg') }});#}\r\n{#            background-size: cover;#}\r\n{#            background-position: center;#}\r\n{#            display: flex;#}\r\n{#            height: 100%;#}\r\n{#            min-height: 100vh;#}\r\n{#            justify-content: center;#}\r\n{#            align-items: center;#}\r\n{#            font-family: sans-serif;#}\r\n{#        }#}\r\n{#        .grid{#}\r\n{#            display: grid;#}\r\n{#            grid-template-columns: repeat(2,1fr);#}\r\n{#            grid-gap: 40px;#}\r\n{#        }#}\r\n{#        .grid.toggled{#}\r\n{#            grid-template-columns: repeat(1,1fr);#}\r\n{#        }#}\r\n\r\n{#        .card{#}\r\n{#            background: -webkit-linear-gradient(right, transparent, #fff);#}\r\n{#            box-shadow: 0 0 19px rgba(0,0,0,0.1);#}\r\n{#            transition: box-shadow 0.3s;#}\r\n\r\n{#        }#}\r\n{#        @media only screen and (max-width: 1400px) {#}\r\n{#            .grid {#}\r\n{#                padding-left: 20%;#}\r\n{#                display: grid;#}\r\n{#                grid-template-columns: repeat(1,1fr);#}\r\n{#                grid-gap: 40px;#}\r\n{#            }#}\r\n{#            .card{#}\r\n{#                width: 80%;#}\r\n{#            }#}\r\n\r\n{#        }#}\r\n\r\n{#        .card__category{#}\r\n{#            position: absolute;#}\r\n{#            height: 25px;#}\r\n{#            top: -25px;#}\r\n{#            left: 0;#}\r\n{#            padding: 0 15px;#}\r\n{#            text-transform: uppercase;#}\r\n{#            background-color: #C82829;#}\r\n{#            color: #f1f2f3;#}\r\n\r\n{#        }#}\r\n{#        .card-opacity {#}\r\n{#            background: #000;#}\r\n{#            height: 520px;#}\r\n{#            overflow: hidden;#}\r\n{#            transition: height 0.4s;#}\r\n\r\n{#        }#}\r\n\r\n{#        .card-opacity img{#}\r\n{#            display: block;#}\r\n{#            opacity: 1;#}\r\n{#            transition: opacity 0.4s, transform 0.3s;#}\r\n{#        }#}\r\n\r\n{#        .card:hover {#}\r\n{#            box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.5);#}\r\n\r\n{#        }#}\r\n\r\n{#        .card:hover .card-opacity{#}\r\n{#            height: 400px;#}\r\n{#        }#}\r\n\r\n{#        .card:hover .card-opacity img{#}\r\n{#            opacity: 0.6;#}\r\n{#            transform: scale(1.3);#}\r\n\r\n{#        }#}\r\n\r\n{#        .card:hover .card__type{#}\r\n{#            top: 442px;#}\r\n{#        }#}\r\n{#        .card__type{#}\r\n{#            position: absolute;#}\r\n{#            left: 0;#}\r\n{#            top: 562px;#}\r\n{#            height: 30px;#}\r\n{#            padding: 0 15px ;#}\r\n{#            color: white;#}\r\n{#            font-family: 'Lexend Tera', sans-serif;#}\r\n{#            background: #C82829;#}\r\n{#            font-size: 15px;#}\r\n{#            line-height: 25px;#}\r\n{#            text-transform: uppercase;#}\r\n{#            transition: top 0.4s;#}\r\n\r\n{#        }#}\r\n\r\n{#        .card_description{#}\r\n{#            font-size: 16px;#}\r\n{#            line-height: 25px;#}\r\n{#        }#}\r\n{#        .card__title{#}\r\n{#            text-shadow: 0px 5px 5px rgba(0,0,0,0.5);#}\r\n{#        }#}\r\n{#        h2{#}\r\n{#            color: rgba(255,255,255,01);#}\r\n{#            text-shadow: 0 1px 0 #ccc,#}\r\n{#            0 2px 0 #c9c9c9,#}\r\n{#            0 3px 0 #bbb,#}\r\n{#            0 4px 0 #b9b9b9,#}\r\n{#            0 5px 0 #aaa,#}\r\n{#            0 6px 1px rgba(0,0,0,.1),#}\r\n{#            0 0 5px rgba(0,0,0,.1),#}\r\n{#            0 1px 3px rgba(0,0,0,.3),#}\r\n{#            0 3px 5px rgba(0,0,0,.2),#}\r\n{#            0 5px 10px rgba(0,0,0,.25),#}\r\n{#            0 10px 10px rgba(0,0,0,.2),#}\r\n{#            0 20px 20px rgba(0,0,0,.15);#}\r\n{#            padding-left: 10%;#}\r\n{#            text-decoration-color: #f1f2f3;#}\r\n{#            margin-bottom:10px ;#}\r\n{#            font-size:45px;#}\r\n{#            letter-spacing: 3px;#}\r\n\r\n{#        } p{#}\r\n{#              color: whitesmoke;#}\r\n{#              padding-left: 30%;#}\r\n{#              margin-bottom:10px ;#}\r\n{#              font-size:30px;#}\r\n{#              letter-spacing: 2px;#}\r\n\r\n{#          }#}\r\n{#        .color_comments_like {#}\r\n{#            color: black;#}\r\n{#        }#}\r\n\r\n\r\n{#        .search-pagination{#}\r\n{#            position: center;#}\r\n{#            margin-left: 40%;#}\r\n{#            color: black;#}\r\n\r\n{#        }#}\r\n{#    </style>#}\r\n{#    <link href=\"https://fonts.googleapis.com/icon?family=Material+Icons\" rel=\"stylesheet\">#}\r\n\r\n{#    <div class=\"header\">#}\r\n{#        <div class=\"container\">#}\r\n\r\n{#            <h2>List Of  Posts</h2>#}\r\n\r\n{#            <p> This is the result of your search {{ type }} : \"{{ tag }}\"</p>#}\r\n{#            <a href=\"{{ path('search') }}\"><button class=\"btn-search2 \" type=\"button\">#}\r\n{#                    <i class=\"material-icons\" style=\"font-size:36px\">search</i> </button></a>#}\r\n{#            <div class=\"grid\">#}\r\n{#                {% for post in posts %}#}\r\n{#                    {% include 'post/card.html.twig' with {post: post} only %}#}\r\n{#                {% endfor %}#}\r\n{#            </div>#}\r\n{#            <div class=\"search-pagination p-4\">{{ knp_pagination_render(posts) }}</div>#}\r\n{#        </div>#}\r\n{#    </div>#}\r\n{#{% endblock %}#}\r\n\r\n{% extends 'base.html.twig' %}\r\n\r\n{% block title %}\r\n   Search\r\n{% endblock %}\r\n\r\n{% block body %}\r\n\r\n\r\n    <div class=\"container filter_ajax\">\r\n        <div class=\"jumbotron jumbotron-fluid\">\r\n            <div class=\"container\">\r\n                <h1 class=\"display-4\" style=\"color:#720026\">List Of  Posts</h1>\r\n                <p class=\"lead font-weight-bold\">This is the result of your search {{ type }} : \"{{ tag }}\"</p>\r\n            </div>\r\n        </div>\r\n        <div class=\"row\">\r\n            <div class=\"col-8 content_ajax \">\r\n                {%  if ok in '1' %}{% for message in app.flashes('error_max<min') %}\r\n                    <div class=\"alert alert-danger\">\r\n                        {{ message }}\r\n                    </div>\r\n                {% endfor %}\r\n                <div class=\"d-flex justify-content-end mb-3 sort_ajax\">\r\n                    {{ knp_pagination_sortable(posts,'Likes ','p.nblikes') }}\r\n                    {{ knp_pagination_sortable(posts,'Date ','p.createdAt') }}\r\n                </div>\r\n                {% for post in posts %}\r\n                    {% include 'post/card.html.twig' with {post: post} only %}\r\n                {% endfor %}\r\n                <div class=\"p-2 pagination_ajax\">\r\n                    {{ knp_pagination_render(posts) }}\r\n                </div>\r\n                 {% elseif ok in '0' %}\r\n                <h1 class=\"text-danger\"> Pas de Resultat pour cette recherche</h1>\r\n                     <div style=\"margin-left: 50%\"><a href=\"{{ path('post') }}\"> <h3 >Retourner à la page d'acceuil</h3></a></div>\r\n                {% endif %}\r\n            </div>\r\n            <div class=\"col-4 form_ajax \">\r\n\r\n                {% include 'post/pageFilter.html.twig' with {form: form} only %}\r\n\r\n\r\n            </div>\r\n        </div>\r\n    </div>\r\n{% endblock %}\r\n    {% block stylesheets %}\r\n        <style>\r\n\r\n            .filtre {\r\n                position: relative;\r\n                display: block;\r\n            }\r\n\r\n            body {\r\n                background: snow;\r\n            }\r\n\r\n            hr.style_edit {\r\n                padding-bottom: 1px;\r\n                height: 5px;\r\n                background: silver repeat-x 0 0;\r\n                border: 0;\r\n            }\r\n\r\n            .styled {\r\n                font-family: 'Piedra', cursive;\r\n                text-decoration: underline;\r\n                padding-left: 10px;\r\n                margin-left: 20px;\r\n                text-align: justify;\r\n\r\n            }\r\n\r\n            .title-filter {\r\n                color: rgba(255, 255, 255, 01);\r\n                text-shadow: 0 1px 0 #ccc,\r\n                0 2px 0 #c9c9c9,\r\n                0 3px 0 #bbb,\r\n                0 4px 0 #b9b9b9,\r\n                0 5px 0 #aaa,\r\n                0 6px 1px rgba(0, 0, 0, .1),\r\n                0 0 5px rgba(0, 0, 0, .1),\r\n                0 1px 3px rgba(0, 0, 0, .3),\r\n                0 3px 5px rgba(0, 0, 0, .2),\r\n                0 5px 10px rgba(0, 0, 0, .25),\r\n                0 10px 10px rgba(0, 0, 0, .2),\r\n                0 20px 20px rgba(0, 0, 0, .15);\r\n            }\r\n\r\n\r\n            .form-group-edit {\r\n                background: rgba(255, 255, 255, 0.2);\r\n                border-radius: 0px;\r\n                border: 0px;\r\n                border-bottom: 1px solid white;\r\n                font-size: 18px;\r\n                color: #f1f2f3;\r\n            }\r\n\r\n            .sidebar-nav {\r\n                color: snow;\r\n                padding: 40px;\r\n            }\r\n\r\n            .form_edit {\r\n                padding: 20px;\r\n            }\r\n\r\n            /*.grid {*/\r\n            /*    display: grid;*/\r\n            /*    grid-template-columns: repeat(1, 1fr);*/\r\n            /*    grid-gap: 40px;*/\r\n            /*}*/\r\n\r\n            /*.grid.toggled {*/\r\n            /*    grid-template-columns: repeat(1, 1fr);*/\r\n            /*}*/\r\n\r\n            .post {\r\n                background: -webkit-linear-gradient(right, transparent, #fff);\r\n                box-shadow: 0 0 19px rgba(0, 0, 0, 0.1);\r\n                transition: box-shadow 0.3s;\r\n                padding: 20px;\r\n                margin: 20px;\r\n            }\r\n\r\n            .card__category {\r\n                position: absolute;\r\n                height: 25px;\r\n                top: -25px;\r\n                left: 0;\r\n                padding: 0 15px;\r\n                text-transform: uppercase;\r\n                background-color: #C82829;\r\n                color: #f1f2f3;\r\n\r\n            }\r\n\r\n            .card-opacity {\r\n                background: #000;\r\n                height: 450px;\r\n                overflow: hidden;\r\n                transition: height 0.4s;\r\n\r\n            }\r\n\r\n            .card-opacity img {\r\n                display: block;\r\n                opacity: 1;\r\n                transition: opacity 0.4s, transform 0.3s;\r\n            }\r\n\r\n            .post:hover {\r\n                box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.5);\r\n\r\n            }\r\n\r\n            .post:hover .card-opacity {\r\n                height: 380px;\r\n            }\r\n\r\n            .post:hover .card-opacity img {\r\n                opacity: 0.6;\r\n                transform: scale(1.3);\r\n\r\n            }\r\n\r\n            .post:hover .card__type {\r\n                top: 442px;\r\n            }\r\n\r\n            .card__type {\r\n                position: absolute;\r\n                left: 20px;\r\n                top: 512px;\r\n                height: 30px;\r\n                padding: 0 15px;\r\n                color: white;\r\n                font-family: 'Lexend Tera', sans-serif;\r\n                background: #C82829;\r\n                font-size: 15px;\r\n                line-height: 25px;\r\n                text-transform: uppercase;\r\n                transition: top 0.4s;\r\n\r\n            }\r\n\r\n            .card_description {\r\n                font-size: 16px;\r\n                line-height: 25px;\r\n            }\r\n\r\n            .card__title {\r\n                text-shadow: 0px 5px 5px rgba(0, 0, 0, 0.2);\r\n\r\n            }\r\n\r\n\r\n            body,\r\n            html {\r\n                height: 100%;\r\n            }\r\n\r\n            p {\r\n                color: black;\r\n                font-weight: bold;\r\n                padding-left: 10%;\r\n                margin-bottom: 10px;\r\n                font-size: 50px;\r\n                letter-spacing: 2px;\r\n            }\r\n        </style>\r\n    {% endblock %}\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- templates/search/postSearch.html.twig	(revision 2fbb9258ed819a4a5d04c97d6410835264122808)
++++ templates/search/postSearch.html.twig	(date 1594488464771)
+@@ -1,189 +1,3 @@
+-{#{% extends 'base.html.twig'%}#}
+-{#{% block title %} Post List {% endblock %}#}
+-{#{% block body %}#}
+-{#    <style>#}
+-{#        .btn-search2{#}
+-{#            margin-left: 90%;#}
+-{#            height: 50px;#}
+-{#            width:100px;#}
+-{#            background: -webkit-linear-gradient(right, #909284, #6b6e67);#}
+-{#            background: -o-linear-gradient(right, #920513, #909284);#}
+-{#            background: -moz-linear-gradient(right, #920513, #909284);#}
+-{#            background: linear-gradient(right, #920513, #909284);#}
+-{#            border: none;#}
+-{#            color: snow;#}
+-{#            border-radius:15px ;#}
+-{#        }#}
+-{#        .btn-search2:hover{#}
+-{#            background: -webkit-linear-gradient(left, #909284, #6b6e67);#}
+-{#            background: -o-linear-gradient(left, #920513, #909284);#}
+-{#            background: -moz-linear-gradient(left, #920513, #909284);#}
+-{#            background: linear-gradient(left, #920513, #909284);#}
+-{#        }#}
+-{#        .header {#}
+-{#            background-image: linear-gradient(rgba(0,0,0,0),rgba(0,0,0,0)),url({{ asset('background_images/derick-mckinney-oARTWhz1ACc-unsplash.jpg') }});#}
+-{#            background-size: cover;#}
+-{#            background-position: center;#}
+-{#            display: flex;#}
+-{#            height: 100%;#}
+-{#            min-height: 100vh;#}
+-{#            justify-content: center;#}
+-{#            align-items: center;#}
+-{#            font-family: sans-serif;#}
+-{#        }#}
+-{#        .grid{#}
+-{#            display: grid;#}
+-{#            grid-template-columns: repeat(2,1fr);#}
+-{#            grid-gap: 40px;#}
+-{#        }#}
+-{#        .grid.toggled{#}
+-{#            grid-template-columns: repeat(1,1fr);#}
+-{#        }#}
+-
+-{#        .card{#}
+-{#            background: -webkit-linear-gradient(right, transparent, #fff);#}
+-{#            box-shadow: 0 0 19px rgba(0,0,0,0.1);#}
+-{#            transition: box-shadow 0.3s;#}
+-
+-{#        }#}
+-{#        @media only screen and (max-width: 1400px) {#}
+-{#            .grid {#}
+-{#                padding-left: 20%;#}
+-{#                display: grid;#}
+-{#                grid-template-columns: repeat(1,1fr);#}
+-{#                grid-gap: 40px;#}
+-{#            }#}
+-{#            .card{#}
+-{#                width: 80%;#}
+-{#            }#}
+-
+-{#        }#}
+-
+-{#        .card__category{#}
+-{#            position: absolute;#}
+-{#            height: 25px;#}
+-{#            top: -25px;#}
+-{#            left: 0;#}
+-{#            padding: 0 15px;#}
+-{#            text-transform: uppercase;#}
+-{#            background-color: #C82829;#}
+-{#            color: #f1f2f3;#}
+-
+-{#        }#}
+-{#        .card-opacity {#}
+-{#            background: #000;#}
+-{#            height: 520px;#}
+-{#            overflow: hidden;#}
+-{#            transition: height 0.4s;#}
+-
+-{#        }#}
+-
+-{#        .card-opacity img{#}
+-{#            display: block;#}
+-{#            opacity: 1;#}
+-{#            transition: opacity 0.4s, transform 0.3s;#}
+-{#        }#}
+-
+-{#        .card:hover {#}
+-{#            box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.5);#}
+-
+-{#        }#}
+-
+-{#        .card:hover .card-opacity{#}
+-{#            height: 400px;#}
+-{#        }#}
+-
+-{#        .card:hover .card-opacity img{#}
+-{#            opacity: 0.6;#}
+-{#            transform: scale(1.3);#}
+-
+-{#        }#}
+-
+-{#        .card:hover .card__type{#}
+-{#            top: 442px;#}
+-{#        }#}
+-{#        .card__type{#}
+-{#            position: absolute;#}
+-{#            left: 0;#}
+-{#            top: 562px;#}
+-{#            height: 30px;#}
+-{#            padding: 0 15px ;#}
+-{#            color: white;#}
+-{#            font-family: 'Lexend Tera', sans-serif;#}
+-{#            background: #C82829;#}
+-{#            font-size: 15px;#}
+-{#            line-height: 25px;#}
+-{#            text-transform: uppercase;#}
+-{#            transition: top 0.4s;#}
+-
+-{#        }#}
+-
+-{#        .card_description{#}
+-{#            font-size: 16px;#}
+-{#            line-height: 25px;#}
+-{#        }#}
+-{#        .card__title{#}
+-{#            text-shadow: 0px 5px 5px rgba(0,0,0,0.5);#}
+-{#        }#}
+-{#        h2{#}
+-{#            color: rgba(255,255,255,01);#}
+-{#            text-shadow: 0 1px 0 #ccc,#}
+-{#            0 2px 0 #c9c9c9,#}
+-{#            0 3px 0 #bbb,#}
+-{#            0 4px 0 #b9b9b9,#}
+-{#            0 5px 0 #aaa,#}
+-{#            0 6px 1px rgba(0,0,0,.1),#}
+-{#            0 0 5px rgba(0,0,0,.1),#}
+-{#            0 1px 3px rgba(0,0,0,.3),#}
+-{#            0 3px 5px rgba(0,0,0,.2),#}
+-{#            0 5px 10px rgba(0,0,0,.25),#}
+-{#            0 10px 10px rgba(0,0,0,.2),#}
+-{#            0 20px 20px rgba(0,0,0,.15);#}
+-{#            padding-left: 10%;#}
+-{#            text-decoration-color: #f1f2f3;#}
+-{#            margin-bottom:10px ;#}
+-{#            font-size:45px;#}
+-{#            letter-spacing: 3px;#}
+-
+-{#        } p{#}
+-{#              color: whitesmoke;#}
+-{#              padding-left: 30%;#}
+-{#              margin-bottom:10px ;#}
+-{#              font-size:30px;#}
+-{#              letter-spacing: 2px;#}
+-
+-{#          }#}
+-{#        .color_comments_like {#}
+-{#            color: black;#}
+-{#        }#}
+-
+-
+-{#        .search-pagination{#}
+-{#            position: center;#}
+-{#            margin-left: 40%;#}
+-{#            color: black;#}
+-
+-{#        }#}
+-{#    </style>#}
+-{#    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">#}
+-
+-{#    <div class="header">#}
+-{#        <div class="container">#}
+-
+-{#            <h2>List Of  Posts</h2>#}
+-
+-{#            <p> This is the result of your search {{ type }} : "{{ tag }}"</p>#}
+-{#            <a href="{{ path('search') }}"><button class="btn-search2 " type="button">#}
+-{#                    <i class="material-icons" style="font-size:36px">search</i> </button></a>#}
+-{#            <div class="grid">#}
+-{#                {% for post in posts %}#}
+-{#                    {% include 'post/card.html.twig' with {post: post} only %}#}
+-{#                {% endfor %}#}
+-{#            </div>#}
+-{#            <div class="search-pagination p-4">{{ knp_pagination_render(posts) }}</div>#}
+-{#        </div>#}
+-{#    </div>#}
+-{#{% endblock %}#}
+ 
+ {% extends 'base.html.twig' %}
+ 
+Index: templates/post/index.html.twig
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>{% extends 'base.html.twig' %}\r\n\r\n{% block title %}\r\n    {% if type in '1' %}Tous le posts!\r\n    {% elseif type in '2' %} Subscribers Posts\r\n    {% endif %}\r\n{% endblock %}\r\n\r\n{% block body %}\r\n\r\n\r\n<div class=\"container filter_ajax\">\r\n    <div class=\"row\">\r\n\r\n        <div class=\"col-8  \">\r\n\r\n                <div class=\"d-flex justify-content-end mb-3 sort_ajax\">\r\n                    {{ knp_pagination_sortable(posts,'Likes ','p.nblikes') }}\r\n                    {{ knp_pagination_sortable(posts,'Date ','p.createdAt') }}\r\n                </div>\r\n            <div class=\"content_ajax\">\r\n                {% for message in app.flashes('error_max<min') %}\r\n                    <div class=\"alert alert-danger\">\r\n                        {{ message }}\r\n                    </div>\r\n                {% endfor %}\r\n\r\n                {% for post in posts %}\r\n                    {% include 'post/card.html.twig' with {post: post} only %}\r\n                {% endfor %}\r\n            </div>\r\n                <div class=\"p-2 pagination_ajax\">\r\n                    {{ knp_pagination_render(posts) }}\r\n                </div>\r\n            </div>\r\n            <div class=\"col-4 form_ajax \">\r\n                {% include 'post/pageFilter.html.twig' with {form: form} only %}\r\n\r\n            </div>\r\n        </div>\r\n    </div>\r\n    {% endblock %}\r\n    {% block stylesheets %}\r\n        <style>\r\n\r\n            .filtre {\r\n                position: relative;\r\n                display: block;\r\n            }\r\n\r\n\r\n            hr.style_edit {\r\n                padding-bottom: 1px;\r\n                height: 5px;\r\n                background: silver repeat-x 0 0;\r\n                border: 0;\r\n            }\r\n\r\n            .styled {\r\n                font-family: 'Piedra', cursive;\r\n                text-decoration: underline;\r\n                padding-left: 10px;\r\n                margin-left: 20px;\r\n                text-align: justify;\r\n\r\n            }\r\n\r\n            .title-filter {\r\n                color: rgba(255, 255, 255, 01);\r\n                text-shadow: 0 1px 0 #ccc,\r\n                0 2px 0 #c9c9c9,\r\n                0 3px 0 #bbb,\r\n                0 4px 0 #b9b9b9,\r\n                0 5px 0 #aaa,\r\n                0 6px 1px rgba(0, 0, 0, .1),\r\n                0 0 5px rgba(0, 0, 0, .1),\r\n                0 1px 3px rgba(0, 0, 0, .3),\r\n                0 3px 5px rgba(0, 0, 0, .2),\r\n                0 5px 10px rgba(0, 0, 0, .25),\r\n                0 10px 10px rgba(0, 0, 0, .2),\r\n                0 20px 20px rgba(0, 0, 0, .15);\r\n            }\r\n\r\n\r\n            .form-group-edit {\r\n                background: rgba(255, 255, 255, 0.2);\r\n                border-radius: 0px;\r\n                border: 0px;\r\n                border-bottom: 1px solid white;\r\n                font-size: 18px;\r\n                color: #f1f2f3;\r\n            }\r\n\r\n            .sidebar-nav {\r\n                color: snow;\r\n                padding: 40px;\r\n            }\r\n\r\n            .form_edit {\r\n                padding: 20px;\r\n            }\r\n\r\n            .post {\r\n                background: -webkit-linear-gradient(right, transparent, #fff);\r\n                box-shadow: 0 0 19px rgba(0, 0, 0, 0.1);\r\n                transition: box-shadow 0.3s;\r\n                padding: 20px;\r\n                margin: 20px;\r\n            }\r\n\r\n            .card__category {\r\n                position: absolute;\r\n                height: 25px;\r\n                top: -25px;\r\n                left: 0;\r\n                padding: 0 15px;\r\n                text-transform: uppercase;\r\n                background-color: #C82829;\r\n                color: #f1f2f3;\r\n\r\n            }\r\n\r\n            .card-opacity {\r\n                background: #000;\r\n                height: 450px;\r\n                overflow: hidden;\r\n                transition: height 0.4s;\r\n\r\n            }\r\n\r\n            .card-opacity img {\r\n                display: block;\r\n                opacity: 1;\r\n                transition: opacity 0.4s, transform 0.3s;\r\n            }\r\n\r\n            .post:hover {\r\n                box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.5);\r\n\r\n            }\r\n\r\n            .post:hover .card-opacity {\r\n                height: 380px;\r\n            }\r\n\r\n            .post:hover .card-opacity img {\r\n                opacity: 0.6;\r\n                transform: scale(1.3);\r\n\r\n            }\r\n\r\n            .post:hover .card__type {\r\n                top: 442px;\r\n            }\r\n\r\n            .card__type {\r\n                position: absolute;\r\n                left: 20px;\r\n                top: 512px;\r\n                height: 30px;\r\n                padding: 0 15px;\r\n                color: white;\r\n                font-family: 'Lexend Tera', sans-serif;\r\n                background: #C82829;\r\n                font-size: 15px;\r\n                line-height: 25px;\r\n                text-transform: uppercase;\r\n                transition: top 0.4s;\r\n\r\n            }\r\n\r\n            .card_description {\r\n                font-size: 16px;\r\n                line-height: 25px;\r\n            }\r\n\r\n            .card__title {\r\n                text-shadow: 0px 5px 5px rgba(0, 0, 0, 0.2);\r\n\r\n            }\r\n\r\n\r\n            body,\r\n            html {\r\n                height: 100%;\r\n            }\r\n\r\n\r\n        </style>\r\n    {% endblock %}\r\n\r\n{% block javascripts %}\r\n{% endblock %}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- templates/post/index.html.twig	(revision 2fbb9258ed819a4a5d04c97d6410835264122808)
++++ templates/post/index.html.twig	(date 1593384195154)
+@@ -190,4 +190,30 @@
+     {% endblock %}
+ 
+ {% block javascripts %}
++    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
++    <script>
++
++        const sort = document.querySelector('.sort_ajax');
++        const pagination = document.querySelector('.pagination_ajax');
++        const content = document.querySelector('.content_ajax');
++        const filter = document.querySelector('.filter_ajax');
++
++        sort.querySelectorAll('a').forEach(a=> {
++            a.addEventListener('click', (e) => {
++                e.preventDefault();
++                let url = a.getAttribute('href')
++
++            })
++        })
++
++        function headers(options) {
++            options = options || {}
++            options.headers = options.headers || {}
++            options.headers['X-Requested-With'] = 'XMLHttpRequest'
++            return options
++        }
++        async function load(url){
++            const  response=
++        }
++                </script>
+ {% endblock %}
+\ No newline at end of file
+Index: public/styles/wrapper.css
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>/*-------------------------------*/\r\n/*     Sidebar nav styles        */\r\n/*-------------------------------*/\r\n.navbar {\r\n    padding: 0;\r\n}\r\n\r\n.sidebar-nav {\r\n    position: absolute;\r\n    top: 0;\r\n    width: 400px;\r\n    margin: 0;\r\n    padding: 0;\r\n    list-style: none;\r\n}\r\n\r\n.sidebar-nav li {\r\n    position: relative;\r\n    line-height: 20px;\r\n    display: inline-block;\r\n    width: 100%;\r\n}\r\n\r\n.sidebar-nav li:before {\r\n    content: '';\r\n    position: absolute;\r\n    top: 0;\r\n    left: 0;\r\n    z-index: -1;\r\n    height: 100%;\r\n    width: 3px;\r\n    background-color: #1c1c1c;\r\n    -webkit-transition: width .2s ease-in;\r\n    -moz-transition: width .2s ease-in;\r\n    -ms-transition: width .2s ease-in;\r\n    transition: width .2s ease-in;\r\n\r\n}\r\n\r\n.sidebar-nav li:hover {\r\n    background: skyblue !important;\r\n    border-radius: 10px;\r\n    margin-left: 10px;\r\n    margin-right: 10px;\r\n}\r\n\r\n.sidebar-nav li:hover:before,\r\n.sidebar-nav li.open:hover:before {\r\n    width: 100%;\r\n    -webkit-transition: width .2s ease-in;\r\n    -moz-transition: width .2s ease-in;\r\n    -ms-transition: width .2s ease-in;\r\n    transition: width .2s ease-in;\r\n\r\n}\r\n\r\n.sidebar-nav li a {\r\n    display: block;\r\n    color: #ddd;\r\n    text-decoration: none;\r\n    padding: 10px 15px 10px 30px;\r\n}\r\n\r\n.sidebar-nav li a:hover,\r\n.sidebar-nav li a:active,\r\n.sidebar-nav li a:focus,\r\n.sidebar-nav li.open a:hover,\r\n.sidebar-nav li.open a:active,\r\n.sidebar-nav li.open a:focus {\r\n    color: #fff;\r\n    text-decoration: none;\r\n    background-color: transparent;\r\n}\r\n\r\n.sidebar-header {\r\n    text-align: center;\r\n    font-size: 20px;\r\n    position: relative;\r\n    width: 100%;\r\n    display: inline-block;\r\n}\r\n\r\n.sidebar-brand {\r\n    height: 65px;\r\n    position: relative;\r\n    background: #212531;\r\n    background: linear-gradient(to right bottom, #2f3441 50%, #212531 50%);\r\n    padding-top: 1em;\r\n}\r\n\r\n.sidebar-brand a {\r\n    color: #ddd;\r\n}\r\n\r\n.sidebar-brand a:hover {\r\n    color: #fff;\r\n    text-decoration: none;\r\n}\r\n\r\n.dropdown-header {\r\n    text-align: center;\r\n    font-size: 1em;\r\n    color: #ddd;\r\n    background: #212531;\r\n    background: linear-gradient(to right bottom, #2f3441 50%, #212531 50%);\r\n}\r\n\r\n.sidebar-nav .dropdown-menu {\r\n    position: relative;\r\n    width: 100%;\r\n    padding: 0;\r\n    margin: 0;\r\n    border-radius: 0;\r\n    border: none;\r\n    background-color: #222;\r\n    box-shadow: none;\r\n}\r\n\r\n.dropdown-menu.show {\r\n    top: 0;\r\n}\r\n\r\n/*Fontawesome icons*/\r\n.nav.sidebar-nav li a::before {\r\n    font-family: fontawesome;\r\n    content: \"\\f12e\";\r\n    vertical-align: baseline;\r\n    display: inline-block;\r\n    padding-right: 5px;\r\n}\r\n\r\na[href*=\"#home\"]::before {\r\n    content: \"\\f015\" !important;\r\n}\r\n\r\na[href*=\"#about\"]::before {\r\n    content: \"\\f129\" !important;\r\n}\r\n\r\na[href*=\"#events\"]::before {\r\n    content: \"\\f073\" !important;\r\n}\r\n\r\na[href*=\"#events\"]::before {\r\n    content: \"\\f073\" !important;\r\n}\r\n\r\na[href*=\"#team\"]::before {\r\n    content: \"\\f0c0\" !important;\r\n}\r\n\r\na[href*=\"#works\"]::before {\r\n    content: \"\\f0b1\" !important;\r\n}\r\n\r\na[href*=\"#pictures\"]::before {\r\n    content: \"\\f03e\" !important;\r\n}\r\n\r\na[href*=\"#videos\"]::before {\r\n    content: \"\\f03d\" !important;\r\n}\r\n\r\na[href*=\"#books\"]::before {\r\n    content: \"\\f02d\" !important;\r\n}\r\n\r\na[href*=\"#art\"]::before {\r\n    content: \"\\f1fc\" !important;\r\n}\r\n\r\na[href*=\"#awards\"]::before {\r\n    content: \"\\f02e\" !important;\r\n}\r\n\r\na[href*=\"#services\"]::before {\r\n    content: \"\\f013\" !important;\r\n}\r\n\r\na[href*=\"#contact\"]::before {\r\n    content: \"\\f086\" !important;\r\n}\r\n\r\na[href*=\"#followme\"]::before {\r\n    content: \"\\f099\" !important;\r\n    color: #0084b4;\r\n}\r\n\r\n/*-------------------------------*/\r\n/*       Hamburger-Cross         */\r\n/*-------------------------------*/\r\n\r\n.hamburger {\r\n    position: fixed;\r\n    top: 41px;\r\n    z-index: 999;\r\n    display: block;\r\n    width: 32px;\r\n    height: 32px;\r\n    margin-left: 15px;\r\n    background: transparent;\r\n    border: none;\r\n}\r\n\r\n.hamburger:hover,\r\n.hamburger:focus,\r\n.hamburger:active {\r\n    outline: none;\r\n}\r\n\r\n.hamburger.is-closed:before {\r\n    content: '';\r\n    display: block;\r\n    width: 100px;\r\n    font-size: 14px;\r\n    color: #fff;\r\n    line-height: 32px;\r\n    text-align: center;\r\n    opacity: 0;\r\n    -webkit-transform: translate3d(0, 0, 0);\r\n    -webkit-transition: all .35s ease-in-out;\r\n}\r\n\r\n.hamburger.is-closed:hover:before {\r\n    opacity: 1;\r\n    display: block;\r\n    -webkit-transform: translate3d(-100px, 0, 0);\r\n    -webkit-transition: all .35s ease-in-out;\r\n}\r\n\r\n.hamburger.is-closed .hamb-top,\r\n.hamburger.is-closed .hamb-middle,\r\n.hamburger.is-closed .hamb-bottom,\r\n.hamburger.is-open .hamb-top,\r\n.hamburger.is-open .hamb-middle,\r\n.hamburger.is-open .hamb-bottom {\r\n    position: absolute;\r\n    left: 0;\r\n    height: 4px;\r\n    width: 100%;\r\n}\r\n\r\n.hamburger.is-closed .hamb-top,\r\n.hamburger.is-closed .hamb-middle,\r\n.hamburger.is-closed .hamb-bottom {\r\n    background-color: #1a1a1a;\r\n}\r\n\r\n.hamburger.is-closed .hamb-top {\r\n    top: 5px;\r\n    -webkit-transition: all .35s ease-in-out;\r\n}\r\n\r\n.hamburger.is-closed .hamb-middle {\r\n    top: 50%;\r\n    margin-top: -2px;\r\n}\r\n\r\n.hamburger.is-closed .hamb-bottom {\r\n    bottom: 5px;\r\n    -webkit-transition: all .35s ease-in-out;\r\n}\r\n\r\n.hamburger.is-closed:hover .hamb-top {\r\n    top: 0;\r\n    -webkit-transition: all .35s ease-in-out;\r\n}\r\n\r\n.hamburger.is-closed:hover .hamb-bottom {\r\n    bottom: 0;\r\n    -webkit-transition: all .35s ease-in-out;\r\n}\r\n\r\n.hamburger.is-open .hamb-top,\r\n.hamburger.is-open .hamb-middle,\r\n.hamburger.is-open .hamb-bottom {\r\n    background-color: #1a1a1a;\r\n}\r\n\r\n.hamburger.is-open .hamb-top,\r\n.hamburger.is-open .hamb-bottom {\r\n    top: 50%;\r\n    margin-top: -2px;\r\n}\r\n\r\n.hamburger.is-open .hamb-top {\r\n    -webkit-transform: rotate(45deg);\r\n    -webkit-transition: -webkit-transform .2s cubic-bezier(.73, 1, .28, .08);\r\n}\r\n\r\n.hamburger.is-open .hamb-middle {\r\n    display: none;\r\n}\r\n\r\n.hamburger.is-open .hamb-bottom {\r\n    -webkit-transform: rotate(-45deg);\r\n    -webkit-transition: -webkit-transform .2s cubic-bezier(.73, 1, .28, .08);\r\n}\r\n\r\n.hamburger.is-open:before {\r\n    content: '';\r\n    display: block;\r\n    width: 100px;\r\n    font-size: 14px;\r\n    color: #fff;\r\n    line-height: 32px;\r\n    text-align: center;\r\n    opacity: 0;\r\n    -webkit-transform: translate3d(0, 0, 0);\r\n    -webkit-transition: all .35s ease-in-out;\r\n}\r\n\r\n.hamburger.is-open:hover:before {\r\n    opacity: 1;\r\n    display: block;\r\n    -webkit-transform: translate3d(-100px, 0, 0);\r\n    -webkit-transition: all .35s ease-in-out;\r\n}\r\n/**\r\n{% block javascripts %}\r\n    <script>\r\n        $(document).ready(function () {\r\n            var trigger = $('.hamburger'),\r\n                overlay = $('.overlay'),\r\n                isClosed = false;\r\n\r\n            trigger.click(function () {\r\n                hamburger_cross();\r\n            });\r\n\r\n            function hamburger_cross() {\r\n\r\n                if (isClosed == true) {\r\n                    overlay.hide();\r\n                    trigger.removeClass('is-open');\r\n                    trigger.addClass('is-closed');\r\n                    isClosed = false;\r\n                } else {\r\n                    overlay.show();\r\n                    trigger.removeClass('is-closed');\r\n                    trigger.addClass('is-open');\r\n                    isClosed = true;\r\n                }\r\n            }\r\n\r\n            $('[data-toggle=\"offcanvas\"]').click(function () {\r\n                $('#wrapper').toggleClass('toggled');\r\n                $('.grid').toggleClass('toggled');\r\n\r\n            });\r\n        });\r\n    </script>\r\n{% endblock %}\r\n\r\n */\r\n\r\n\r\n\r\n/**\r\n    {#    <div id=\"wrapper\">#}\r\n\r\n    {#        <div class=\"overlay\"></div>#}\r\n\r\n    {#        <!-- Sidebar -->#}\r\n    {#        <nav class=\"navbar  navbar-inverse fixed-top \" style=\"margin-top: 41px\" id=\"sidebar-wrapper\" role=\"navigation\">#}\r\n    {#            <ul class=\"nav sidebar-nav\">#}\r\n\r\n    {#            </ul>#}\r\n    {#        </nav>#}\r\n\r\n    {#        <!-- Page Content -->#}\r\n    {#        <div id=\"page-content-wrapper\">#}\r\n    {#            <button type=\"button\" class=\"hamburger animated fadeInLeft is-closed\" data-toggle=\"offcanvas\">#}\r\n    {#                <span class=\"hamb-top\"></span>#}\r\n    {#                <span class=\"hamb-middle\"></span>#}\r\n    {#                <span class=\"hamb-bottom\"></span>#}\r\n    {#            </button>#}\r\n    {#            <div class=\"container\">#}\r\n    {#                <div class=\"row\">#}\r\n    {#                    <div > {% for message in app.flashes('error_max<min') %}#}\r\n    {#                            <div class=\"alert alert-danger\">#}\r\n    {#                                {{ message }}#}\r\n    {#                            </div>#}\r\n    {#                        {% endfor %}#}\r\n    {#                        <div class=\"d-flex justify-content-end mb-3 \">#}\r\n    {#                            {{ knp_pagination_sortable(posts,'Likes','p.nblikes') }}#}\r\n    {#                            {{ knp_pagination_sortable(posts,'Comments','p.nbcomments') }}#}\r\n    {#                        </div>#}\r\n    {#                        <div class=\"grid\">#}\r\n    {#                            {% for post in posts %}#}\r\n    {#                                {% include 'post/card.html.twig' with {post: post} only %}#}\r\n    {#                            {% endfor %}#}\r\n    {#                        </div>#}\r\n    {#                        <div class=\"p-4\">#}\r\n    {#                            {{ knp_pagination_render(posts) }}#}\r\n    {#                        </div>#}\r\n    {#                    </div>#}\r\n    {#                </div>#}\r\n    {#            </div>#}\r\n    {#        </div>#}\r\n    {#        <!-- /#page-content-wrapper -->#}\r\n\r\n    {#    </div>#}\r\n    {#    <!-- /#wrapper -->#}\r\n\r\n */
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- public/styles/wrapper.css	(revision 2fbb9258ed819a4a5d04c97d6410835264122808)
++++ public/styles/wrapper.css	(date 1594488464795)
+@@ -403,4 +403,196 @@
+     {#    </div>#}
+     {#    <!-- /#wrapper -->#}
+ 
+- */
+\ No newline at end of file
++ */
++
++
++
++
++/*
++
++{#{% extends 'base.html.twig'%}#}
++{#{% block title %} Post List {% endblock %}#}
++{#{% block body %}#}
++{#    <style>#}
++{#        .btn-search2{#}
++{#            margin-left: 90%;#}
++{#            height: 50px;#}
++{#            width:100px;#}
++{#            background: -webkit-linear-gradient(right, #909284, #6b6e67);#}
++{#            background: -o-linear-gradient(right, #920513, #909284);#}
++{#            background: -moz-linear-gradient(right, #920513, #909284);#}
++{#            background: linear-gradient(right, #920513, #909284);#}
++{#            border: none;#}
++{#            color: snow;#}
++{#            border-radius:15px ;#}
++{#        }#}
++{#        .btn-search2:hover{#}
++{#            background: -webkit-linear-gradient(left, #909284, #6b6e67);#}
++{#            background: -o-linear-gradient(left, #920513, #909284);#}
++{#            background: -moz-linear-gradient(left, #920513, #909284);#}
++{#            background: linear-gradient(left, #920513, #909284);#}
++{#        }#}
++{#        .header {#}
++{#            background-image: linear-gradient(rgba(0,0,0,0),rgba(0,0,0,0)),url({{ asset('background_images/derick-mckinney-oARTWhz1ACc-unsplash.jpg') }});#}
++{#            background-size: cover;#}
++{#            background-position: center;#}
++{#            display: flex;#}
++{#            height: 100%;#}
++{#            min-height: 100vh;#}
++{#            justify-content: center;#}
++{#            align-items: center;#}
++{#            font-family: sans-serif;#}
++{#        }#}
++{#        .grid{#}
++{#            display: grid;#}
++{#            grid-template-columns: repeat(2,1fr);#}
++{#            grid-gap: 40px;#}
++{#        }#}
++{#        .grid.toggled{#}
++{#            grid-template-columns: repeat(1,1fr);#}
++{#        }#}
++
++{#        .card{#}
++{#            background: -webkit-linear-gradient(right, transparent, #fff);#}
++{#            box-shadow: 0 0 19px rgba(0,0,0,0.1);#}
++{#            transition: box-shadow 0.3s;#}
++
++{#        }#}
++{#        @media only screen and (max-width: 1400px) {#}
++{#            .grid {#}
++{#                padding-left: 20%;#}
++{#                display: grid;#}
++{#                grid-template-columns: repeat(1,1fr);#}
++{#                grid-gap: 40px;#}
++{#            }#}
++{#            .card{#}
++{#                width: 80%;#}
++{#            }#}
++
++{#        }#}
++
++{#        .card__category{#}
++{#            position: absolute;#}
++{#            height: 25px;#}
++{#            top: -25px;#}
++{#            left: 0;#}
++{#            padding: 0 15px;#}
++{#            text-transform: uppercase;#}
++{#            background-color: #C82829;#}
++{#            color: #f1f2f3;#}
++
++{#        }#}
++{#        .card-opacity {#}
++{#            background: #000;#}
++{#            height: 520px;#}
++{#            overflow: hidden;#}
++{#            transition: height 0.4s;#}
++
++{#        }#}
++
++{#        .card-opacity img{#}
++{#            display: block;#}
++{#            opacity: 1;#}
++{#            transition: opacity 0.4s, transform 0.3s;#}
++{#        }#}
++
++{#        .card:hover {#}
++{#            box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.5);#}
++
++{#        }#}
++
++{#        .card:hover .card-opacity{#}
++{#            height: 400px;#}
++{#        }#}
++
++{#        .card:hover .card-opacity img{#}
++{#            opacity: 0.6;#}
++{#            transform: scale(1.3);#}
++
++{#        }#}
++
++{#        .card:hover .card__type{#}
++{#            top: 442px;#}
++{#        }#}
++{#        .card__type{#}
++{#            position: absolute;#}
++{#            left: 0;#}
++{#            top: 562px;#}
++{#            height: 30px;#}
++{#            padding: 0 15px ;#}
++{#            color: white;#}
++{#            font-family: 'Lexend Tera', sans-serif;#}
++{#            background: #C82829;#}
++{#            font-size: 15px;#}
++{#            line-height: 25px;#}
++{#            text-transform: uppercase;#}
++{#            transition: top 0.4s;#}
++
++{#        }#}
++
++{#        .card_description{#}
++{#            font-size: 16px;#}
++{#            line-height: 25px;#}
++{#        }#}
++{#        .card__title{#}
++{#            text-shadow: 0px 5px 5px rgba(0,0,0,0.5);#}
++{#        }#}
++{#        h2{#}
++{#            color: rgba(255,255,255,01);#}
++{#            text-shadow: 0 1px 0 #ccc,#}
++{#            0 2px 0 #c9c9c9,#}
++{#            0 3px 0 #bbb,#}
++{#            0 4px 0 #b9b9b9,#}
++{#            0 5px 0 #aaa,#}
++{#            0 6px 1px rgba(0,0,0,.1),#}
++{#            0 0 5px rgba(0,0,0,.1),#}
++{#            0 1px 3px rgba(0,0,0,.3),#}
++{#            0 3px 5px rgba(0,0,0,.2),#}
++{#            0 5px 10px rgba(0,0,0,.25),#}
++{#            0 10px 10px rgba(0,0,0,.2),#}
++{#            0 20px 20px rgba(0,0,0,.15);#}
++{#            padding-left: 10%;#}
++{#            text-decoration-color: #f1f2f3;#}
++{#            margin-bottom:10px ;#}
++{#            font-size:45px;#}
++{#            letter-spacing: 3px;#}
++
++{#        } p{#}
++{#              color: whitesmoke;#}
++{#              padding-left: 30%;#}
++{#              margin-bottom:10px ;#}
++{#              font-size:30px;#}
++{#              letter-spacing: 2px;#}
++
++{#          }#}
++{#        .color_comments_like {#}
++{#            color: black;#}
++{#        }#}
++
++
++{#        .search-pagination{#}
++{#            position: center;#}
++{#            margin-left: 40%;#}
++{#            color: black;#}
++
++{#        }#}
++{#    </style>#}
++{#    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">#}
++
++{#    <div class="header">#}
++{#        <div class="container">#}
++
++{#            <h2>List Of  Posts</h2>#}
++
++{#            <p> This is the result of your search {{ type }} : "{{ tag }}"</p>#}
++{#            <a href="{{ path('search') }}"><button class="btn-search2 " type="button">#}
++{#                    <i class="material-icons" style="font-size:36px">search</i> </button></a>#}
++{#            <div class="grid">#}
++{#                {% for post in posts %}#}
++{#                    {% include 'post/card.html.twig' with {post: post} only %}#}
++{#                {% endfor %}#}
++{#            </div>#}
++{#            <div class="search-pagination p-4">{{ knp_pagination_render(posts) }}</div>#}
++{#        </div>#}
++{#    </div>#}
++{#{% endblock %}#}*/
+Index: .idea/shelf/Uncommitted_changes_before_Update_at_28_06_2020_00_27_[Default_Changelist]/shelved.patch
+===================================================================
+--- .idea/shelf/Uncommitted_changes_before_Update_at_28_06_2020_00_27_[Default_Changelist]/shelved.patch	(revision 2fbb9258ed819a4a5d04c97d6410835264122808)
++++ .idea/shelf/Uncommitted_changes_before_Update_at_28_06_2020_00_27_[Default_Changelist]/shelved.patch	(revision 2fbb9258ed819a4a5d04c97d6410835264122808)
+@@ -1,147 +0,0 @@
+-Index: src/Repository/PostRepository.php
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+><?php\r\n\r\nnamespace App\\Repository;\r\n\r\nuse App\\Entity\\Post;\r\nuse App\\Entity\\User;\r\nuse App\\Search\\SearchEntity;\r\nuse App\\Search\\SearchHome;\r\nuse Doctrine\\Bundle\\DoctrineBundle\\Repository\\ServiceEntityRepository;\r\nuse Doctrine\\Persistence\\ManagerRegistry;\r\nuse Knp\\Component\\Pager\\Pagination\\PaginationInterface;\r\nuse Knp\\Component\\Pager\\PaginatorInterface;\r\nuse phpDocumentor\\Reflection\\Types\\This;\r\nuse Symfony\\Component\\HttpFoundation\\Request;\r\nuse Symfony\\Component\\Security\\Core\\User\\UserInterface;\r\n\r\n/**\r\n * @method Post|null find($id, $lockMode = null, $lockVersion = null)\r\n * @method Post|null findOneBy(array $criteria, array $orderBy = null)\r\n * @method Post[]    findAll()\r\n * @method Post[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)\r\n */\r\nclass PostRepository extends ServiceEntityRepository\r\n{\r\n    /**\r\n     * @var PaginatorInterface\r\n     */\r\n    private $paginator;\r\n\r\n    public function __construct(ManagerRegistry $registry, PaginatorInterface $paginator)\r\n    {\r\n        parent::__construct($registry, Post::class);\r\n        $this->paginator = $paginator;\r\n    }\r\n\r\n    /**\r\n     * @param SearchHome $search\r\n     * @return PaginationInterface\r\n     */\r\n    public function findSearch(SearchHome $search): PaginationInterface\r\n    {\r\n        $query = $this\r\n            ->createQueryBuilder('p')\r\n            ->select('c', 'p')\r\n            ->join('p.Categories', 'c');\r\n        if (!empty($search->getMin())) {\r\n            $query = $query\r\n                ->andWhere('p.nblikes >= :min')\r\n                ->setParameter('min', $search->getMin());\r\n        }\r\n        if (!empty($search->getMax())) {\r\n            $query = $query\r\n                ->andWhere('p.nblikes <= :max')\r\n                ->setParameter('max', $search->getMax());\r\n        }\r\n        if (!empty($search->getCategories())) {\r\n            $query = $query\r\n                ->andWhere('c.id IN (:categories)')\r\n                ->setParameter('categories', $search->getCategories());\r\n        }\r\n\r\n        $results = $query->getQuery();\r\n        return $this->paginator->paginate(\r\n            $results,\r\n            $search->page,\r\n            10\r\n        );\r\n    }\r\n\r\n    public function findCategory(SearchHome $search, Request $request)\r\n    {\r\n        $query = $this\r\n            ->createQueryBuilder('p')\r\n            ->select('c', 'p')\r\n            ->join('p.Categories', 'c');\r\n\r\n        if (!empty($search->getCategories())) {\r\n            $query = $query\r\n                ->andWhere('c.id IN (:categories)')\r\n                ->setParameter('categories', $search->getCategories());\r\n        }\r\n\r\n        $results = $query->getQuery();\r\n        return $this->paginator->paginate(\r\n            $results,\r\n            $request->query->getInt('page', 1), /*page number*/\r\n            10\r\n        );\r\n\r\n    }\r\n\r\n    /**\r\n     * @param SearchEntity $search\r\n     * @param Request $request\r\n     * @return PaginationInterface\r\n     */\r\n    public function findByTagName(SearchEntity $search,Request $request):PaginationInterface\r\n    {\r\n        $query = $this\r\n            ->createQueryBuilder('p')\r\n            ->select('t', 'p')\r\n            ->join('p.tags', 't');\r\n        $query = $query\r\n            ->andWhere('t.value IN (:tag)')\r\n            ->setParameter('tag', $search->motCle);\r\n\r\n\r\n        $results = $query->getQuery();\r\n        return $this->paginator->paginate(\r\n            $results,\r\n            $request->query->getInt('page', 1), /*page number*/\r\n            10\r\n        );\r\n    }\r\n\r\n    /**\r\n     * @param SearchEntity $search\r\n     * @param Request $request\r\n     * @return PaginationInterface\r\n     */\r\n    public function findByPostTitle(SearchEntity $search,Request $request): PaginationInterface\r\n    {\r\n        $query = $this\r\n            ->createQueryBuilder('p')\r\n            ->select('p')\r\n            ->Where('p.title LIKE :motCle')\r\n            ->setParameter('motCle', \"%{$search->motCle}%\");\r\n        $results = $query->getQuery();\r\n        return $this->paginator->paginate(\r\n            $results,\r\n            $request->query->getInt('page', 1), /*page number*/\r\n            10\r\n        );\r\n    }\r\n\r\n    /**\r\n     * @param SearchEntity $search\r\n     * @param Request $request\r\n     * @return PaginationInterface\r\n     */\r\n    public function findDescriptipn(SearchEntity $search, Request $request): PaginationInterface\r\n    {\r\n        $query = $this\r\n            ->createQueryBuilder('p')\r\n            ->select('p')\r\n            ->Where('p.description LIKE :motCle')\r\n            ->setParameter('motCle', \"%{$search->motCle}%\");\r\n        $results = $query->getQuery();\r\n        return $this->paginator->paginate(\r\n            $results,\r\n            $request->query->getInt('page', 1), /*page number*/\r\n            10\r\n        );\r\n\r\n\r\n    }\r\n\r\n    /**\r\n     * @param UserInterface|null $user\r\n     * @param Request $request\r\n     * @param SearchHome $search\r\n     * @return PaginationInterface\r\n     */\r\n\r\n    public function findPost(?UserInterface $user, Request $request, SearchHome $search):PaginationInterface\r\n    {\r\n\r\n        $query = $this\r\n            ->createQueryBuilder('p')\r\n            ->select('u', 'p')\r\n            ->join('p.user', 'u')\r\n        ->andWhere('u.id IN (:motCle)')\r\n        ->setParameter('motCle', $user->getSubscribedTo());\r\n        if (!empty($search->getMin())) {\r\n            $query = $query\r\n                ->andWhere('p.nblikes >= :min')\r\n                ->setParameter('min', $search->getMin());\r\n        }\r\n        if (!empty($search->getMax())) {\r\n            $query = $query\r\n                ->andWhere('p.nblikes <= :max')\r\n                ->setParameter('max', $search->getMax());\r\n        }\r\n        if (!empty($search->getCategories())) {\r\n            $query = $query\r\n                ->andWhere('c.id IN (:categories)')\r\n                ->setParameter('categories', $search->getCategories());\r\n        }\r\n\r\n        $results = $query->getQuery();\r\n        return $this->paginator->paginate(\r\n            $results,\r\n            $request->query->getInt('page', 1), /*page number*/\r\n            10\r\n        );\r\n\r\n\r\n    }\r\n\r\n    public function findPostById($id){\r\n        $query = $this\r\n            ->createQueryBuilder('p')\r\n            ->select('p')\r\n            ->andWhere('p.id IN (:postId)')\r\n            ->setParameter('postId', $id);\r\n        $result = $query->getQuery();\r\n        return $result->getResult();\r\n    }\r\n\r\n\r\n\r\n\r\n}\r\n
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+---- src/Repository/PostRepository.php	(revision f7dbde30bc7518711944450c8442e846df249c56)
+-+++ src/Repository/PostRepository.php	(date 1593300189348)
+-@@ -3,6 +3,7 @@
+- namespace App\Repository;
+- 
+- use App\Entity\Post;
+-+use App\Entity\Tag;
+- use App\Entity\User;
+- use App\Search\SearchEntity;
+- use App\Search\SearchHome;
+-@@ -207,7 +208,24 @@
+-         return $result->getResult();
+-     }
+- 
+-+    public function findPostByTag(Tag $tag, Request $request)
+-+    {
+-+        $query = $this
+-+            ->createQueryBuilder('p')
+-+            ->select('t', 'p')
+-+            ->join('p.tags', 't');
+-+        $query = $query
+-+            ->andWhere('p.tags IN (:tag)')
+-+            ->setParameter('id', $tag->getValue());
+- 
+-+
+-+        $results = $query->getQuery();
+-+        return $this->paginator->paginate(
+-+            $results,
+-+            $request->query->getInt('page', 1), /*page number*/
+-+            10
+-+        );
+-+    }
+- 
+- 
+- }
+-Index: src/Repository/TagRepository.php
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+><?php\r\n\r\nnamespace App\\Repository;\r\n\r\nuse App\\Entity\\Tag;\r\nuse Doctrine\\Bundle\\DoctrineBundle\\Repository\\ServiceEntityRepository;\r\nuse Doctrine\\Persistence\\ManagerRegistry;\r\n\r\n/**\r\n * @method Tag|null find($id, $lockMode = null, $lockVersion = null)\r\n * @method Tag|null findOneBy(array $criteria, array $orderBy = null)\r\n * @method Tag[]    findAll()\r\n * @method Tag[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)\r\n */\r\nclass TagRepository extends ServiceEntityRepository\r\n{\r\n    public function __construct(ManagerRegistry $registry)\r\n    {\r\n        parent::__construct($registry, Tag::class);\r\n    }\r\n\r\n    // /**\r\n    //  * @return Tag[] Returns an array of Tag objects\r\n    //  */\r\n    /*\r\n    public function findByExampleField($value)\r\n    {\r\n        return $this->createQueryBuilder('t')\r\n            ->andWhere('t.exampleField = :val')\r\n            ->setParameter('val', $value)\r\n            ->orderBy('t.id', 'ASC')\r\n            ->setMaxResults(10)\r\n            ->getQuery()\r\n            ->getResult()\r\n        ;\r\n    }\r\n    */\r\n\r\n    /*\r\n    public function findOneBySomeField($value): ?Tag\r\n    {\r\n        return $this->createQueryBuilder('t')\r\n            ->andWhere('t.exampleField = :val')\r\n            ->setParameter('val', $value)\r\n            ->getQuery()\r\n            ->getOneOrNullResult()\r\n        ;\r\n    }\r\n    */\r\n}\r\n
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+---- src/Repository/TagRepository.php	(revision f7dbde30bc7518711944450c8442e846df249c56)
+-+++ src/Repository/TagRepository.php	(date 1593300461428)
+-@@ -47,4 +47,13 @@
+-         ;
+-     }
+-     */
+-+   /* public function findTagById($id){
+-+        $query = $this
+-+            ->createQueryBuilder('p')
+-+            ->select('p')
+-+            ->andWhere('p.id IN (:tagId)')
+-+            ->setParameter('tagId', $id);
+-+        $result = $query->getQuery();
+-+        return $result->getScalarResult();
+-+    }*/
+- }
+-Index: src/Controller/SearchController.php
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+><?php\r\n\r\nnamespace App\\Controller;\r\n\r\nuse App\\Entity\\Post;\r\nuse App\\Form\\SearchForm;\r\nuse App\\Search\\SearchEntity;\r\nuse App\\Repository\\PostRepository;\r\nuse App\\Repository\\TagRepository;\r\nuse App\\Repository\\UserRepository;\r\nuse Symfony\\Bundle\\FrameworkBundle\\Controller\\AbstractController;\r\nuse Symfony\\Component\\HttpFoundation\\Request;\r\nuse Symfony\\Component\\Routing\\Annotation\\Route;\r\n\r\n/**\r\n * Class SearchController\r\n * @package App\\Controller\r\n * @Route(\"/search\")\r\n */\r\nclass SearchController extends AbstractController\r\n{\r\n    /**\r\n     * @Route(\"/\", name=\"search\")\r\n     */\r\n    public function search(Request $request,TagRepository $tagRepository,PostRepository $postRepository,UserRepository $userRepository)\r\n    {\r\n        $search=new SearchEntity();\r\n        $form= $this->createForm(SearchForm::class,$search);\r\n        $form->handleRequest($request);\r\n\r\n        if ($form->isSubmitted() && $form->isValid()){\r\n            if ($search->choice==\"Users\"){\r\n                $users=$userRepository->findSearch($search,$request);\r\n                if ($search->view==\"Normal\"){\r\n                    $view='search/usersSearch.html.twig';\r\n                }\r\n                else{\r\n                    $view='search/sliderUser.html.twig';\r\n                }\r\n                return$this->render($view,[\r\n                    'users'=>$users,\r\n                    'tag'=>$search->motCle,\r\n                    'type'=>'User'\r\n                ]);\r\n            }\r\n            if ($search->choice==\"Tags\"){\r\n                $posts=$postRepository->findByTagName($search,$request);\r\n                if ($search->view==\"Normal\"){\r\n                    $view='search/postSearch.html.twig';\r\n                }\r\n                else{\r\n                    $view='search/sliderPost.html.twig';\r\n                }\r\n                return$this->render($view,[\r\n                    'posts'=>$posts,\r\n                    'tag'=>$search->motCle,\r\n                    'type'=>'TAG'\r\n                ]);\r\n            }\r\n            if ($search->choice==\"Post Title\"){\r\n                $posts=$postRepository->findByPostTitle($search,$request);\r\n                if ($search->view==\"Normal\"){\r\n                    $view='search/postSearch.html.twig';\r\n                }\r\n                else{\r\n                    $view='search/sliderPost.html.twig';\r\n                }\r\n                return$this->render($view,[\r\n                    'posts'=>$posts,\r\n                    'tag'=>$search->motCle,\r\n                    'type'=>'Post'\r\n                ]);\r\n            }\r\n            if ($search->choice==\"Description\"){\r\n                $posts=$postRepository->findDescriptipn($search,$request);\r\n                if ($search->view==\"Normal\"){\r\n                    $view='search/postSearch.html.twig';\r\n                }\r\n                else{\r\n                    $view='search/sliderPost.html.twig';\r\n                }\r\n                return$this->render($view,[\r\n                    'posts'=>$posts,\r\n                    'tag'=>$search->motCle,\r\n                    'type'=>'Description'\r\n                ]);\r\n            }\r\n\r\n        }\r\n        if ($request->query->get('choice')==\"Users\"){\r\n            $users=$userRepository->findSearch($search,$request);\r\n            if ($request->query->get('view')==\"Normal\"){\r\n                $view='search/usersSearch.html.twig';\r\n            }\r\n            else{\r\n                $view='search/sliderUser.html.twig';\r\n            }\r\n            return$this->render($view,[\r\n                'users'=>$users,\r\n                'tag'=>$search->motCle,\r\n                'type'=>'User'\r\n            ]);\r\n        }\r\n        if ($request->query->get('view')==\"Description\"){\r\n            $posts=$postRepository->findDescriptipn($search,$request);\r\n            if ($search->view==\"Normal\"){\r\n                $view='search/postSearch.html.twig';\r\n            }\r\n            else{\r\n                $view='search/sliderPost.html.twig';\r\n            }\r\n            return$this->render($view,[\r\n                'posts'=>$posts,\r\n                'tag'=>$search->motCle,\r\n                'type'=>'Description'\r\n            ]);\r\n        }\r\n        if ($request->query->get('view')==\"Post Title\") {\r\n            $posts = $postRepository->findByPostTitle($search, $request);\r\n            if ($search->view==\"Normal\"){\r\n                $view='search/postSearch.html.twig';\r\n            }\r\n            else{\r\n                $view='search/sliderPost.html.twig';\r\n            }\r\n            return$this->render($view,[\r\n                'posts'=>$posts,\r\n                'tag'=>$search->motCle,\r\n                'type'=>'Post'\r\n            ]);\r\n        }\r\n        if ($request->query->get('view')==\"Tags\"){\r\n            $posts=$postRepository->findByTagName($search,$request);\r\n            if ($search->view==\"Normal\"){\r\n                $view='search/postSearch.html.twig';\r\n            }\r\n            else{\r\n                $view='search/sliderPost.html.twig';\r\n            }\r\n            return$this->render($view,[\r\n                'posts'=>$posts,\r\n                'tag'=>$search->motCle,\r\n                'type'=>'TAG'\r\n            ]);\r\n        }\r\n        return $this->render('search/search.html.twig', [\r\n            'form'=>$form->createView()\r\n        ]);\r\n    }\r\n\r\n\r\n\r\n}\r\n
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+---- src/Controller/SearchController.php	(revision f7dbde30bc7518711944450c8442e846df249c56)
+-+++ src/Controller/SearchController.php	(date 1593300371588)
+-@@ -8,10 +8,12 @@
+- use App\Repository\PostRepository;
+- use App\Repository\TagRepository;
+- use App\Repository\UserRepository;
+-+use phpDocumentor\Reflection\DocBlock\Tag;
+-+use phpDocumentor\Reflection\Type;
+- use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+- use Symfony\Component\HttpFoundation\Request;
+-+use Symfony\Component\HttpFoundation\Response;
+- use Symfony\Component\Routing\Annotation\Route;
+--
+- /**
+-  * Class SearchController
+-  * @package App\Controller
+-@@ -148,6 +150,23 @@
+-         ]);
+-     }
+- 
+-+    /**
+-+     * @param $id
+-+     * @param PostRepository $repository
+-+     * @param Request $request
+-+     * @return Response
+-+     * @Route("/tags/{id<\d+>}",name="tagg")
+-+     */
+-+public function tagFinder($id,PostRepository $repository,Request $request,TagRepository $tagRepository){
+-+    $tagName=$tagRepository->findTagById($id);
+-+    $posts = $repository->findPostByTag($tagName,$request);
+-+    dd($posts);
+-+    return $this->render('search/postSearch.html.twig', [
+-+        'posts' => $posts,
+-+        'type'=>'TAG',
+-+        'tag'=>'salem'
+-+    ]);
+- 
+-+}
+- 
+- }
+-Index: public/home.js
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+---- public/home.js	(date 1593291843842)
+-+++ public/home.js	(date 1593291843842)
+-@@ -0,0 +1,26 @@
+-+sort=document.querySelector('.sort_ajax')
+-+sort.querySelectorAll('a').forEach((a=> {
+-+    a.addEventListener('click',e=>{
+-+        e.preventDefault();
+-+      var   url=a.getAttribute('href');
+-+        getUrl(url);
+-+    })
+-+}))
+-+async function getUrl(url) {
+-+    var content = document.querySelector('.content_ajax')
+-+    const response=await fetch(url,{
+-+        headers:{
+-+            'Content-Type': 'application/json',
+-+            'Accept': 'application/json',
+-+        }
+-+            .then((response) => response.json())
+-+            .then((messages) => {console.log("messages");})
+-+    })
+-+    if (response.status>=200 && response.status<300){
+-+        const data = await response.json();
+-+        content.innerHTML=data.content;
+-+    }
+-+    else {
+-+        console.error(response)
+-+    }
+-+}
+-\ No newline at end of file
+Index: .idea/shelf/Uncommitted_changes_before_Update_at_28_06_2020_00_27__Default_Changelist_.xml
+===================================================================
+--- .idea/shelf/Uncommitted_changes_before_Update_at_28_06_2020_00_27__Default_Changelist_.xml	(revision 2fbb9258ed819a4a5d04c97d6410835264122808)
++++ .idea/shelf/Uncommitted_changes_before_Update_at_28_06_2020_00_27__Default_Changelist_.xml	(revision 2fbb9258ed819a4a5d04c97d6410835264122808)
+@@ -1,4 +0,0 @@
+-<changelist name="Uncommitted_changes_before_Update_at_28_06_2020_00_27_[Default_Changelist]" date="1593300476770" recycled="true" deleted="true">
+-  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_28_06_2020_00_27_[Default_Changelist]/shelved.patch" />
+-  <option name="DESCRIPTION" value="Uncommitted changes before Update at 28/06/2020 00:27 [Default Changelist]" />
+-</changelist>
+\ No newline at end of file
+Index: symfony.lock
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>{\r\n    \"doctrine/annotations\": {\r\n        \"version\": \"1.0\",\r\n        \"recipe\": {\r\n            \"repo\": \"github.com/symfony/recipes\",\r\n            \"branch\": \"master\",\r\n            \"version\": \"1.0\",\r\n            \"ref\": \"a2759dd6123694c8d901d0ec80006e044c2e6457\"\r\n        },\r\n        \"files\": [\r\n            \"./config/routes/annotations.yaml\"\r\n        ]\r\n    },\r\n    \"doctrine/cache\": {\r\n        \"version\": \"1.10.0\"\r\n    },\r\n    \"doctrine/collections\": {\r\n        \"version\": \"1.6.4\"\r\n    },\r\n    \"doctrine/common\": {\r\n        \"version\": \"2.12.0\"\r\n    },\r\n    \"doctrine/data-fixtures\": {\r\n        \"version\": \"1.4.3\"\r\n    },\r\n    \"doctrine/dbal\": {\r\n        \"version\": \"2.10.2\"\r\n    },\r\n    \"doctrine/doctrine-bundle\": {\r\n        \"version\": \"2.0\",\r\n        \"recipe\": {\r\n            \"repo\": \"github.com/symfony/recipes\",\r\n            \"branch\": \"master\",\r\n            \"version\": \"2.0\",\r\n            \"ref\": \"a9f2463b9f73efe74482f831f03a204a41328555\"\r\n        },\r\n        \"files\": [\r\n            \"./config/packages/doctrine.yaml\",\r\n            \"./config/packages/prod/doctrine.yaml\",\r\n            \"./src/Entity/.gitignore\",\r\n            \"./src/Repository/.gitignore\"\r\n        ]\r\n    },\r\n    \"doctrine/doctrine-fixtures-bundle\": {\r\n        \"version\": \"3.0\",\r\n        \"recipe\": {\r\n            \"repo\": \"github.com/symfony/recipes\",\r\n            \"branch\": \"master\",\r\n            \"version\": \"3.0\",\r\n            \"ref\": \"fc52d86631a6dfd9fdf3381d0b7e3df2069e51b3\"\r\n        },\r\n        \"files\": [\r\n            \"./src/DataFixtures/AppFixtures.php\"\r\n        ]\r\n    },\r\n    \"doctrine/doctrine-migrations-bundle\": {\r\n        \"version\": \"1.2\",\r\n        \"recipe\": {\r\n            \"repo\": \"github.com/symfony/recipes\",\r\n            \"branch\": \"master\",\r\n            \"version\": \"1.2\",\r\n            \"ref\": \"c1431086fec31f17fbcfe6d6d7e92059458facc1\"\r\n        },\r\n        \"files\": [\r\n            \"./config/packages/doctrine_migrations.yaml\",\r\n            \"./src/Migrations/.gitignore\"\r\n        ]\r\n    },\r\n    \"doctrine/event-manager\": {\r\n        \"version\": \"1.1.0\"\r\n    },\r\n    \"doctrine/inflector\": {\r\n        \"version\": \"1.3.1\"\r\n    },\r\n    \"doctrine/instantiator\": {\r\n        \"version\": \"1.3.0\"\r\n    },\r\n    \"doctrine/lexer\": {\r\n        \"version\": \"1.2.0\"\r\n    },\r\n    \"doctrine/migrations\": {\r\n        \"version\": \"2.2.1\"\r\n    },\r\n    \"doctrine/orm\": {\r\n        \"version\": \"v2.7.2\"\r\n    },\r\n    \"doctrine/persistence\": {\r\n        \"version\": \"1.3.7\"\r\n    },\r\n    \"doctrine/reflection\": {\r\n        \"version\": \"1.2.1\"\r\n    },\r\n    \"doctrine/sql-formatter\": {\r\n        \"version\": \"1.1.0\"\r\n    },\r\n    \"egulias/email-validator\": {\r\n        \"version\": \"2.1.17\"\r\n    },\r\n    \"fzaninotto/faker\": {\r\n        \"version\": \"v1.9.1\"\r\n    },\r\n    \"hautelook/alice-bundle\": {\r\n        \"version\": \"2.1\",\r\n        \"recipe\": {\r\n            \"repo\": \"github.com/symfony/recipes\",\r\n            \"branch\": \"master\",\r\n            \"version\": \"2.1\",\r\n            \"ref\": \"71822522faf7ed2792d86b7f94ce73443358ccb9\"\r\n        },\r\n        \"files\": [\r\n            \"./config/packages/dev/hautelook_alice.yaml\",\r\n            \"./config/packages/test/hautelook_alice.yaml\",\r\n            \"./fixtures/.gitignore\"\r\n        ]\r\n    },\r\n    \"jdorn/sql-formatter\": {\r\n        \"version\": \"v1.2.17\"\r\n    },\r\n    \"knplabs/knp-components\": {\r\n        \"version\": \"v2.3.5\"\r\n    },\r\n    \"knplabs/knp-paginator-bundle\": {\r\n        \"version\": \"v5.2.0\"\r\n    },\r\n    \"laminas/laminas-code\": {\r\n        \"version\": \"3.4.1\"\r\n    },\r\n    \"laminas/laminas-eventmanager\": {\r\n        \"version\": \"3.2.1\"\r\n    },\r\n    \"laminas/laminas-zendframework-bridge\": {\r\n        \"version\": \"1.0.3\"\r\n    },\r\n    \"mbezhanov/faker-provider-collection\": {\r\n        \"version\": \"1.2.1\"\r\n    },\r\n    \"monolog/monolog\": {\r\n        \"version\": \"2.0.2\"\r\n    },\r\n    \"myclabs/deep-copy\": {\r\n        \"version\": \"1.9.5\"\r\n    },\r\n    \"nelmio/alice\": {\r\n        \"version\": \"3.2\",\r\n        \"recipe\": {\r\n            \"repo\": \"github.com/symfony/recipes\",\r\n            \"branch\": \"master\",\r\n            \"version\": \"3.2\",\r\n            \"ref\": \"0b9900ece737bec7752e4155c0164639dd9b0cb0\"\r\n        },\r\n        \"files\": [\r\n            \"./config/packages/dev/nelmio_alice.yaml\",\r\n            \"./config/packages/test/nelmio_alice.yaml\"\r\n        ]\r\n    },\r\n    \"nikic/php-parser\": {\r\n        \"version\": \"v4.4.0\"\r\n    },\r\n    \"ocramius/package-versions\": {\r\n        \"version\": \"1.8.0\"\r\n    },\r\n    \"ocramius/proxy-manager\": {\r\n        \"version\": \"2.8.0\"\r\n    },\r\n    \"php\": {\r\n        \"version\": \"7.4\"\r\n    },\r\n    \"phpdocumentor/reflection-common\": {\r\n        \"version\": \"2.0.0\"\r\n    },\r\n    \"phpdocumentor/reflection-docblock\": {\r\n        \"version\": \"5.1.0\"\r\n    },\r\n    \"phpdocumentor/type-resolver\": {\r\n        \"version\": \"1.1.0\"\r\n    },\r\n    \"psr/cache\": {\r\n        \"version\": \"1.0.1\"\r\n    },\r\n    \"psr/container\": {\r\n        \"version\": \"1.0.0\"\r\n    },\r\n    \"psr/event-dispatcher\": {\r\n        \"version\": \"1.0.0\"\r\n    },\r\n    \"psr/link\": {\r\n        \"version\": \"1.0.0\"\r\n    },\r\n    \"psr/log\": {\r\n        \"version\": \"1.1.3\"\r\n    },\r\n    \"sebastian/comparator\": {\r\n        \"version\": \"4.0.0\"\r\n    },\r\n    \"sebastian/diff\": {\r\n        \"version\": \"4.0.1\"\r\n    },\r\n    \"sebastian/exporter\": {\r\n        \"version\": \"4.0.0\"\r\n    },\r\n    \"sebastian/recursion-context\": {\r\n        \"version\": \"4.0.0\"\r\n    },\r\n    \"sensio/framework-extra-bundle\": {\r\n        \"version\": \"5.2\",\r\n        \"recipe\": {\r\n            \"repo\": \"github.com/symfony/recipes\",\r\n            \"branch\": \"master\",\r\n            \"version\": \"5.2\",\r\n            \"ref\": \"fb7e19da7f013d0d422fa9bce16f5c510e27609b\"\r\n        },\r\n        \"files\": [\r\n            \"./config/packages/sensio_framework_extra.yaml\"\r\n        ]\r\n    },\r\n    \"swiftmailer/swiftmailer\": {\r\n        \"version\": \"v6.2.3\"\r\n    },\r\n    \"symfony/asset\": {\r\n        \"version\": \"v5.0.7\"\r\n    },\r\n    \"symfony/browser-kit\": {\r\n        \"version\": \"v5.0.7\"\r\n    },\r\n    \"symfony/cache\": {\r\n        \"version\": \"v5.0.7\"\r\n    },\r\n    \"symfony/cache-contracts\": {\r\n        \"version\": \"v2.0.1\"\r\n    },\r\n    \"symfony/config\": {\r\n        \"version\": \"v5.0.7\"\r\n    },\r\n    \"symfony/console\": {\r\n        \"version\": \"4.4\",\r\n        \"recipe\": {\r\n            \"repo\": \"github.com/symfony/recipes\",\r\n            \"branch\": \"master\",\r\n            \"version\": \"4.4\",\r\n            \"ref\": \"ea8c0eda34fda57e7d5cd8cbd889e2a387e3472c\"\r\n        },\r\n        \"files\": [\r\n            \"./bin/console\",\r\n            \"./config/bootstrap.php\"\r\n        ]\r\n    },\r\n    \"symfony/css-selector\": {\r\n        \"version\": \"v5.0.7\"\r\n    },\r\n    \"symfony/debug-bundle\": {\r\n        \"version\": \"4.1\",\r\n        \"recipe\": {\r\n            \"repo\": \"github.com/symfony/recipes\",\r\n            \"branch\": \"master\",\r\n            \"version\": \"4.1\",\r\n            \"ref\": \"f8863cbad2f2e58c4b65fa1eac892ab189971bea\"\r\n        },\r\n        \"files\": [\r\n            \"./config/packages/dev/debug.yaml\"\r\n        ]\r\n    },\r\n    \"symfony/debug-pack\": {\r\n        \"version\": \"v1.0.8\"\r\n    },\r\n    \"symfony/dependency-injection\": {\r\n        \"version\": \"v5.0.7\"\r\n    },\r\n    \"symfony/doctrine-bridge\": {\r\n        \"version\": \"v5.0.7\"\r\n    },\r\n    \"symfony/dom-crawler\": {\r\n        \"version\": \"v5.0.7\"\r\n    },\r\n    \"symfony/dotenv\": {\r\n        \"version\": \"v5.0.7\"\r\n    },\r\n    \"symfony/error-handler\": {\r\n        \"version\": \"v5.0.7\"\r\n    },\r\n    \"symfony/event-dispatcher\": {\r\n        \"version\": \"v5.0.7\"\r\n    },\r\n    \"symfony/event-dispatcher-contracts\": {\r\n        \"version\": \"v2.0.1\"\r\n    },\r\n    \"symfony/expression-language\": {\r\n        \"version\": \"v5.0.7\"\r\n    },\r\n    \"symfony/filesystem\": {\r\n        \"version\": \"v5.0.7\"\r\n    },\r\n    \"symfony/finder\": {\r\n        \"version\": \"v5.0.7\"\r\n    },\r\n    \"symfony/flex\": {\r\n        \"version\": \"1.0\",\r\n        \"recipe\": {\r\n            \"repo\": \"github.com/symfony/recipes\",\r\n            \"branch\": \"master\",\r\n            \"version\": \"1.0\",\r\n            \"ref\": \"c0eeb50665f0f77226616b6038a9b06c03752d8e\"\r\n        },\r\n        \"files\": [\r\n            \"./.env\"\r\n        ]\r\n    },\r\n    \"symfony/form\": {\r\n        \"version\": \"v5.0.7\"\r\n    },\r\n    \"symfony/framework-bundle\": {\r\n        \"version\": \"4.4\",\r\n        \"recipe\": {\r\n            \"repo\": \"github.com/symfony/recipes\",\r\n            \"branch\": \"master\",\r\n            \"version\": \"4.4\",\r\n            \"ref\": \"23ecaccc551fe2f74baf613811ae529eb07762fa\"\r\n        },\r\n        \"files\": [\r\n            \"./config/bootstrap.php\",\r\n            \"./config/packages/cache.yaml\",\r\n            \"./config/packages/framework.yaml\",\r\n            \"./config/packages/test/framework.yaml\",\r\n            \"./config/routes/dev/framework.yaml\",\r\n            \"./config/services.yaml\",\r\n            \"./public/index.php\",\r\n            \"./src/Controller/.gitignore\",\r\n            \"./src/Kernel.php\"\r\n        ]\r\n    },\r\n    \"symfony/http-client\": {\r\n        \"version\": \"v5.0.7\"\r\n    },\r\n    \"symfony/http-client-contracts\": {\r\n        \"version\": \"v2.0.1\"\r\n    },\r\n    \"symfony/http-foundation\": {\r\n        \"version\": \"v5.0.7\"\r\n    },\r\n    \"symfony/http-kernel\": {\r\n        \"version\": \"v5.0.7\"\r\n    },\r\n    \"symfony/inflector\": {\r\n        \"version\": \"v5.0.7\"\r\n    },\r\n    \"symfony/intl\": {\r\n        \"version\": \"v5.0.7\"\r\n    },\r\n    \"symfony/mailer\": {\r\n        \"version\": \"4.3\",\r\n        \"recipe\": {\r\n            \"repo\": \"github.com/symfony/recipes\",\r\n            \"branch\": \"master\",\r\n            \"version\": \"4.3\",\r\n            \"ref\": \"15658c2a0176cda2e7dba66276a2030b52bd81b2\"\r\n        },\r\n        \"files\": [\r\n            \"./config/packages/mailer.yaml\"\r\n        ]\r\n    },\r\n    \"symfony/maker-bundle\": {\r\n        \"version\": \"1.0\",\r\n        \"recipe\": {\r\n            \"repo\": \"github.com/symfony/recipes\",\r\n            \"branch\": \"master\",\r\n            \"version\": \"1.0\",\r\n            \"ref\": \"fadbfe33303a76e25cb63401050439aa9b1a9c7f\"\r\n        }\r\n    },\r\n    \"symfony/mime\": {\r\n        \"version\": \"v5.0.7\"\r\n    },\r\n    \"symfony/monolog-bridge\": {\r\n        \"version\": \"v5.0.7\"\r\n    },\r\n    \"symfony/monolog-bundle\": {\r\n        \"version\": \"3.3\",\r\n        \"recipe\": {\r\n            \"repo\": \"github.com/symfony/recipes\",\r\n            \"branch\": \"master\",\r\n            \"version\": \"3.3\",\r\n            \"ref\": \"a89f4cd8a232563707418eea6c2da36acd36a917\"\r\n        },\r\n        \"files\": [\r\n            \"./config/packages/dev/monolog.yaml\",\r\n            \"./config/packages/prod/monolog.yaml\",\r\n            \"./config/packages/test/monolog.yaml\"\r\n        ]\r\n    },\r\n    \"symfony/notifier\": {\r\n        \"version\": \"5.0\",\r\n        \"recipe\": {\r\n            \"repo\": \"github.com/symfony/recipes\",\r\n            \"branch\": \"master\",\r\n            \"version\": \"5.0\",\r\n            \"ref\": \"c31585e252b32fe0e1f30b1f256af553f4a06eb9\"\r\n        },\r\n        \"files\": [\r\n            \"./config/packages/notifier.yaml\"\r\n        ]\r\n    },\r\n    \"symfony/options-resolver\": {\r\n        \"version\": \"v5.0.7\"\r\n    },\r\n    \"symfony/orm-pack\": {\r\n        \"version\": \"v1.0.8\"\r\n    },\r\n    \"symfony/phpunit-bridge\": {\r\n        \"version\": \"4.3\",\r\n        \"recipe\": {\r\n            \"repo\": \"github.com/symfony/recipes\",\r\n            \"branch\": \"master\",\r\n            \"version\": \"4.3\",\r\n            \"ref\": \"6d0e35f749d5f4bfe1f011762875275cd3f9874f\"\r\n        },\r\n        \"files\": [\r\n            \"./.env.test\",\r\n            \"./bin/phpunit\",\r\n            \"./phpunit.xml.dist\",\r\n            \"./tests/bootstrap.php\"\r\n        ]\r\n    },\r\n    \"symfony/polyfill-intl-grapheme\": {\r\n        \"version\": \"v1.15.0\"\r\n    },\r\n    \"symfony/polyfill-intl-icu\": {\r\n        \"version\": \"v1.15.0\"\r\n    },\r\n    \"symfony/polyfill-intl-idn\": {\r\n        \"version\": \"v1.15.0\"\r\n    },\r\n    \"symfony/polyfill-intl-normalizer\": {\r\n        \"version\": \"v1.15.0\"\r\n    },\r\n    \"symfony/polyfill-mbstring\": {\r\n        \"version\": \"v1.15.0\"\r\n    },\r\n    \"symfony/polyfill-php73\": {\r\n        \"version\": \"v1.15.0\"\r\n    },\r\n    \"symfony/polyfill-php80\": {\r\n        \"version\": \"v1.17.0\"\r\n    },\r\n    \"symfony/process\": {\r\n        \"version\": \"v5.0.7\"\r\n    },\r\n    \"symfony/profiler-pack\": {\r\n        \"version\": \"v1.0.4\"\r\n    },\r\n    \"symfony/property-access\": {\r\n        \"version\": \"v5.0.7\"\r\n    },\r\n    \"symfony/property-info\": {\r\n        \"version\": \"v5.0.7\"\r\n    },\r\n    \"symfony/routing\": {\r\n        \"version\": \"4.2\",\r\n        \"recipe\": {\r\n            \"repo\": \"github.com/symfony/recipes\",\r\n            \"branch\": \"master\",\r\n            \"version\": \"4.2\",\r\n            \"ref\": \"683dcb08707ba8d41b7e34adb0344bfd68d248a7\"\r\n        },\r\n        \"files\": [\r\n            \"./config/packages/prod/routing.yaml\",\r\n            \"./config/packages/routing.yaml\",\r\n            \"./config/routes.yaml\"\r\n        ]\r\n    },\r\n    \"symfony/security-bundle\": {\r\n        \"version\": \"4.4\",\r\n        \"recipe\": {\r\n            \"repo\": \"github.com/symfony/recipes\",\r\n            \"branch\": \"master\",\r\n            \"version\": \"4.4\",\r\n            \"ref\": \"7b4408dc203049666fe23fabed23cbadc6d8440f\"\r\n        },\r\n        \"files\": [\r\n            \"./config/packages/security.yaml\"\r\n        ]\r\n    },\r\n    \"symfony/security-core\": {\r\n        \"version\": \"v5.0.7\"\r\n    },\r\n    \"symfony/security-csrf\": {\r\n        \"version\": \"v5.0.7\"\r\n    },\r\n    \"symfony/security-guard\": {\r\n        \"version\": \"v5.0.7\"\r\n    },\r\n    \"symfony/security-http\": {\r\n        \"version\": \"v5.0.7\"\r\n    },\r\n    \"symfony/serializer\": {\r\n        \"version\": \"v5.0.7\"\r\n    },\r\n    \"symfony/serializer-pack\": {\r\n        \"version\": \"v1.0.3\"\r\n    },\r\n    \"symfony/service-contracts\": {\r\n        \"version\": \"v2.0.1\"\r\n    },\r\n    \"symfony/stopwatch\": {\r\n        \"version\": \"v5.0.7\"\r\n    },\r\n    \"symfony/string\": {\r\n        \"version\": \"v5.0.7\"\r\n    },\r\n    \"symfony/swiftmailer-bundle\": {\r\n        \"version\": \"2.5\",\r\n        \"recipe\": {\r\n            \"repo\": \"github.com/symfony/recipes\",\r\n            \"branch\": \"master\",\r\n            \"version\": \"2.5\",\r\n            \"ref\": \"ae4d22af30bbd484506bc1817c5a3ef72c855b93\"\r\n        },\r\n        \"files\": [\r\n            \"./config/packages/dev/swiftmailer.yaml\",\r\n            \"./config/packages/swiftmailer.yaml\",\r\n            \"./config/packages/test/swiftmailer.yaml\"\r\n        ]\r\n    },\r\n    \"symfony/test-pack\": {\r\n        \"version\": \"v1.0.6\"\r\n    },\r\n    \"symfony/translation\": {\r\n        \"version\": \"3.3\",\r\n        \"recipe\": {\r\n            \"repo\": \"github.com/symfony/recipes\",\r\n            \"branch\": \"master\",\r\n            \"version\": \"3.3\",\r\n            \"ref\": \"2ad9d2545bce8ca1a863e50e92141f0b9d87ffcd\"\r\n        },\r\n        \"files\": [\r\n            \"./config/packages/translation.yaml\",\r\n            \"./translations/.gitignore\"\r\n        ]\r\n    },\r\n    \"symfony/translation-contracts\": {\r\n        \"version\": \"v2.0.1\"\r\n    },\r\n    \"symfony/twig-bridge\": {\r\n        \"version\": \"v5.0.7\"\r\n    },\r\n    \"symfony/twig-bundle\": {\r\n        \"version\": \"5.0\",\r\n        \"recipe\": {\r\n            \"repo\": \"github.com/symfony/recipes\",\r\n            \"branch\": \"master\",\r\n            \"version\": \"5.0\",\r\n            \"ref\": \"fab9149bbaa4d5eca054ed93f9e1b66cc500895d\"\r\n        },\r\n        \"files\": [\r\n            \"./config/packages/test/twig.yaml\",\r\n            \"./config/packages/twig.yaml\",\r\n            \"./templates/base.html.twig\"\r\n        ]\r\n    },\r\n    \"symfony/twig-pack\": {\r\n        \"version\": \"v1.0.0\"\r\n    },\r\n    \"symfony/validator\": {\r\n        \"version\": \"4.3\",\r\n        \"recipe\": {\r\n            \"repo\": \"github.com/symfony/recipes\",\r\n            \"branch\": \"master\",\r\n            \"version\": \"4.3\",\r\n            \"ref\": \"d902da3e4952f18d3bf05aab29512eb61cabd869\"\r\n        },\r\n        \"files\": [\r\n            \"./config/packages/test/validator.yaml\",\r\n            \"./config/packages/validator.yaml\"\r\n        ]\r\n    },\r\n    \"symfony/var-dumper\": {\r\n        \"version\": \"v5.0.7\"\r\n    },\r\n    \"symfony/var-exporter\": {\r\n        \"version\": \"v5.0.7\"\r\n    },\r\n    \"symfony/web-link\": {\r\n        \"version\": \"v5.0.7\"\r\n    },\r\n    \"symfony/web-profiler-bundle\": {\r\n        \"version\": \"3.3\",\r\n        \"recipe\": {\r\n            \"repo\": \"github.com/symfony/recipes\",\r\n            \"branch\": \"master\",\r\n            \"version\": \"3.3\",\r\n            \"ref\": \"6bdfa1a95f6b2e677ab985cd1af2eae35d62e0f6\"\r\n        },\r\n        \"files\": [\r\n            \"./config/packages/dev/web_profiler.yaml\",\r\n            \"./config/packages/test/web_profiler.yaml\",\r\n            \"./config/routes/dev/web_profiler.yaml\"\r\n        ]\r\n    },\r\n    \"symfony/web-server-bundle\": {\r\n        \"version\": \"3.3\",\r\n        \"recipe\": {\r\n            \"repo\": \"github.com/symfony/recipes\",\r\n            \"branch\": \"master\",\r\n            \"version\": \"3.3\",\r\n            \"ref\": \"dae9b39fd6717970be7601101ce5aa960bf53d9a\"\r\n        }\r\n    },\r\n    \"symfony/yaml\": {\r\n        \"version\": \"v5.0.7\"\r\n    },\r\n    \"theofidry/alice-data-fixtures\": {\r\n        \"version\": \"1.0\",\r\n        \"recipe\": {\r\n            \"repo\": \"github.com/symfony/recipes\",\r\n            \"branch\": \"master\",\r\n            \"version\": \"1.0\",\r\n            \"ref\": \"fe5a50faf580eb58f08ada2abe8afbd2d4941e05\"\r\n        }\r\n    },\r\n    \"twig/extra-bundle\": {\r\n        \"version\": \"v3.0.3\"\r\n    },\r\n    \"twig/twig\": {\r\n        \"version\": \"v3.0.3\"\r\n    },\r\n    \"webimpress/safe-writer\": {\r\n        \"version\": \"2.0.1\"\r\n    },\r\n    \"webmozart/assert\": {\r\n        \"version\": \"1.8.0\"\r\n    },\r\n    \"zendframework/zend-code\": {\r\n        \"version\": \"3.4.1\"\r\n    },\r\n    \"zendframework/zend-eventmanager\": {\r\n        \"version\": \"3.2.1\"\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- symfony.lock	(revision 2fbb9258ed819a4a5d04c97d6410835264122808)
++++ symfony.lock	(date 1594484919961)
+@@ -163,7 +163,7 @@
+         "version": "2.8.0"
+     },
+     "php": {
+-        "version": "7.4"
++        "version": "7.3"
+     },
+     "phpdocumentor/reflection-common": {
+         "version": "2.0.0"

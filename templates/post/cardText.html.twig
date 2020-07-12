@@ -1,0 +1,49 @@
+<div class="card img-fluid post border-light " style="width:760px">
+    <div class="card-body text-black">
+        <h5 class="card-title">
+            <a href="# ">
+                <img class="rounded-circle mr-2-3" src="{{ post.user.profilePicture }}"
+                     href="{{ path('profile',{id:post.user.id}) }} " alt="" height="30px" width="30px"></a>
+            <a href="{{ path('profile',{id:post.user.id}) }}" class="ml-2 text-warning">{{ post.user.nom }}</a>
+        </h5>
+        <h6 class="card-subtitle mb-2 text-muted">
+            <i class="fa fa-hourglass" style=' padding:5px;font-size:18px;rgba(251,235,61,0.95)'></i>
+            {{ post.createdAt | date("F jS \\a\\t g:ia") }}
+        </h6>
+        <p class="card-text card-opacity text-center p-2" style="font-family: 'Fondamento', cursive; font-size: 20px;background-color: seashell;color: black; font-weight: bold">
+            {{post.content}}</p>
+    </div>
+    <div class="card__type2"> {{ post.type }}</div>
+    <div class="card-footer bg-transparent border-secondary"><h4 class="card-title text-center text-black font-weight-bold text-secondary">{{ post.title }}</h4>
+        <div>
+            {% for c in post.categories %}
+
+                <em class="text-muted  text-italic "> - {{ c }}</em>
+
+            {% endfor %}
+        </div>
+        <p class="card-text font-weight-bolder card_description text-dark">{{ post.description }}</p>
+        {% for t in post.tags %}
+
+            <a href="{{ path('tagg',{id:t.id}) }}"  class="text-primary text-italic ">#{{ t }}</a>
+
+        {% endfor %}
+        <div class="row">
+            <div class="col-8">
+                <h6 class="card-subtitle mb-2 text-black color_comments_like">
+                    <i class='fas fa-thumbs-up color' style="padding:10px;font-size:20px;color:rgba(251,235,61,0.95)"></i>
+                    {{ post.likes | length }} likes
+                </h6>
+            </div>
+            <div class="col-4">
+                <h6 class="card-subtitle mb-2  text-black">
+                    <i class='fas fa-comment-dots color_comments_like'
+                       style="padding:10px;font-size:20px;color:rgba(251,235,61,0.95)"></i>
+                    {{ post.comments | length }} comments
+                </h6>
+            </div>
+        </div>
+        <a href="{{ path('individual_post',{id:post.id}) }}">
+            <button type="button" class="btn btn-warning">Go To Post</button>
+        </a></div>
+</div>
