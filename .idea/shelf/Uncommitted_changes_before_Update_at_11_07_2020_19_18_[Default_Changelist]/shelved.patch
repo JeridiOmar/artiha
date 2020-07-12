@@ -1,0 +1,90 @@
+Index: templates/individual_post/index.html.twig
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>{% extends 'base.html.twig' %}\r\n\r\n{% block title %}{{ post.title }}{% endblock %}\r\n\r\n{% block body %}\r\n    {% block stylesheets %}\r\n<style>\r\n\r\n\r\n\r\n    body{\r\n    background: #DCDCDC\t;\r\n\r\n    font-family: Arial, Helvetica, sans-serif;\r\n    }\r\n\r\n    /* Style the header */\r\n    header {\r\n        padding: 30px;\r\n        text-align: center;\r\n        font-size: 35px;\r\n        color: white;\r\n    }\r\n\r\n    /* Create two columns/boxes that floats next to each other */\r\n    #s {\r\n        float: left;\r\n        width: 30%;\r\n\r\n        padding: 20px;\r\n    }\r\n\r\n    /* Style the list inside the menu */\r\n\r\n    article {\r\n        float: right;\r\n        padding: 20px;\r\n        width: 70%;\r\n\r\n\r\n    }\r\n\r\n    /* Clear floats after the columns */\r\n    section:after {\r\n        content: \"\";\r\n        display: table;\r\n        clear: both;\r\n    }\r\n\r\n\r\n\r\n    /* Responsive layout - makes the two columns/boxes stack on top of each other instead of next to each other, on small screens */\r\n    @media (max-width: 600px) {\r\n        nav, article {\r\n            width: 100%;\r\n            height: auto;\r\n        }\r\n    }</style>\r\n{#        <link rel=\"stylesheet\" href=\"https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css\" integrity=\"sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk\" crossorigin=\"anonymous\">#}\r\n\r\n    {% endblock %}\r\n\r\n    <!-- Blog Post -->\r\n    <div >\r\n        <a href=\"{{ path('delete', {'id': post.id}) }}\">delete</a>\r\n\r\n        <section>\r\n            <nav id=\"s\">\r\n        {% if post.type == \"PHOTO\" %}\r\n\r\n         <img class=\"figure-img img-fluid rounded\" src=\"{{ post.content }}\" alt=\"Card image\">\r\n        {% elseif post.type== \"VIDEO\" %}\r\n        <video class=\"img-fluid\" playsinline autoplay muted loop>\r\n            <source src=\"https://mdbootstrap.com/img/video/animation-intro.mp4\" type=\"video/mp4\">\r\n        </video>\r\n    {% endif %}\r\n            </nav>\r\n            <article>\r\n            <h2 class=\"card-title\" style=\"color: #cfa0e9\">{{ post.title }}</h2>\r\n            <div class=\"text-muted\">\r\n                Posted on {{ post.createdAt | date(\"F jS \\\\a\\\\t g:ia\") }} by\r\n                <img class=\"rounded-circle mr-2-3\" src=\"{{ post.user.profilePicture }}\"\r\n                     href=\"{{ path('profile',{id:post.user.id}) }} \" alt=\"\" height=\"30px\" width=\"30px\"></a>\r\n                <a  style=\"color: #cfa0e9\" href=\"{{ path('profile',{id:post.user.id}) }}\" class=\"ml-2\">{{ post.user.nom }} {{ post.user.prenom }}</a>\r\n            </div>\r\n                <div class=\"card-img-top p-2\">\r\n                    <div>\r\n                        {% for c in post.categories %}\r\n\r\n                            <em class=\"text-muted  text-italic \"> - {{ c }}</em>\r\n\r\n                        {% endfor %}\r\n                    </div>\r\n                    <p class=\"card-text font-weight-bolder card_description text-dark\">{{ post.description }}</p>\r\n                    {% for t in post.tags %}\r\n\r\n                        <a href=\"#\" style=\"color: #cfa0e9\" class=\"text-italic \">#{{ t }}</a>\r\n\r\n                    {% endfor %}\r\n                    <div class=\"row\">\r\n                        <div class=\"col-8\">\r\n{#                            <a href=\"{{ path('subscribe'\"#}\r\n                            <h6 class=\"card-subtitle mb-2 text-black color_comments_like\">\r\n                                <a href=\"{{ path('post_like',{id:post.id}) }}\" class=\"btn js-like\" style=\"color: #cfa0e9\">\r\n                                {% if app.user and post.isLikedByUser(app.user) %}\r\n                                <i class='fas fa-thumbs-up color js-likebtn' style=\"padding:10px;font-size:20px;color: #cfa0e9\"></i>\r\n                                {% else %}\r\n                                    <i class=\"far fa-thumbs-up js-likebtn\" style=\"padding:10px;font-size:20px;color: #cfa0e9\"></i>\r\n\r\n\r\n                                {% endif %}\r\n                                <span class=\"js-likes\"> {{ post.likes | length }} </span>\r\n\r\n                                    <span class=\"liker\"> like </span>\r\n                                </a>\r\n                            </h6>\r\n                            <button onclick=\"showLikers()\">show likers</button>\r\n\r\n                            <div id=\"likers\">\r\n                                {% for like in likes %}\r\n                                    <li> {{like.user.nom }} {{ like.user.prenom }}</li>\r\n                                {% endfor %}\r\n                            </div>\r\n\r\n\r\n{#                                <!-- Small modal -->#}\r\n{#                                <button type=\"button\" class=\"btn btn-primary\" data-toggle=\"modal\" data-target=\".bd-example-modal-sm\">Small modal</button>#}\r\n\r\n{#                                <div class=\"modal fade bd-example-modal-sm\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"mySmallModalLabel\" aria-hidden=\"true\">#}\r\n{#                                    <div class=\"modal-dialog modal-sm\">#}\r\n{#                                        <div class=\"modal-content\">#}\r\n{#                                            {% for like in likes %}#}\r\n{#                                                <li> {{like.user.nom }} {{ like.user.prenom }}</li>#}\r\n{#                                            {% endfor %}                                        </div>#}\r\n{#                                    </div>#}\r\n{#                                </div>#}\r\n\r\n\r\n\r\n\r\n                        </div>\r\n                        <div class=\"col-4\">\r\n                            <h6 class=\"card-subtitle mb-2  text-black\">\r\n                                <i class='fas fa-comment-dots color_comments_like'\r\n                                   style=\"padding:10px;font-size:20px;color: #cfa0e9\"></i>\r\n                                {{ post.comments | length }}\r\n                            </h6>\r\n                        </div>\r\n                    </div>\r\n\r\n\r\n{#                    <div class=\"card my-4\">#}\r\n{#                        <h5 class=\"card-header\">Leave a Comment:</h5>#}\r\n{#                        <div class=\"card-body\">#}\r\n\r\n{#                                {{ form_start(form) }}#}\r\n\r\n{#                                <div class=\"form-group\">#}\r\n{#                                    {{ form_widget(form.content) }}#}\r\n{#                                </div>#}\r\n{#                                <a href=\"{{ path('commentCreation',{id:post.id})}}\" class=\"commentLink\">#}\r\n{#                                <button type=\"submit\" class=\"btn btn-primary\">Submit</button>#}\r\n{#                                </a>#}\r\n{#                            {{ form_end(form) }}#}\r\n{#                        </div>#}\r\n{#                    </div>#}\r\n\r\n{#                    <div id=\"newComment\" class=\"media mb-4\">#}\r\n{#                        <img class=\"d-flex mr-3 rounded-circle\" src=\"http://placehold.it/50x50\" alt=\"\">#}\r\n{#                        <div class=\"media-body\">#}\r\n{#                            <h5 class=\"mt-0\">Commenter Name</h5>#}\r\n{#                            <span class=\"commentContent\"> </span>#}\r\n{#                        </div>#}\r\n{#                    </div>#}\r\n\r\n{#                    <!--  Comment -->#}\r\n{#                    {% for comment in comments %}#}\r\n{#                    <div class=\"media mb-4\">#}\r\n{#                        <img class=\"d-flex mr-3 rounded-circle\" src=\"http://placehold.it/50x50\" alt=\"\">#}\r\n{#                        <div class=\"media-body\">#}\r\n{#                            <h5 class=\"mt-0\">Commenter Name</h5>#}\r\n{#                            {{comment.content}}                        </div>#}\r\n{#                    </div>#}\r\n{#                    {% endfor %}#}\r\n\r\n                </div>\r\n\r\n            </article>\r\n        </section>\r\n\r\n    </div>\r\n{% block javascripts %}\r\n\r\n    <script src=\"https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js\"></script>\r\n    <script>\r\n        const likeButton = document.querySelector('.js-likebtn');\r\n        const likeLink = document.querySelector('.js-like');\r\n        const likeCount = document.querySelector('.js-likes');\r\n\r\n        const url = likeLink.href;\r\n        likeLink.addEventListener('click', (e) => {\r\n            e.preventDefault();\r\n            axios.get(url).then(function (response) {\r\n                console.log(response.data)\r\n                likeCount.textContent = response.data.nbLike;\r\n                if(response.data.liked==true){\r\n                    likeButton.setAttribute('class','fas fa-thumbs-up color js-likebtn');\r\n\r\n\r\n                }else{\r\n                    likeButton.setAttribute('class','far fa-thumbs-up color js-likebtn');\r\n\r\n                }\r\n\r\n            })\r\n\r\n\r\n        })\r\n\r\n    </script>\r\n\r\n\r\n\r\n    <script>\r\n        function showLikers() {\r\n            var x = document.getElementById(\"likers\");\r\n            if (x.style.display === \"block\") {\r\n                x.style.display = \"none\";\r\n            } else {\r\n                x.style.display = \"block\";\r\n            }\r\n        }\r\n    </script>\r\n    {#    <script>#}\r\n    {#        function hideNewComment() {#}\r\n    {#            var x = document.getElementById(\"newComment\");#}\r\n    {#            if (x.style.display === \"block\") {#}\r\n    {#                x.style.display = \"none\";#}\r\n    {#            } else {#}\r\n    {#                x.style.display = \"block\";#}\r\n    {#            }#}\r\n    {#        }#}\r\n    {#    </script>#}\r\n{% endblock %}\r\n\r\n{% endblock %}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- templates/individual_post/index.html.twig	(revision 99fcf574dad03c47606d69495b2570ff5de04290)
++++ templates/individual_post/index.html.twig	(date 1594489195966)
+@@ -122,22 +122,6 @@
+                                 {% endfor %}
+                             </div>
+ 
+-
+-{#                                <!-- Small modal -->#}
+-{#                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-sm">Small modal</button>#}
+-
+-{#                                <div class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">#}
+-{#                                    <div class="modal-dialog modal-sm">#}
+-{#                                        <div class="modal-content">#}
+-{#                                            {% for like in likes %}#}
+-{#                                                <li> {{like.user.nom }} {{ like.user.prenom }}</li>#}
+-{#                                            {% endfor %}                                        </div>#}
+-{#                                    </div>#}
+-{#                                </div>#}
+-
+-
+-
+-
+                         </div>
+                         <div class="col-4">
+                             <h6 class="card-subtitle mb-2  text-black">
+@@ -149,39 +133,6 @@
+                     </div>
+ 
+ 
+-{#                    <div class="card my-4">#}
+-{#                        <h5 class="card-header">Leave a Comment:</h5>#}
+-{#                        <div class="card-body">#}
+-
+-{#                                {{ form_start(form) }}#}
+-
+-{#                                <div class="form-group">#}
+-{#                                    {{ form_widget(form.content) }}#}
+-{#                                </div>#}
+-{#                                <a href="{{ path('commentCreation',{id:post.id})}}" class="commentLink">#}
+-{#                                <button type="submit" class="btn btn-primary">Submit</button>#}
+-{#                                </a>#}
+-{#                            {{ form_end(form) }}#}
+-{#                        </div>#}
+-{#                    </div>#}
+-
+-{#                    <div id="newComment" class="media mb-4">#}
+-{#                        <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">#}
+-{#                        <div class="media-body">#}
+-{#                            <h5 class="mt-0">Commenter Name</h5>#}
+-{#                            <span class="commentContent"> </span>#}
+-{#                        </div>#}
+-{#                    </div>#}
+-
+-{#                    <!--  Comment -->#}
+-{#                    {% for comment in comments %}#}
+-{#                    <div class="media mb-4">#}
+-{#                        <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">#}
+-{#                        <div class="media-body">#}
+-{#                            <h5 class="mt-0">Commenter Name</h5>#}
+-{#                            {{comment.content}}                        </div>#}
+-{#                    </div>#}
+-{#                    {% endfor %}#}
+ 
+                 </div>
+ 
+@@ -231,16 +182,7 @@
+             }
+         }
+     </script>
+-    {#    <script>#}
+-    {#        function hideNewComment() {#}
+-    {#            var x = document.getElementById("newComment");#}
+-    {#            if (x.style.display === "block") {#}
+-    {#                x.style.display = "none";#}
+-    {#            } else {#}
+-    {#                x.style.display = "block";#}
+-    {#            }#}
+-    {#        }#}
+-    {#    </script>#}
++
+ {% endblock %}
+ 
+ {% endblock %}

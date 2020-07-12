@@ -86,8 +86,8 @@ class IndividualPostController extends AbstractController
 
 }
         return $this->json(['liked'=>$post->isLikedbyUser($user),
-
-            'nbLike'=>$likeRepository->count(['post'=>$post])],200);
+            'nbLike'=>$likeRepository->count(['post'=>$post]),
+        ],200);
 
 
     }
