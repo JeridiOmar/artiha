@@ -27,10 +27,10 @@ class SearchController extends AbstractController
      */
     public function search(Request $request,TagRepository $tagRepository,PostRepository $postRepository,UserRepository $userRepository)
     {
-        if(!$this->isGranted("IS_AUTHENTICATED_FULLY"))
-        {
-            return $this->redirectToRoute("app_login");
-        }
+//        if(!$this->isGranted("IS_AUTHENTICATED_FULLY"))
+//        {
+//            return $this->redirectToRoute("app_login");
+//        }
         $userSuggestions=$userRepository->findRandom();
         $search=new SearchEntity();
         $form= $this->createForm(SearchForm::class,$search);

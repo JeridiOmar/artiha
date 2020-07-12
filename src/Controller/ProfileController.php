@@ -2,12 +2,14 @@
 
 namespace App\Controller;
 
+use App\Entity\Critique;
 use App\Entity\User;
 use App\Form\RegistrationType;
 use App\Repository\PostRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -23,8 +25,7 @@ class ProfileController extends AbstractController {
      * @Route("/profile/{id<\d+>}", name="profile")
      */
     public function profile($id, User $user, Request $request, SluggerInterface $slugger, UserPasswordEncoderInterface $encoder, PostRepository $postRepository, UserRepository $userRepository) {
-        if(!$this->isGranted("IS_AUTHENTICATED_FULLY"))
-        {
+        if (!$this->isGranted("IS_AUTHENTICATED_FULLY")) {
             return $this->redirectToRoute("app_login");
         }
         //$form=$this->createForm(RegistrationType::class,$user)->add('bio');
@@ -102,27 +103,28 @@ class ProfileController extends AbstractController {
             'user' => $user
         ]);
 
-        $followed=$user;
-        $isMyProfile=($this->getUser()== $user);
+        $followed = $user;
+        $isMyProfile = ($this->getUser() == $user);
+
 
 
         return $this->render('profile/profile.html.twig', [
+            'connectedUser'=>$cnct=$userRepository->findOneBy(['username'=>$this->getUser()->getUsername()]),
             'user' => $user,
             'profile_pictures_path' => $this->getParameter('profile_pictures_path'),
             'form' => $form->createView(),
             'posts' => $posts,
             'following' => $this->getUser()->getSubscribedTo()->contains($followed),
             'nombre_followers' => $followed->getSubscribers()->count(),
-            'isMyProfile'=>$isMyProfile
+            'isMyProfile' => $isMyProfile
         ]);
     }
 
     /**
      * @Route("/subscribe/{followed_id<\d+>}",name="subscribe")
      */
-    public function subscribe( $followed_id, UserRepository $userRepository, EntityManagerInterface $entityManager) {
-        if(!$this->isGranted("IS_AUTHENTICATED_FULLY"))
-        {
+    public function subscribe($followed_id, UserRepository $userRepository, EntityManagerInterface $entityManager) {
+        if (!$this->isGranted("IS_AUTHENTICATED_FULLY")) {
             return $this->redirectToRoute("app_login");
         }
         $followed = $userRepository->find($followed_id);
@@ -141,6 +143,37 @@ class ProfileController extends AbstractController {
             'nombre_followers' => $followed->getSubscribers()->count()
         ], 200);
 
+
+    }
+
+    /**
+     * @Route("/critique/{critited<\d+>}/{content}",name="critiquer")
+     */
+    public function addCritique(User $critited, UserRepository $userRepository, EntityManagerInterface $entityManager, $content) {
+        if ($this->isGranted("IS_AUTHENTICATED_FULLY")) {
+
+                $critiquer = $this->getUser();
+                $cnct=$userRepository->findBy(['username'=>$critiquer->getUsername()]);
+                $critique = new Critique();
+                $critique->setSender($critiquer);
+                $critique->setReciver($critited);
+                $critique->setContent($content);
+                $critique->setCreatedAt(new \DateTime());
+                $entityManager->persist($critique);
+                $entityManager->flush();
+
+
+            return $this->json([
+
+                'sent' => 'ok'
+
+            ], 200);
+
+        }
+        return $this->json([
+
+            'sent' => 'notOk'
+        ], 404);
 
     }
 }

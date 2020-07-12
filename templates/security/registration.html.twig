@@ -1,5 +1,8 @@
 {% form_theme form_registration 'bootstrap_4_layout.html.twig' %}
-{#{% extends 'base.html.twig' %}#}
+{% extends 'base.html.twig' %}
+{% block navbar %}
+
+{% endblock %}
 {% block title %}Inscription{% endblock %}
 {% block stylesheets %}
     <link rel="stylesheet" href="{{ asset('/styles/registrationStyle.css') }}">

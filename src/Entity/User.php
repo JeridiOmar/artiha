@@ -163,6 +163,16 @@ class User implements UserInterface
      */
     private $likes;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Critique::class, mappedBy="sender", orphanRemoval=true)
+     */
+    private $sent_critiques;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Critique::class, mappedBy="reciver", orphanRemoval=true)
+     */
+    private $recived_critiques;
+
 
 
     public function __construct()
@@ -173,6 +183,8 @@ class User implements UserInterface
         $this->changePwds = new ArrayCollection();
         $this->comments = new ArrayCollection();
         $this->likes = new ArrayCollection();
+        $this->sent_critiques = new ArrayCollection();
+        $this->recived_critiques = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -525,6 +537,68 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($like->getUser() === $this) {
                 $like->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Critique[]
+     */
+    public function getSentCritiques(): Collection
+    {
+        return $this->sent_critiques;
+    }
+
+    public function addSentCritique(Critique $sentCritique): self
+    {
+        if (!$this->sent_critiques->contains($sentCritique)) {
+            $this->sent_critiques[] = $sentCritique;
+            $sentCritique->setSender($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSentCritique(Critique $sentCritique): self
+    {
+        if ($this->sent_critiques->contains($sentCritique)) {
+            $this->sent_critiques->removeElement($sentCritique);
+            // set the owning side to null (unless already changed)
+            if ($sentCritique->getSender() === $this) {
+                $sentCritique->setSender(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Critique[]
+     */
+    public function getRecivedCritiques(): Collection
+    {
+        return $this->recived_critiques;
+    }
+
+    public function addRecivedCritique(Critique $recivedCritique): self
+    {
+        if (!$this->recived_critiques->contains($recivedCritique)) {
+            $this->recived_critiques[] = $recivedCritique;
+            $recivedCritique->setReciver($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRecivedCritique(Critique $recivedCritique): self
+    {
+        if ($this->recived_critiques->contains($recivedCritique)) {
+            $this->recived_critiques->removeElement($recivedCritique);
+            // set the owning side to null (unless already changed)
+            if ($recivedCritique->getReciver() === $this) {
+                $recivedCritique->setReciver(null);
             }
         }
 

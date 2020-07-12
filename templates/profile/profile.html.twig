@@ -2,6 +2,7 @@
 {% block title %}
     Profile de {{ user.nom }}
 {% endblock %}
+
 {% block stylesheets %}
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
@@ -190,8 +191,11 @@
             <div class="col-sm-9">
                 <ul class="nav nav-tabs">
                     <li class="active"><a data-toggle="tab" href="#information">informations</a></li>
+                    {% if isMyProfile==true %}
                     <li><a data-toggle="tab" href="#cordonnees">Modifier Cordonnées</a></li>
+                    {% endif %}
                     <li><a data-toggle="tab" href="#postes">Postes</a></li>
+                    <li><a data-toggle="tab" href="#criticize">criticizes</a></li>
                 </ul>
 
 
@@ -238,6 +242,7 @@
                         <br>
 
                     </div><!--/tab-pane-->
+                    {% if isMyProfile == true %}
                     <div class="tab-pane" id="cordonnees">
 
                         <h2></h2>
@@ -280,7 +285,8 @@
                         </div>
                         {{ form_end(form,{'render_rest':false}) }}
 
-                    </div><!--/tab-pane-->
+                    </div>
+                    {% endif %}<!--/tab-pane-->
                     <div class="tab-pane" id="postes">
                         {% for post in posts %}
                             {% include 'post/card.html.twig' with {post: post} only %}
@@ -289,6 +295,55 @@
 
                         <hr>
                         <!--nekhdmouha after postes-->
+
+                    </div>
+                    <div class="tab-pane" id="criticize">
+                        <hr>
+                        <br>
+                        <div class="all-critique">
+
+                            {% for critique in user.recivedCritiques %}
+                                <div class="row ">
+                                    <div class="col-11">
+                                        <img src="{{ critique.sender.profilePicture }}" alt="">
+                                        <img src="{{ asset('/uploads/files/profile_pictures/'~ critique.sender.profilePicture) }}"
+                                             class="img-thumb rounded-circle      " width="50" height="50"
+                                             alt="avatar"></a>
+
+                                        <span class="font-weight-bold">
+                                        {{ critique.sender.username }}:
+                                    </span>
+
+
+                                        {{ critique.content }}
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+
+                        {% if isMyProfile == false %}
+                        <div class="row">
+                            <div class="col-10">
+                                <div class="form-group">
+                                    <input class="form-control js-critiqueContent" type="text">
+                                </div>
+                            </div>
+                            <div class="col-1">
+
+                                <a href="{{ path('critiquer',{'critited':user.id,'content':'content'}) }}"
+                                   class="js-critiqueSend">
+                                    <button
+                                            class="btn btn-primary ">
+                                        Envoyer
+                                    </button>
+                                </a>
+
+                            </div>
+                        </div>
+                        {% endif %}
+
+
+                        <hr>
 
                     </div>
 
@@ -304,8 +359,64 @@
         </div>
     </div>
     </div>
-    <!-- traitement de follow -->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!--traitement critique -->
+
+    <!-- traitement de follow -->
+    <script>
+        const critiqueButton = document.querySelector('.js-critiqueSend');
+        const critiqueContent = document.querySelector('.js-critiqueContent');
+        critiqueReciver = {{ user.id }};
+        url1 = critiqueButton.href;
+        console.log(critiqueReciver);
+
+
+        //console.log(image);
+
+
+        critiqueButton.addEventListener('click', (e) => {
+            e.preventDefault();
+
+            url2 = url1.replace("content", critiqueContent.value);
+            console.log(url);
+            axios.get(url2).then(function (res) {
+                    if (res.data.sent === "ok") {
+                        critiqueContainer = document.querySelector(".all-critique");
+                        critique = document.createElement('div');
+                        critique.setAttribute('class', 'col-11');
+                        image = document.createElement('img');
+                        image.setAttribute('src', "{{ asset('/uploads/files/profile_pictures/'~connectedUser.profilePicture) }}");
+                        image.setAttribute('class', 'img-thumb rounded-circle');
+                        image.setAttribute('width', '50');
+                        image.setAttribute('height', '50');
+                        nameC = document.createElement('span');
+                        nameC.setAttribute('class', 'font-weight-bold');
+                        nameC.textContent = "{{ connectedUser.username }}: ";
+                        critique.appendChild(image);
+                        critique.appendChild(nameC);
+                        txt = document.createElement('span');
+                        txt.textContent = critiqueContent.value;
+                        critique.appendChild(txt);
+
+
+                        //critique.textContent = critique.textContent + critiqueContent.value;
+                        rowa = document.createElement('div');
+                        rowa.setAttribute('class', 'row');
+                        rowa.appendChild(critique)
+                        critiqueContainer.appendChild(rowa);
+                        critiqueContent.value = "";
+
+                    }
+                }
+            )
+
+
+        })
+
+
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
     <script>
 
         const followButton = document.querySelector('.js-follow-button');
