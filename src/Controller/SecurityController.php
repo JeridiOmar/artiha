@@ -2,11 +2,17 @@
 
 namespace App\Controller;
 
+use App\Entity\Comment;
+use App\Entity\Like;
+use App\Entity\Post;
 use App\Entity\User;
 use App\Form\RegistrationType;
+use App\Repository\PostRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Faker\Factory;
 use http\Env\Response;
+use Psr\Container\ContainerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 use Symfony\Component\HttpFoundation\Request;
@@ -82,6 +88,41 @@ class SecurityController extends AbstractController {
         return $this->json(['isUnique'=>'yes'],200);
     }
 
+    /**
+     * @Route("/fixtures", name="fixtures")
+     */
+    public function fix(UserRepository $userRepository,PostRepository $postRepository,EntityManagerInterface $entityManager) {
+        $faker=Factory::create();
+
+        for ($i = 0; $i < 10; $i++){
+            $like=new Like();
+
+            $user=$userRepository->find((int)rand(60,100));
+
+            $post=$postRepository->find(rand(60,100));
+            dump($user);
+            $like->setUser($user);
+            $like->setPost($post);
+            $entityManager->persist($like);
+
+        }
+        for ($i = 0; $i < 10; $i++){
+            $comment=new Comment();
+
+            $user=$userRepository->find(rand(60,100));
+
+            $post=$postRepository->find(rand(60,100));
+            $comment->setUser($user);
+            //dump($user);
+            $comment->setPost($post);
+            $comment->setContent($faker->text(55));
+
+            $entityManager->persist($comment);
+
+        }
+        $entityManager->flush();
+        return $this->redirectToRoute('app_login');
+    }
 
 
 }

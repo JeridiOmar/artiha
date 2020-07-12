@@ -117,12 +117,15 @@
                     <div class="text-center">
 
                         <a href="#">
-                            {#<img src="{{ user.profilePicture }}" class="img-thumb rounded-circle      "
+                            {% if user.isFixture == true %}
+                            <img src="{{ user.profilePicture }}" class="img-thumb rounded-circle      "
                                  width="220" height="220"
-                                 alt="avatar">#}
+                                 alt="avatar">
+                            {% elseif user.isFixture == flase %}
                             <img src="{{ asset('/uploads/files/profile_pictures/'~ user.profilePicture) }}"
                                  class="img-thumb rounded-circle      " width="220" height="220"
                                  alt="{{ user.profilePicture }}"></a>
+                        {% endif %}
 
 
                     </div>
@@ -137,7 +140,7 @@
 
                                         <div class="row ">
                                             <div class="   text-center  col-8 ">
-                                                <div class="pl-4  follow "> + Follow</div>
+                                                <div class="  follow "> + Follow</div>
                                             </div>
                                             <div class="  pl-4 float-left">
                                                 <div class="pl-1 pr-1  js-nbFollow  ">{{ nombre_followers }}</div>
@@ -322,6 +325,8 @@
                     </div>
                     {% endif %}<!--/tab-pane-->
                     <div class="tab-pane" id="postes" role="tabpanel" aria-labelledby="postes-tab">
+                        <br>
+                        <hr>
                         {% for post in posts %}
                             {% if post.type == "text" %}
                                 {% include 'post/cardText.html.twig' with {post: post} only %}
