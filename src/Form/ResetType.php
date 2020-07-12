@@ -15,7 +15,6 @@ class ResetType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('oldpwd',TextType::class,['label'=>'Old password'])
             ->add('newpwd',PasswordType::class,['label'=>'New password'])
             ->add('confirmpwd',PasswordType::class,[
                 'label'=>'Confirm password',
