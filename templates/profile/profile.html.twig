@@ -118,13 +118,14 @@
                     <div class="text-center">
 
                         <a href="#">
-                            {#<img src="{{ user.profilePicture }}" class="img-thumb rounded-circle      "
+                            {% if user.isFixture == true %}
+                            <img src="{{ user.profilePicture }}" class="img-thumb rounded-circle      "
                                  width="220" height="220"
                                  alt="avatar">#}
-                            <img {% if user.isFixture %}src="{{ user.profilePicture}}" {% else %}
-                                src="{{ asset('/uploads/files/profile_pictures/'~ user.profilePicture) }}"{% endif %}
+                            <img src="{{ asset('/uploads/files/profile_pictures/'~ user.profilePicture) }}"
                                  class="img-thumb rounded-circle      " width="220" height="220"
                                  alt="{{ user.profilePicture }}"></a>
+                        {% endif %}
 
 
                     </div>
