@@ -19,7 +19,7 @@
         {% elseif post.type== "video" %}
     <div class="card-opacity2">
 
-        <video class="img-fluid" style="width: 760px;height: 450px" controls playsinline autoplay >
+        <video class="img-fluid" style="width: 760px;height: 450px" controls playsinline >
             <source src="{{ asset(post.content) }}" type="video/mp4">
         </video>
     </div>
