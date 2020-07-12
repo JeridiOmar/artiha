@@ -139,20 +139,20 @@ class PostFormController extends AbstractController
         if($form->isSubmitted() && $form->isValid()){
             $post->setCreatedAt(new \DateTime());
             $post->setType('picture');
-//            if(isset($form['picture'])){
-//                $picture=$form['picture']->getData();
-//                $picpath=md5(uniqid()).$picture->getClientOriginalName();
-//                $destination=__DIR__."/../../public/uploads/files/post_pictures";
-//                try{
-//                    $picture->move($destination,$picpath);
-//                    $content=new Picture();
-//                    $content->setPicturePath('public/uploads/files/post_pictures/'.$picpath);
-//                    $post->setContent($content);
-//                }
-//                catch (FileException $fe){
-//                    echo $fe;
-//                }
-//            }
+            if(isset($form['picture'])){
+                $picture=$form['picture']->getData();
+                $picpath=md5(uniqid()).$picture->getClientOriginalName();
+                $destination=__DIR__."/../../public/uploads/files/post_pictures";
+                try{
+                    $picture->move($destination,$picpath);
+                    $content=new Picture();
+                    $content->setPicturePath('/uploads/files/post_pictures/'.$picpath);
+                    $post->setContent($content);
+                }
+                catch (FileException $fe){
+                    echo $fe;
+                }
+            }
             $post->setUser($user);
             $tagData=explode(" ",$form->get('tags')->getData());
             if(!($tagData[0]==="")){
@@ -233,7 +233,7 @@ class PostFormController extends AbstractController
                 try{
                     $rec->move($destination,$recordingPath);
                     $content=new Recording();
-                    $content->setRecordingPath('public/uploads/files/post_recordings/'.$recordingPath);
+                    $content->setRecordingPath('/uploads/files/post_recordings/'.$recordingPath);
                     $post->setContent($content);
                 }
                 catch (FileException $fe){
@@ -330,8 +330,8 @@ class PostFormController extends AbstractController
                     $thumbnail->move($destination."/thumbnails",$thumbpath);
                     $video->move($destination,$vidpath);
                     $content=new Video();
-                    $content->setVideoPath('public/uploads/files/post_videos/'.$vidpath);
-                    $content->setThumbnailPath("public/uploads/files/post_videos/thumbnails/".$thumbpath);
+                    $content->setVideoPath('/uploads/files/post_videos/'.$vidpath);
+                    $content->setThumbnailPath("/uploads/files/post_videos/thumbnails/".$thumbpath);
                     $post->setContent($content);
                 }
                 catch (FileException $fe){

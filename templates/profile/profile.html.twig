@@ -78,6 +78,9 @@
             margin-left: auto!important;
             margin-top: 0;
         }
+        .fixed-top{
+            position:fixed!important;
+        }
 
     </style>
 {% endblock %}
@@ -116,7 +119,7 @@
                                  alt="avatar">#}
                             <img src="{{ asset('/uploads/files/profile_pictures/'~ user.profilePicture) }}"
                                  class="img-thumb rounded-circle      " width="220" height="220"
-                                 alt="avatar"></a>
+                                 alt="{{user.profilePicture}}"></a>
 
 
                     </div>
