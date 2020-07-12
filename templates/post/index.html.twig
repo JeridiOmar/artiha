@@ -9,26 +9,30 @@
 {% block body %}
 
 
-<div class="container filter_ajax">
-    <div class="row">
+    <div class="container filter_ajax">
+        <div class="row">
 
-        <div class="col-8  ">
+            <div class="col-8  ">
 
                 <div class="d-flex justify-content-end mb-3 sort_ajax">
                     {{ knp_pagination_sortable(posts,'Likes ','p.nblikes') }}
                     {{ knp_pagination_sortable(posts,'Date ','p.createdAt') }}
                 </div>
-            <div class="content_ajax">
-                {% for message in app.flashes('error_max<min') %}
-                    <div class="alert alert-danger">
-                        {{ message }}
-                    </div>
-                {% endfor %}
+                <div class="content_ajax">
+                    {% for message in app.flashes('error_max<min') %}
+                        <div class="alert alert-danger">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
 
-                {% for post in posts %}
-                    {% include 'post/card.html.twig' with {post: post} only %}
-                {% endfor %}
-            </div>
+                    {% for post in posts %}
+                        {% if post.type == "text" %}
+                            {% include 'post/cardText.html.twig' with {post: post} only %}
+                        {% else %}
+                            {% include 'post/card.html.twig' with {post: post} only %}
+                        {% endif %}
+                    {% endfor %}
+                </div>
                 <div class="p-2 pagination_ajax">
                     {{ knp_pagination_render(posts) }}
                 </div>
@@ -39,7 +43,7 @@
             </div>
         </div>
     </div>
-    {% endblock %}
+{% endblock %}
     {% block stylesheets %}
         <style>
 
@@ -151,7 +155,23 @@
 
             .post:hover .card__type {
                 top: 442px;
-            }
+            } .post:hover .card__type2 {
+                top: 480px;
+            } .card__type2 {
+                  position: absolute;
+                  left: 20px;
+                  top: 512px;
+                  height: 30px;
+                  padding: 0 15px;
+                  color: white;
+                  font-family: 'Lexend Tera', sans-serif;
+                  background: #C82829;
+                  font-size: 15px;
+                  line-height: 25px;
+                  text-transform: uppercase;
+                  transition: top 0.4s;
+
+              }
 
             .card__type {
                 position: absolute;
@@ -190,4 +210,31 @@
     {% endblock %}
 
 {% block javascripts %}
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+
+        const sort = document.querySelector('.sort_ajax');
+        const pagination = document.querySelector('.pagination_ajax');
+        const content = document.querySelector('.content_ajax');
+        const filter = document.querySelector('.filter_ajax');
+
+        sort.querySelectorAll('a').forEach(a => {
+            a.addEventListener('click', (e) => {
+                e.preventDefault();
+                let url = a.getAttribute('href')
+
+            })
+        })
+
+        function headers(options) {
+            options = options || {}
+            options.headers = options.headers || {}
+            options.headers['X-Requested-With'] = 'XMLHttpRequest'
+            return options
+        }
+
+        async function load(url) {
+            const response =
+        }
+    </script>
 {% endblock %}

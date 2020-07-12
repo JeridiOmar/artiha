@@ -1,189 +1,3 @@
-{#{% extends 'base.html.twig'%}#}
-{#{% block title %} Post List {% endblock %}#}
-{#{% block body %}#}
-{#    <style>#}
-{#        .btn-search2{#}
-{#            margin-left: 90%;#}
-{#            height: 50px;#}
-{#            width:100px;#}
-{#            background: -webkit-linear-gradient(right, #909284, #6b6e67);#}
-{#            background: -o-linear-gradient(right, #920513, #909284);#}
-{#            background: -moz-linear-gradient(right, #920513, #909284);#}
-{#            background: linear-gradient(right, #920513, #909284);#}
-{#            border: none;#}
-{#            color: snow;#}
-{#            border-radius:15px ;#}
-{#        }#}
-{#        .btn-search2:hover{#}
-{#            background: -webkit-linear-gradient(left, #909284, #6b6e67);#}
-{#            background: -o-linear-gradient(left, #920513, #909284);#}
-{#            background: -moz-linear-gradient(left, #920513, #909284);#}
-{#            background: linear-gradient(left, #920513, #909284);#}
-{#        }#}
-{#        .header {#}
-{#            background-image: linear-gradient(rgba(0,0,0,0),rgba(0,0,0,0)),url({{ asset('background_images/derick-mckinney-oARTWhz1ACc-unsplash.jpg') }});#}
-{#            background-size: cover;#}
-{#            background-position: center;#}
-{#            display: flex;#}
-{#            height: 100%;#}
-{#            min-height: 100vh;#}
-{#            justify-content: center;#}
-{#            align-items: center;#}
-{#            font-family: sans-serif;#}
-{#        }#}
-{#        .grid{#}
-{#            display: grid;#}
-{#            grid-template-columns: repeat(2,1fr);#}
-{#            grid-gap: 40px;#}
-{#        }#}
-{#        .grid.toggled{#}
-{#            grid-template-columns: repeat(1,1fr);#}
-{#        }#}
-
-{#        .card{#}
-{#            background: -webkit-linear-gradient(right, transparent, #fff);#}
-{#            box-shadow: 0 0 19px rgba(0,0,0,0.1);#}
-{#            transition: box-shadow 0.3s;#}
-
-{#        }#}
-{#        @media only screen and (max-width: 1400px) {#}
-{#            .grid {#}
-{#                padding-left: 20%;#}
-{#                display: grid;#}
-{#                grid-template-columns: repeat(1,1fr);#}
-{#                grid-gap: 40px;#}
-{#            }#}
-{#            .card{#}
-{#                width: 80%;#}
-{#            }#}
-
-{#        }#}
-
-{#        .card__category{#}
-{#            position: absolute;#}
-{#            height: 25px;#}
-{#            top: -25px;#}
-{#            left: 0;#}
-{#            padding: 0 15px;#}
-{#            text-transform: uppercase;#}
-{#            background-color: #C82829;#}
-{#            color: #f1f2f3;#}
-
-{#        }#}
-{#        .card-opacity {#}
-{#            background: #000;#}
-{#            height: 520px;#}
-{#            overflow: hidden;#}
-{#            transition: height 0.4s;#}
-
-{#        }#}
-
-{#        .card-opacity img{#}
-{#            display: block;#}
-{#            opacity: 1;#}
-{#            transition: opacity 0.4s, transform 0.3s;#}
-{#        }#}
-
-{#        .card:hover {#}
-{#            box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.5);#}
-
-{#        }#}
-
-{#        .card:hover .card-opacity{#}
-{#            height: 400px;#}
-{#        }#}
-
-{#        .card:hover .card-opacity img{#}
-{#            opacity: 0.6;#}
-{#            transform: scale(1.3);#}
-
-{#        }#}
-
-{#        .card:hover .card__type{#}
-{#            top: 442px;#}
-{#        }#}
-{#        .card__type{#}
-{#            position: absolute;#}
-{#            left: 0;#}
-{#            top: 562px;#}
-{#            height: 30px;#}
-{#            padding: 0 15px ;#}
-{#            color: white;#}
-{#            font-family: 'Lexend Tera', sans-serif;#}
-{#            background: #C82829;#}
-{#            font-size: 15px;#}
-{#            line-height: 25px;#}
-{#            text-transform: uppercase;#}
-{#            transition: top 0.4s;#}
-
-{#        }#}
-
-{#        .card_description{#}
-{#            font-size: 16px;#}
-{#            line-height: 25px;#}
-{#        }#}
-{#        .card__title{#}
-{#            text-shadow: 0px 5px 5px rgba(0,0,0,0.5);#}
-{#        }#}
-{#        h2{#}
-{#            color: rgba(255,255,255,01);#}
-{#            text-shadow: 0 1px 0 #ccc,#}
-{#            0 2px 0 #c9c9c9,#}
-{#            0 3px 0 #bbb,#}
-{#            0 4px 0 #b9b9b9,#}
-{#            0 5px 0 #aaa,#}
-{#            0 6px 1px rgba(0,0,0,.1),#}
-{#            0 0 5px rgba(0,0,0,.1),#}
-{#            0 1px 3px rgba(0,0,0,.3),#}
-{#            0 3px 5px rgba(0,0,0,.2),#}
-{#            0 5px 10px rgba(0,0,0,.25),#}
-{#            0 10px 10px rgba(0,0,0,.2),#}
-{#            0 20px 20px rgba(0,0,0,.15);#}
-{#            padding-left: 10%;#}
-{#            text-decoration-color: #f1f2f3;#}
-{#            margin-bottom:10px ;#}
-{#            font-size:45px;#}
-{#            letter-spacing: 3px;#}
-
-{#        } p{#}
-{#              color: whitesmoke;#}
-{#              padding-left: 30%;#}
-{#              margin-bottom:10px ;#}
-{#              font-size:30px;#}
-{#              letter-spacing: 2px;#}
-
-{#          }#}
-{#        .color_comments_like {#}
-{#            color: black;#}
-{#        }#}
-
-
-{#        .search-pagination{#}
-{#            position: center;#}
-{#            margin-left: 40%;#}
-{#            color: black;#}
-
-{#        }#}
-{#    </style>#}
-{#    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">#}
-
-{#    <div class="header">#}
-{#        <div class="container">#}
-
-{#            <h2>List Of  Posts</h2>#}
-
-{#            <p> This is the result of your search {{ type }} : "{{ tag }}"</p>#}
-{#            <a href="{{ path('search') }}"><button class="btn-search2 " type="button">#}
-{#                    <i class="material-icons" style="font-size:36px">search</i> </button></a>#}
-{#            <div class="grid">#}
-{#                {% for post in posts %}#}
-{#                    {% include 'post/card.html.twig' with {post: post} only %}#}
-{#                {% endfor %}#}
-{#            </div>#}
-{#            <div class="search-pagination p-4">{{ knp_pagination_render(posts) }}</div>#}
-{#        </div>#}
-{#    </div>#}
-{#{% endblock %}#}
 
 {% extends 'base.html.twig' %}
 
@@ -356,7 +170,23 @@
 
             .post:hover .card__type {
                 top: 442px;
-            }
+            }.post:hover .card__type2 {
+                 top: 480px;
+             } .card__type2 {
+                   position: absolute;
+                   left: 20px;
+                   top: 512px;
+                   height: 30px;
+                   padding: 0 15px;
+                   color: white;
+                   font-family: 'Lexend Tera', sans-serif;
+                   background: #C82829;
+                   font-size: 15px;
+                   line-height: 25px;
+                   text-transform: uppercase;
+                   transition: top 0.4s;
+
+               }
 
             .card__type {
                 position: absolute;
