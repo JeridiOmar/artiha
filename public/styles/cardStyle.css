@@ -21,6 +21,20 @@ hr.style_edit {
     text-align: justify;
 
 }
+.card__type4{
+    position: absolute;
+    left:  40px;
+    height: 30px;
+    padding: 0 15px;
+    color: white;
+    font-family: 'Lexend Tera', sans-serif;
+    background: grey;
+    font-size: 15px;
+    line-height: 25px;
+    text-transform: uppercase;
+    transition: top 0.4s;
+    top: 600px;
+}
 
 .title-filter {
     color: rgba(255, 255, 255, 01);
