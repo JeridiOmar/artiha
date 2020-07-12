@@ -79,13 +79,6 @@
             letter-spacing: 2px;
 
         }
-       /* th{
-            padding-left: 4px;
-            color: snow;
-            font-size: 20px;
-            text-shadow: 0 3px 0 #000 ;
-            font-family: 'MuseoModerno', cursive;
-        }*/
 
 
         .search-pagination{
@@ -123,7 +116,8 @@
             <tr>
                 {%  for person in users %}
             <tr>
-                <th scope="row"><img src="{{ person.profilePicture }}" height="120px" width="120px" alt=""></th>
+                <th scope="row"><img {% if person.isFixture %} src="{{ person.profilePicture}}" {% else %}
+                                     src="{{ asset('uploads/files/profile_pictures/'~person.profilePicture) }}"{% endif %} height="120px" width="120px" alt=""></th>
                 <td >{{ person.username }}</td>
                 <td>{{ person.nom }}</td>
                 <td>{{ person.prenom}}</td>

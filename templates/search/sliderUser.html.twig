@@ -118,7 +118,8 @@
             {% for person in users %}
                 <div class="swiper-slide">
                     <div class="card" style="width:400px;height: 500px">
-                        <img class="card-img-top" style="height: 300px" src="{{ person.profilePicture }}" alt="Card image">
+                        <img class="card-img-top" style="height: 300px" {% if person.isFixture %}src="{{ person.profilePicture}}" {% else %}
+                            src="{{ asset('/uploads/files/profile_pictures/'~ person.profilePicture) }}"{% endif %} alt="profilePicture" >
                         <div class="card-body">
                             <h4 class="card-title">{{ person.nom }} {{ person.prenom }}</h4>
                             <p class="card-text">{{ person.bio}}</p>

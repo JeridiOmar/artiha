@@ -1,0 +1,332 @@
+Index: src/Entity/User.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?php\r\n\r\nnamespace App\\Entity;\r\n\r\nuse Doctrine\\Common\\Collections\\ArrayCollection;\r\nuse Doctrine\\Common\\Collections\\Collection;\r\nuse Doctrine\\ORM\\Mapping as ORM;\r\nuse Symfony\\Bridge\\Doctrine\\Validator\\Constraints\\UniqueEntity;\r\nuse Symfony\\Component\\Security\\Core\\User\\UserInterface;\r\nuse Symfony\\Component\\Validator\\Constraints as Assert;\r\n\r\n/**\r\n * @ORM\\Entity(repositoryClass=\"App\\Repository\\UserRepository\")\r\n * @UniqueEntity(\r\n *     fields={\"Email\",},\r\n *     message=\"l'email que vous avez entrer est deja utilise\"\r\n * )\r\n * @UniqueEntity(\r\n *     fields={\"username\"},\r\n *     message=\"le username que vous avez entrer est deja utilise\"\r\n * )\r\n */\r\nclass User implements UserInterface\r\n{\r\n    /**\r\n     * @ORM\\Id()\r\n     * @ORM\\GeneratedValue()\r\n     * @ORM\\Column(type=\"integer\")\r\n     */\r\n    private $id;\r\n\r\n    /**\r\n     * @ORM\\Column(type=\"string\", length=255)\r\n     *  @Assert\\Length(\r\n     *      min = 2,\r\n     *      max = 50,\r\n     *      minMessage = \"votre prenom doit avoir au moins {{ limit }} characteres \",\r\n     *      maxMessage = \"Votre prenom doit avoir au plus {{ limit }} characteres\",\r\n     *      allowEmptyString = false\r\n     * )\r\n     */\r\n    private $nom;\r\n\r\n    /**\r\n     * @ORM\\Column(type=\"string\", length=255)\r\n     *  @Assert\\Length(\r\n     *      min = 2,\r\n     *      max = 50,\r\n     *      minMessage = \"votre nom doit avoir au moins {{ limit }} characteres \",\r\n     *      maxMessage = \"Votre nom doit avoir au plus {{ limit }} characteres\",\r\n     *      allowEmptyString = false\r\n     * )\r\n     */\r\n    private $prenom;\r\n\r\n    /**\r\n     * @ORM\\Column(type=\"string\", length=255)\r\n     *   @Assert\\Email(\r\n     *     message = \"L'email '{{ value }}' n est pas un email valide.\"\r\n     * )\r\n     */\r\n    private $Email;\r\n\r\n    /**\r\n     * @ORM\\Column(type=\"string\", length=255)\r\n     *  @Assert\\Length(\r\n     *      min = 6,\r\n     *      minMessage = \"Votre mot de passe doit contenir au moins 6 characteres \",\r\n     * )\r\n     */\r\n    private $password;\r\n    /**\r\n     *   @Assert\\EqualTo(\r\n     *     propertyPath=\"password\",\r\n     *     message=\"Le mot de passe n'est pas identique\"\r\n     * )\r\n     */\r\n\r\n    public $confirm_password;\r\n\r\n    /**\r\n     * @ORM\\Column(type=\"string\", length=6)\r\n     */\r\n    private $sexe;\r\n\r\n    /**\r\n     * @ORM\\Column(type=\"date\")\r\n     */\r\n    private $birthday;\r\n\r\n    /**\r\n     * @ORM\\Column(type=\"string\", length=9)\r\n     *  @Assert\\Length(\r\n     *      min = 8,\r\n     *      max = 8,\r\n     *      minMessage = \"entrer un numero valide \",\r\n     *      maxMessage = \"entrer un numero valide\",\r\n     *      allowEmptyString = false\r\n     * )\r\n     */\r\n    private $numTel;\r\n\r\n    /**\r\n     * @ORM\\Column(type=\"text\", nullable=true)\r\n     */\r\n    private $bio;\r\n\r\n    /**\r\n     * @ORM\\Column(type=\"string\", length=255)\r\n\r\n     */\r\n    private $profilePicture;\r\n\r\n    /**\r\n     * @ORM\\OneToMany(targetEntity=Post::class, mappedBy=\"user\")\r\n     */\r\n    private $posts;\r\n\r\n    /**\r\n     * @ORM\\Column(type=\"string\", length=255)\r\n     *   @Assert\\Length(\r\n     *      min = 3,\r\n     *      max = 50,\r\n     *      minMessage = \"votre prenom doit avoir au moins {{ limit }} characteres \",\r\n     *      maxMessage = \"Votre prenom doit avoir au plus {{ limit }} characteres\",\r\n     *      allowEmptyString = false\r\n     * )\r\n     */\r\n    private $username;\r\n\r\n    /**\r\n     * @ORM\\ManyToMany(targetEntity=User::class, inversedBy=\"subscribers\")\r\n     */\r\n    private $subscribedTo;\r\n\r\n    /**\r\n     * @ORM\\ManyToMany(targetEntity=User::class, mappedBy=\"subscribedTo\")\r\n     */\r\n    private $subscribers;\r\n\r\n    /**\r\n     * @ORM\\Column(type=\"boolean\")\r\n     */\r\n    private $isAdmin = false;\r\n\r\n    /**\r\n     * @ORM\\Column(type=\"boolean\")\r\n     */\r\n    private $isDeleted = false;\r\n\r\n    /**\r\n     * @ORM\\OneToMany(targetEntity=ChangePwd::class, mappedBy=\"user\", orphanRemoval=true)\r\n     */\r\n    private $changePwds;\r\n\r\n    /**\r\n     * @ORM\\OneToMany(targetEntity=Comment::class, mappedBy=\"user\", orphanRemoval=true)\r\n     */\r\n    private $comments;\r\n\r\n    /**\r\n     * @ORM\\OneToMany(targetEntity=Like::class, mappedBy=\"user\")\r\n     */\r\n    private $likes;\r\n\r\n    /**\r\n     * @ORM\\OneToMany(targetEntity=Critique::class, mappedBy=\"sender\", orphanRemoval=true)\r\n     */\r\n    private $sent_critiques;\r\n\r\n    /**\r\n     * @ORM\\OneToMany(targetEntity=Critique::class, mappedBy=\"reciver\", orphanRemoval=true)\r\n     */\r\n    private $recived_critiques;\r\n\r\n\r\n\r\n    public function __construct()\r\n    {\r\n        $this->posts = new ArrayCollection();\r\n        $this->subscribedTo = new ArrayCollection();\r\n        $this->subscribers = new ArrayCollection();\r\n        $this->changePwds = new ArrayCollection();\r\n        $this->comments = new ArrayCollection();\r\n        $this->likes = new ArrayCollection();\r\n        $this->sent_critiques = new ArrayCollection();\r\n        $this->recived_critiques = new ArrayCollection();\r\n    }\r\n\r\n    public function getId(): ?int\r\n    {\r\n        return $this->id;\r\n    }\r\n\r\n    public function getNom(): ?string\r\n    {\r\n        return $this->nom;\r\n    }\r\n\r\n    public function setNom(string $nom): self\r\n    {\r\n        $this->nom = $nom;\r\n\r\n        return $this;\r\n    }\r\n\r\n    public function getPrenom(): ?string\r\n    {\r\n        return $this->prenom;\r\n    }\r\n\r\n    public function setPrenom(string $prenom): self\r\n    {\r\n        $this->prenom = $prenom;\r\n\r\n        return $this;\r\n    }\r\n\r\n    public function getEmail(): ?string\r\n    {\r\n        return $this->Email;\r\n    }\r\n\r\n    public function setEmail(string $Email): self\r\n    {\r\n        $this->Email = $Email;\r\n\r\n        return $this;\r\n    }\r\n\r\n    public function getPassword(): ?string\r\n    {\r\n        return $this->password;\r\n    }\r\n\r\n    public function setPassword(string $password): self\r\n    {\r\n        $this->password = $password;\r\n\r\n        return $this;\r\n    }\r\n\r\n    /**\r\n     * @return Collection|ChangePwd[]\r\n     */\r\n    public function getChangePwds(): Collection\r\n    {\r\n        return $this->changePwds;\r\n    }\r\n\r\n    public function addChangePwd(ChangePwd $changePwd): self\r\n    {\r\n        if (!$this->changePwds->contains($changePwd)) {\r\n            $this->changePwds[] = $changePwd;\r\n            $changePwd->setUser($this);\r\n        }\r\n\r\n        return $this;\r\n    }\r\n\r\n    public function removeChangePwd(ChangePwd $changePwd): self\r\n    {\r\n        if ($this->changePwds->contains($changePwd)) {\r\n            $this->changePwds->removeElement($changePwd);\r\n            // set the owning side to null (unless already changed)\r\n            if ($changePwd->getUser() === $this) {\r\n                $changePwd->setUser(null);\r\n            }\r\n        }\r\n\r\n        return $this;\r\n    }\r\n\r\n    public function getSexe(): ?string\r\n    {\r\n        return $this->sexe;\r\n    }\r\n\r\n    public function setSexe(string $sexe): self\r\n    {\r\n        $this->sexe = $sexe;\r\n\r\n        return $this;\r\n    }\r\n\r\n    public function getBirthday(): ?\\DateTimeInterface\r\n    {\r\n        return $this->birthday;\r\n    }\r\n\r\n    public function setBirthday(\\DateTimeInterface $birthday): self\r\n    {\r\n        $this->birthday = $birthday;\r\n\r\n        return $this;\r\n    }\r\n\r\n    public function getNumTel(): ?string\r\n    {\r\n        return $this->numTel;\r\n    }\r\n\r\n    public function setNumTel(string $numTel): self\r\n    {\r\n        $this->numTel = $numTel;\r\n\r\n        return $this;\r\n    }\r\n\r\n    public function getBio(): ?string\r\n    {\r\n        return $this->bio;\r\n    }\r\n\r\n    public function setBio(?string $bio): self\r\n    {\r\n        $this->bio = $bio;\r\n\r\n        return $this;\r\n    }\r\n\r\n    public function getProfilePicture(): ?string\r\n    {\r\n        return $this->profilePicture;\r\n    }\r\n\r\n    public function setProfilePicture(string $profilePicture): self\r\n    {\r\n        $this->profilePicture = $profilePicture;\r\n\r\n        return $this;\r\n    }\r\n\r\n    /**\r\n     * @inheritDoc\r\n     */\r\n    public function getRoles() {\r\n        // TODO: Implement getRoles() method.\r\n        return ['ROLE_USER'];\r\n    }\r\n\r\n    /**\r\n     * @inheritDoc\r\n     */\r\n    public function getSalt() {\r\n        // TODO: Implement getSalt() method.\r\n    }\r\n\r\n    /**\r\n     * @inheritDoc\r\n     */\r\n    public function getUsername() {\r\n        // TODO: Implement getUsername() method.\r\n        return $this->username;\r\n    }\r\n\r\n    /**\r\n     * @inheritDoc\r\n     */\r\n    public function eraseCredentials() {\r\n        // TODO: Implement eraseCredentials() method.\r\n    }\r\n\r\n    /**\r\n     * @return Collection|Post[]\r\n     */\r\n    public function getPosts(): Collection\r\n    {\r\n        return $this->posts;\r\n    }\r\n\r\n    public function addPost(Post $post): self\r\n    {\r\n        if (!$this->posts->contains($post)) {\r\n            $this->posts[] = $post;\r\n            $post->setUser($this);\r\n        }\r\n\r\n        return $this;\r\n    }\r\n\r\n    public function removePost(Post $post): self\r\n    {\r\n        if ($this->posts->contains($post)) {\r\n            $this->posts->removeElement($post);\r\n            // set the owning side to null (unless already changed)\r\n            if ($post->getUser() === $this) {\r\n                $post->setUser(null);\r\n            }\r\n        }\r\n\r\n        return $this;\r\n    }\r\n\r\n    public function setUsername(string $username): self\r\n    {\r\n        $this->username = $username;\r\n\r\n        return $this;\r\n    }\r\n\r\n    /**\r\n     * @return Collection|self[]\r\n     */\r\n    public function getSubscribedTo(): Collection\r\n    {\r\n        return $this->subscribedTo;\r\n    }\r\n\r\n    public function addSubscribedTo(self $subscribedTo): self\r\n    {\r\n        if (!$this->subscribedTo->contains($subscribedTo)) {\r\n            $this->subscribedTo[] = $subscribedTo;\r\n        }\r\n\r\n        return $this;\r\n    }\r\n\r\n    public function removeSubscribedTo(self $subscribedTo): self\r\n    {\r\n        if ($this->subscribedTo->contains($subscribedTo)) {\r\n            $this->subscribedTo->removeElement($subscribedTo);\r\n        }\r\n\r\n        return $this;\r\n    }\r\n\r\n    /**\r\n     * @return Collection|self[]\r\n     */\r\n    public function getSubscribers(): Collection\r\n    {\r\n        return $this->subscribers;\r\n    }\r\n\r\n    public function addSubscriber(self $subscriber): self\r\n    {\r\n        if (!$this->subscribers->contains($subscriber)) {\r\n            $this->subscribers[] = $subscriber;\r\n            $subscriber->addSubscribedTo($this);\r\n        }\r\n\r\n        return $this;\r\n    }\r\n\r\n    public function removeSubscriber(self $subscriber): self\r\n    {\r\n        if ($this->subscribers->contains($subscriber)) {\r\n            $this->subscribers->removeElement($subscriber);\r\n            $subscriber->removeSubscribedTo($this);\r\n        }\r\n\r\n        return $this;\r\n    }\r\n    public function __toString()\r\n    {\r\n        return $this->getUsername();\r\n    }\r\n\r\n    public function getIsAdmin(): ?bool\r\n    {\r\n        return $this->isAdmin;\r\n    }\r\n\r\n    public function setIsAdmin(bool $isAdmin): self\r\n    {\r\n        $this->isAdmin = $isAdmin;\r\n\r\n        return $this;\r\n    }\r\n\r\n    public function getIsDeleted(): ?bool\r\n    {\r\n        return $this->isDeleted;\r\n    }\r\n\r\n    public function setIsDeleted(bool $isDeleted): self\r\n    {\r\n        $this->isDeleted = $isDeleted;\r\n\r\n        return $this;\r\n    }\r\n\r\n    /**\r\n     * @return Collection|Comment[]\r\n     */\r\n    public function getComments(): Collection\r\n    {\r\n        return $this->comments;\r\n    }\r\n\r\n    public function addComment(Comment $comment): self\r\n    {\r\n        if (!$this->comments->contains($comment)) {\r\n            $this->comments[] = $comment;\r\n            $comment->setUser($this);\r\n        }\r\n\r\n        return $this;\r\n    }\r\n\r\n    public function removeComment(Comment $comment): self\r\n    {\r\n        if ($this->comments->contains($comment)) {\r\n            $this->comments->removeElement($comment);\r\n            // set the owning side to null (unless already changed)\r\n            if ($comment->getUser() === $this) {\r\n                $comment->setUser(null);\r\n            }\r\n        }\r\n\r\n        return $this;\r\n    }\r\n\r\n    /**\r\n     * @return Collection|Like[]\r\n     */\r\n    public function getLikes(): Collection\r\n    {\r\n        return $this->likes;\r\n    }\r\n\r\n    public function addLike(Like $like): self\r\n    {\r\n        if (!$this->likes->contains($like)) {\r\n            $this->likes[] = $like;\r\n            $like->setUser($this);\r\n        }\r\n\r\n        return $this;\r\n    }\r\n\r\n    public function removeLike(Like $like): self\r\n    {\r\n        if ($this->likes->contains($like)) {\r\n            $this->likes->removeElement($like);\r\n            // set the owning side to null (unless already changed)\r\n            if ($like->getUser() === $this) {\r\n                $like->setUser(null);\r\n            }\r\n        }\r\n\r\n        return $this;\r\n    }\r\n\r\n    /**\r\n     * @return Collection|Critique[]\r\n     */\r\n    public function getSentCritiques(): Collection\r\n    {\r\n        return $this->sent_critiques;\r\n    }\r\n\r\n    public function addSentCritique(Critique $sentCritique): self\r\n    {\r\n        if (!$this->sent_critiques->contains($sentCritique)) {\r\n            $this->sent_critiques[] = $sentCritique;\r\n            $sentCritique->setSender($this);\r\n        }\r\n\r\n        return $this;\r\n    }\r\n\r\n    public function removeSentCritique(Critique $sentCritique): self\r\n    {\r\n        if ($this->sent_critiques->contains($sentCritique)) {\r\n            $this->sent_critiques->removeElement($sentCritique);\r\n            // set the owning side to null (unless already changed)\r\n            if ($sentCritique->getSender() === $this) {\r\n                $sentCritique->setSender(null);\r\n            }\r\n        }\r\n\r\n        return $this;\r\n    }\r\n\r\n    /**\r\n     * @return Collection|Critique[]\r\n     */\r\n    public function getRecivedCritiques(): Collection\r\n    {\r\n        return $this->recived_critiques;\r\n    }\r\n\r\n    public function addRecivedCritique(Critique $recivedCritique): self\r\n    {\r\n        if (!$this->recived_critiques->contains($recivedCritique)) {\r\n            $this->recived_critiques[] = $recivedCritique;\r\n            $recivedCritique->setReciver($this);\r\n        }\r\n\r\n        return $this;\r\n    }\r\n\r\n    public function removeRecivedCritique(Critique $recivedCritique): self\r\n    {\r\n        if ($this->recived_critiques->contains($recivedCritique)) {\r\n            $this->recived_critiques->removeElement($recivedCritique);\r\n            // set the owning side to null (unless already changed)\r\n            if ($recivedCritique->getReciver() === $this) {\r\n                $recivedCritique->setReciver(null);\r\n            }\r\n        }\r\n\r\n        return $this;\r\n    }\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/Entity/User.php	(revision f71b6bac8cb250e3393826d0e9e293a747728ce3)
++++ src/Entity/User.php	(date 1594583926278)
+@@ -173,6 +173,11 @@
+      */
+     private $recived_critiques;
+ 
++    /**
++     * @ORM\Column(type="boolean")
++     */
++    private $isFixture;
++
+ 
+ 
+     public function __construct()
+@@ -602,6 +607,18 @@
+             }
+         }
+ 
++        return $this;
++    }
++
++    public function getIsFixture(): ?bool
++    {
++        return $this->isFixture;
++    }
++
++    public function setIsFixture(bool $isFixture): self
++    {
++        $this->isFixture = $isFixture;
++
+         return $this;
+     }
+ 
+Index: templates/search/sliderPost.html.twig
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>{% extends'base.html.twig' %}\r\n{% block stylesheets %}\r\n    <link rel=\"stylesheet\" href=\"{{ asset('slider.css') }}\">\r\n    <link href=\"https://fonts.googleapis.com/icon?family=Material+Icons\" rel=\"stylesheet\">\r\n    <link rel=\"stylesheet\" href=\"{{ asset('styles/slideeStyle.css') }}\">\r\n\r\n{% endblock %}\r\n\r\n{% block body %}\r\n    <div class=\"swiper-container m-4\">\r\n        <div class=\"swiper-wrapper\">\r\n            {% for post in posts %}\r\n                <div class=\"swiper-slide\">\r\n\r\n                    <div class=\"card img-fluid \" style=\"width:540px ;height: 600px\">\r\n                        <h5 class=\"card-title ml-2\">\r\n                            <a href=\"{{ path('profile',{id:post.user.id}) }}\">\r\n                                <img class=\"rounded-circle mr-2-3\" src=\"{{ post.user.profilePicture }}\"\r\n                                     href=\"{{ path('profile',{id:post.user.id}) }} \" alt=\"profilPicture\" height=\"35px\" width=\"35px\"></a>\r\n                            <a href=\"{{ path('profile',{id:post.user.id}) }}\" class=\"ml-2 text-warning\">{{ post.user.nom }}</a>\r\n                        </h5>\r\n                        <h6 class=\"card-subtitle mb-2 text-muted\">\r\n                            <i class=\"fa fa-hourglass\" style=' padding:5px;font-size:18px;color:rgba(251,235,61,0.95)'></i>\r\n                            {{ post.createdAt | date(\"F jS \\\\a\\\\t g:ia\") }}\r\n                        </h6>\r\n\r\n                        {% if post.type == \"PHOTO\" %}\r\n\r\n                            <div class=\"card-opacity\">\r\n                                <img class=\"card-img-top\" style=\"width:540px;height:270px\" src=\"{{ post.content }}\" alt=\"Card image\">\r\n                            </div>\r\n                        {% elseif post.type== \"video\" %}\r\n                            <div class=\"card-opacity2\">\r\n\r\n                                <video class=\"img-fluid\" style=\"width: 540px;height: 270px\" controls playsinline autoplay >\r\n                                    <source src=\"{{ asset(post.content) }}\" type=\"video/mp4\">\r\n                                </video>\r\n                            </div>\r\n\r\n                        {% endif %}\r\n\r\n\r\n                        <div class=\"card-img-top p-2 \">\r\n                        <h4 class=\"card-title card__title text-success\">{{ post.title }}</h4>\r\n                        <div>\r\n                            {% for c in post.categories %}\r\n\r\n                                <em class=\"text-muted  text-italic \"> - {{ c }}</em>\r\n\r\n                            {% endfor %}\r\n                        </div>\r\n                        <p class=\"card-text font-weight-bolder card_description text-dark\">{{ post.description|length > 50 ? post.description|slice(0, 50) ~ '...' : post.description  }}</p>\r\n                        {% for t in post.tags %}\r\n\r\n                            <a href=\"#\" class=\"text-warning text-italic \">#{{ t }}</a>\r\n\r\n                        {% endfor %}\r\n                        <div class=\"row\">\r\n                            <div class=\"col-5\">\r\n                                <h6 class=\"card-subtitle mb-2 text-muted color_comments_like\">\r\n                                    <i class='fas fa-thumbs-up color' style=\"padding:10px;font-size:20px;color:rgba(251,235,61,0.95)\"></i>\r\n                                    {{ post.nblikes }} likes\r\n                                </h6>\r\n                            </div>\r\n                            <div class=\"col-7 \">\r\n                                <h6 class=\"card-subtitle mb-2 ml-4 text-muted\" style=\"font-size: 15px\">\r\n                                    <i class='fas fa-comment-dots color_comments_like'\r\n                                       style=\"padding:10px;font-size:20px;color:rgba(251,235,61,0.95)\"></i>\r\n                                    {{ post.nbcomment }} comments\r\n                                </h6>\r\n                            </div>\r\n                        </div>\r\n                        <a href=\"{{ path('individual_post',{id:post.id}) }}\">\r\n                            <button type=\"button\" class=\"btn btn-warning text-light\">Go To Post</button>\r\n                        </a>\r\n\r\n                    </div>\r\n                </div>\r\n                </div>\r\n\r\n            {% endfor %}\r\n        </div>\r\n        <div class=\"swiper-pagination p-4\"></div>\r\n        <div class=\"search-pagination p-4\">{{ knp_pagination_render(posts) }}</div>\r\n\r\n    </div>\r\n\r\n    </div>\r\n\r\n{% endblock %}\r\n\r\n{% block javascripts %}\r\n    <script src=\"{{ asset('slider.js') }}\"></script>\r\n    <script>\r\n        let swiper = new Swiper('.swiper-container', {\r\n            effect: 'coverflow',\r\n            grabCursor: true,\r\n            centeredSlides: true,\r\n            slidesPerView: 'auto',\r\n            coverflowEffect: {\r\n                rotate: 30,\r\n                stretch: 0,\r\n                depth: 500,\r\n                modifier: 1,\r\n                slideShadows: true,\r\n            },\r\n            pagination: {\r\n                el: '.swiper-pagination',\r\n            },\r\n        });\r\n    </script>\r\n{% endblock %}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- templates/search/sliderPost.html.twig	(revision f71b6bac8cb250e3393826d0e9e293a747728ce3)
++++ templates/search/sliderPost.html.twig	(date 1594583461263)
+@@ -24,7 +24,7 @@
+                             {{ post.createdAt | date("F jS \\a\\t g:ia") }}
+                         </h6>
+ 
+-                        {% if post.type == "PHOTO" %}
++                        {% if post.type == "picture" %}
+ 
+                             <div class="card-opacity">
+                                 <img class="card-img-top" style="width:540px;height:270px" src="{{ post.content }}" alt="Card image">
+Index: src/Entity/Post.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?php\r\n\r\nnamespace App\\Entity;\r\n\r\nuse App\\Repository\\PostRepository;\r\nuse Doctrine\\Common\\Collections\\ArrayCollection;\r\nuse Doctrine\\Common\\Collections\\Collection;\r\nuse Doctrine\\ORM\\Mapping as ORM;\r\n\r\n/**\r\n * @ORM\\Entity(repositoryClass=PostRepository::class)\r\n */\r\nclass Post\r\n{\r\n    /**\r\n     * @ORM\\Id()\r\n     * @ORM\\GeneratedValue()\r\n     * @ORM\\Column(type=\"integer\")\r\n     */\r\n    private $id;\r\n\r\n    /**\r\n     * @ORM\\Column(type=\"string\", length=100)\r\n     */\r\n    private $title;\r\n\r\n    /**\r\n     * @ORM\\Column(type=\"string\", length=100)\r\n     */\r\n    private $type;\r\n\r\n    /**\r\n     * @ORM\\Column(type=\"string\", length=255, nullable=true)\r\n     */\r\n    private $description;\r\n\r\n    /**\r\n     * @ORM\\Column(type=\"integer\", nullable=true)\r\n     */\r\n    private $nbcomment;\r\n\r\n    /**\r\n     * @ORM\\Column(type=\"integer\", nullable=true)\r\n     */\r\n    private $nblikes;\r\n\r\n    /**\r\n     * @ORM\\Column(type=\"datetime\")\r\n     */\r\n    private $createdAt;\r\n\r\n    /**\r\n     * @ORM\\ManyToMany(targetEntity=Category::class, inversedBy=\"posts\")\r\n     */\r\n    private $Categories;\r\n\r\n    /**\r\n     * @ORM\\ManyToOne(targetEntity=User::class, inversedBy=\"posts\")\r\n     * @ORM\\JoinColumn(nullable=false)\r\n     */\r\n    private $user;\r\n\r\n    /**\r\n     * @ORM\\ManyToMany(targetEntity=Tag::class, inversedBy=\"posts\")\r\n     */\r\n    private $tags;\r\n\r\n    /**\r\n     * @ORM\\OneToOne(targetEntity=Content::class, cascade={\"persist\", \"remove\"})\r\n     * @ORM\\JoinColumn(nullable=false)\r\n     */\r\n    private $content;\r\n\r\n    /**\r\n     * @ORM\\OneToMany(targetEntity=Comment::class, mappedBy=\"post\", orphanRemoval=true)\r\n     */\r\n    private $comments;\r\n\r\n    /**\r\n     * @ORM\\OneToMany(targetEntity=Like::class, mappedBy=\"post\", orphanRemoval=true)\r\n     */\r\n    private $likes;\r\n\r\n\r\n    public function __construct()\r\n    {\r\n        $this->Categories = new ArrayCollection();\r\n        $this->tags = new ArrayCollection();\r\n        $this->comments = new ArrayCollection();\r\n        $this->likes = new ArrayCollection();\r\n    }\r\n\r\n    public function getId(): ?int\r\n    {\r\n        return $this->id;\r\n    }\r\n\r\n    public function getTitle(): ?string\r\n    {\r\n        return $this->title;\r\n    }\r\n\r\n    public function setTitle(string $title): self\r\n    {\r\n        $this->title = $title;\r\n\r\n        return $this;\r\n    }\r\n\r\n    public function getType(): ?string\r\n    {\r\n        return $this->type;\r\n    }\r\n\r\n    public function setType(string $type): self\r\n    {\r\n        $this->type = $type;\r\n\r\n        return $this;\r\n    }\r\n\r\n    public function getDescription(): ?string\r\n    {\r\n        return $this->description;\r\n    }\r\n\r\n    public function setDescription(?string $description): self\r\n    {\r\n        $this->description = $description;\r\n\r\n        return $this;\r\n    }\r\n\r\n    public function getNbcomment(): ?int\r\n    {\r\n        return $this->nbcomment;\r\n    }\r\n\r\n    public function setNbcomment(int $nbcomment): self\r\n    {\r\n        $this->nbcomment = $nbcomment;\r\n\r\n        return $this;\r\n    }\r\n\r\n    public function getNblikes(): ?int\r\n    {\r\n        return $this->nblikes;\r\n    }\r\n\r\n    public function setNblikes(int $nblikes): self\r\n    {\r\n        $this->nblikes = $nblikes;\r\n\r\n        return $this;\r\n    }\r\n\r\n    public function getCreatedAt(): ?\\DateTimeInterface\r\n    {\r\n        return $this->createdAt;\r\n    }\r\n\r\n    public function setCreatedAt(\\DateTimeInterface $createdAt): self\r\n    {\r\n        $this->createdAt = $createdAt;\r\n\r\n        return $this;\r\n    }\r\n\r\n    /**\r\n     * @return Collection|Category[]\r\n     */\r\n    public function getCategories(): Collection\r\n    {\r\n        return $this->Categories;\r\n    }\r\n\r\n    public function addCategory(Category $category): self\r\n    {\r\n        if (!$this->Categories->contains($category)) {\r\n            $this->Categories[] = $category;\r\n        }\r\n\r\n        return $this;\r\n    }\r\n\r\n    public function removeCategory(Category $category): self\r\n    {\r\n        if ($this->Categories->contains($category)) {\r\n            $this->Categories->removeElement($category);\r\n        }\r\n\r\n        return $this;\r\n    }\r\n\r\n    public function getUser(): ?User\r\n    {\r\n        return $this->user;\r\n    }\r\n\r\n    public function setUser(?User $user): self\r\n    {\r\n        $this->user = $user;\r\n\r\n        return $this;\r\n    }\r\n\r\n    /**\r\n     * @return Collection|Tag[]\r\n     */\r\n    public function getTags(): Collection\r\n    {\r\n        return $this->tags;\r\n    }\r\n\r\n    public function addTag(Tag $tag): self\r\n    {\r\n        if (!$this->tags->contains($tag)) {\r\n            $this->tags[] = $tag;\r\n        }\r\n\r\n        return $this;\r\n    }\r\n\r\n    public function removeTag(Tag $tag): self\r\n    {\r\n        if ($this->tags->contains($tag)) {\r\n            $this->tags->removeElement($tag);\r\n        }\r\n\r\n        return $this;\r\n    }\r\n\r\n    public function getContent(): ?Content\r\n    {\r\n        return $this->content;\r\n    }\r\n\r\n    public function setContent(Content $content): self\r\n    {\r\n        $this->content = $content;\r\n\r\n        return $this;\r\n    }\r\n\r\n    public function getLiked(){\r\n\r\n    }\r\n\r\n    /**\r\n     * @return Collection|Comment[]\r\n     */\r\n    public function getComments(): Collection\r\n    {\r\n        return $this->comments;\r\n    }\r\n\r\n    public function addComment(Comment $comment): self\r\n    {\r\n        if (!$this->comments->contains($comment)) {\r\n            $this->comments[] = $comment;\r\n            $comment->setPost($this);\r\n        }\r\n\r\n        return $this;\r\n    }\r\n\r\n    public function removeComment(Comment $comment): self\r\n    {\r\n        if ($this->comments->contains($comment)) {\r\n            $this->comments->removeElement($comment);\r\n            // set the owning side to null (unless already changed)\r\n            if ($comment->getPost() === $this) {\r\n                $comment->setPost(null);\r\n            }\r\n        }\r\n\r\n        return $this;\r\n    }\r\n\r\n    /**\r\n     * @return Collection|Like[]\r\n     */\r\n    public function getLikes(): Collection\r\n    {\r\n        return $this->likes;\r\n    }\r\n\r\n    public function addLike(Like $like): self\r\n    {\r\n        if (!$this->likes->contains($like)) {\r\n            $this->likes[] = $like;\r\n            $like->setPost($this);\r\n        }\r\n\r\n        return $this;\r\n    }\r\n\r\n    public function removeLike(Like $like): self\r\n    {\r\n        if ($this->likes->contains($like)) {\r\n            $this->likes->removeElement($like);\r\n            // set the owning side to null (unless already changed)\r\n            if ($like->getPost() === $this) {\r\n                $like->setPost(null);\r\n            }\r\n        }\r\n\r\n        return $this;\r\n    }\r\n\r\n    public function isLikedByUser(User $user) : bool {\r\n        foreach ($this->likes as $like){\r\n            if ($like->getUser() === $user){\r\n                return true;\r\n            }\r\n        }\r\n        return false;\r\n\r\n    }\r\n    public function hasCommented(Comment $userComment) :  bool {\r\n        foreach ($this->comments as $comment){\r\n            if ($comment.getId() === $userComment.getId()){\r\n                return true;\r\n            }\r\n        }\r\n        return false;\r\n\r\n    }\r\n\r\n\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/Entity/Post.php	(revision f71b6bac8cb250e3393826d0e9e293a747728ce3)
++++ src/Entity/Post.php	(date 1594583461270)
+@@ -81,6 +81,11 @@
+      */
+     private $likes;
+ 
++    /**
++     * @ORM\Column(type="boolean")
++     */
++    private $isFixture;
++
+ 
+     public function __construct()
+     {
+@@ -328,6 +333,18 @@
+ 
+     }
+ 
++    public function getIsFixture(): ?bool
++    {
++        return $this->isFixture;
++    }
++
++    public function setIsFixture(bool $isFixture): self
++    {
++        $this->isFixture = $isFixture;
++
++        return $this;
++    }
++
+ 
+ 
+ }
+Index: fixtures/post.yaml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>App\\Entity\\User:\r\n  User_{1..25}:\r\n    Sexe: \"male\"\r\n    Prenom: <firstName()>\r\n    username: <titleMale()>\r\n    Nom: <name()>\r\n    Email: <email()>\r\n    Password: <password()>\r\n    Bio: <text(100)>\r\n    Birthday: <dateTime()>\r\n    NumTel: <numberBetween(21000000,29990970)>\r\n    ProfilePicture: \"http://lorempixel.com/<numberBetween(400,800)>/<numberBetween(400,800)>\"\r\n    IsAdmin: \"false\"\r\n    IsDeleted: \"false\"\r\n\r\n  User2_{1..3}:\r\n    Sexe: \"male\"\r\n    Prenom: <titleMale()>\r\n    username: <titleMale()>\r\n    Nom: <name()>\r\n    Email: <email()>\r\n    Password: <password()>\r\n    Bio: <text(100)>\r\n    Birthday: <dateTime()>\r\n    NumTel: <numberBetween(21000000,29990970)>\r\n    ProfilePicture: \"http://lorempixel.com/<numberBetween(400,800)>/<numberBetween(400,800)>\"\r\n    IsAdmin: \"false\"\r\n    IsDeleted: \"false\"\r\nApp\\Entity\\Tag:\r\n  Tag_{1..40}:\r\n    value: <text(12)>\r\n\r\n\r\nApp\\Entity\\Category:\r\n  Category_{1..10}:\r\n    intitule: <company()>\r\nApp\\Entity\\Picture:\r\n  Picture_{1..100}:\r\n    picturePath: \"http://lorempixel.com/<numberBetween(400,800)>/<numberBetween(400,800)>\"\r\n\r\n\r\nApp\\Entity\\Post:\r\n  post_{1..100}:\r\n    title: <state()>\r\n    nblikes: <numberBetween(0,1004)>\r\n    nbcomment: <numberBetween(0,4040)>\r\n    categories: '<numberBetween(1,5)>x @Category_*'\r\n    createdAt: <dateTime()>\r\n    description: <text(150)>\r\n    type: \"PHOTO\"\r\n    content: '@Picture_<current()>'\r\n    user : '@User_*'\r\n    tags: '<numberBetween(1,5)>x @Tag_*'\r\n\r\n\r\n\r\npost_{1..100}:\r\n  title: <state()>\r\n  nblikes: <numberBetween(0,1004)>\r\n  nbcomment: <numberBetween(0,4040)>\r\n  categories: '<numberBetween(1,5)>x @Category_*'\r\n  createdAt: <dateTime()>\r\n  description: <text(150)>\r\n  type: \"PHOTO\"\r\n  content: '_<current()>'\r\n  user : '@User_*'\r\n  tags: '<numberBetween(1,5)>x @Tag_*'
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- fixtures/post.yaml	(revision f71b6bac8cb250e3393826d0e9e293a747728ce3)
++++ fixtures/post.yaml	(date 1594585434919)
+@@ -1,20 +1,24 @@
+ App\Entity\User:
+-  User_{1..25}:
++  User_{1..100}:
+     Sexe: "male"
+     Prenom: <firstName()>
+-    username: <titleMale()>
++    username: <company()>
+     Nom: <name()>
+     Email: <email()>
+     Password: <password()>
+     Bio: <text(100)>
++    is_fixture: "true"
+     Birthday: <dateTime()>
+     NumTel: <numberBetween(21000000,29990970)>
+     ProfilePicture: "http://lorempixel.com/<numberBetween(400,800)>/<numberBetween(400,800)>"
+     IsAdmin: "false"
+     IsDeleted: "false"
++    subscribedTo: '<numberBetween(1,15)>x @User_*'
++    subscribers: '<numberBetween(1,15)>x @User_*'
+ 
+   User2_{1..3}:
+     Sexe: "male"
++    is_fixture: "true"
+     Prenom: <titleMale()>
+     username: <titleMale()>
+     Nom: <name()>
+@@ -34,34 +38,51 @@
+ App\Entity\Category:
+   Category_{1..10}:
+     intitule: <company()>
++
+ App\Entity\Picture:
+-  Picture_{1..100}:
++  Picture_{1..200}:
+     picturePath: "http://lorempixel.com/<numberBetween(400,800)>/<numberBetween(400,800)>"
+ 
++App\Entity\Text:
++  Text_{1..80}:
++    text: <text(400)>
++
+ 
+ App\Entity\Post:
+-  post_{1..100}:
++  post_{1..200}:
+     title: <state()>
+     nblikes: <numberBetween(0,1004)>
+     nbcomment: <numberBetween(0,4040)>
+     categories: '<numberBetween(1,5)>x @Category_*'
+     createdAt: <dateTime()>
+     description: <text(150)>
+-    type: "PHOTO"
++    type: "picture"
+     content: '@Picture_<current()>'
+     user : '@User_*'
++    is_fixture: "true"
+     tags: '<numberBetween(1,5)>x @Tag_*'
+ 
+-
+-
+-post_{1..100}:
+-  title: <state()>
+-  nblikes: <numberBetween(0,1004)>
+-  nbcomment: <numberBetween(0,4040)>
+-  categories: '<numberBetween(1,5)>x @Category_*'
+-  createdAt: <dateTime()>
+-  description: <text(150)>
+-  type: "PHOTO"
+-  content: '_<current()>'
+-  user : '@User_*'
+-  tags: '<numberBetween(1,5)>x @Tag_*'
+\ No newline at end of file
++  post1_{1..80}:
++    title: <state()>
++    nblikes: <numberBetween(0,1004)>
++    nbcomment: <numberBetween(0,4040)>
++    categories: '<numberBetween(1,5)>x @Category_*'
++    createdAt: <dateTime()>
++    description: <text(150)>
++    type: "text"
++    content: '@Text_<current()>'
++    user: '@User_*'
++    is_fixture: "true"
++    tags: '<numberBetween(1,5)>x @Tag_*'
++
++#App\Entity\Like:
++#  Like_{1..200}:
++#    post: '@Post_*'
++#    user: '@User_<current()>'
++#App\Entity\Comment:
++#  Comment{1..200}:
++#    post: '@Post_*'
++#    user: '@User_<current()>'
++#    createdAt: <dateTime()>
++#    content: <text(400)>
++
+Index: src/Migrations/Version20200712100853.php
+===================================================================
+--- src/Migrations/Version20200712100853.php	(revision f71b6bac8cb250e3393826d0e9e293a747728ce3)
++++ src/Migrations/Version20200712100853.php	(revision f71b6bac8cb250e3393826d0e9e293a747728ce3)
+@@ -1,37 +0,0 @@
+-<?php
+-
+-declare(strict_types=1);
+-
+-namespace DoctrineMigrations;
+-
+-use Doctrine\DBAL\Schema\Schema;
+-use Doctrine\Migrations\AbstractMigration;
+-
+-/**
+- * Auto-generated Migration: Please modify to your needs!
+- */
+-final class Version20200712100853 extends AbstractMigration
+-{
+-    public function getDescription() : string
+-    {
+-        return '';
+-    }
+-
+-    public function up(Schema $schema) : void
+-    {
+-        // this up() migration is auto-generated, please modify it to your needs
+-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
+-
+-        $this->addSql('CREATE TABLE critique (id INT AUTO_INCREMENT NOT NULL, sender_id INT NOT NULL, reciver_id INT NOT NULL, content LONGTEXT NOT NULL, created_at DATETIME NOT NULL, INDEX IDX_1F950324F624B39D (sender_id), INDEX IDX_1F95032493173582 (reciver_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+-        $this->addSql('ALTER TABLE critique ADD CONSTRAINT FK_1F950324F624B39D FOREIGN KEY (sender_id) REFERENCES user (id)');
+-        $this->addSql('ALTER TABLE critique ADD CONSTRAINT FK_1F95032493173582 FOREIGN KEY (reciver_id) REFERENCES user (id)');
+-    }
+-
+-    public function down(Schema $schema) : void
+-    {
+-        // this down() migration is auto-generated, please modify it to your needs
+-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
+-
+-        $this->addSql('DROP TABLE critique');
+-    }
+-}
+Index: src/Controller/PostFormController.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?php\r\n\r\nnamespace App\\Controller;\r\n\r\nuse App\\Entity\\Picture;\r\nuse App\\Entity\\Post;\r\nuse App\\Entity\\Recording;\r\nuse App\\Entity\\Tag;\r\nuse App\\Entity\\Text;\r\nuse App\\Entity\\User;\r\nuse App\\Entity\\Video;\r\nuse App\\Form\\PostType;\r\nuse App\\Repository\\TagRepository;\r\nuse Doctrine\\ORM\\EntityManagerInterface;\r\nuse FOS\\CKEditorBundle\\Form\\Type\\CKEditorType;\r\nuse Symfony\\Bundle\\FrameworkBundle\\Controller\\AbstractController;\r\nuse Symfony\\Component\\Form\\Extension\\Core\\Type\\FileType;\r\nuse Symfony\\Component\\Form\\Extension\\Core\\Type\\SubmitType;\r\nuse Symfony\\Component\\Form\\Extension\\Core\\Type\\TextareaType;\r\nuse Symfony\\Component\\Form\\Extension\\Core\\Type\\TextType;\r\nuse Symfony\\Component\\Form\\SubmitButton;\r\nuse Symfony\\Component\\HttpFoundation\\File\\Exception\\FileException;\r\nuse Symfony\\Component\\HttpFoundation\\Request;\r\nuse Symfony\\Component\\HttpFoundation\\Response;\r\nuse Symfony\\Component\\Routing\\Annotation\\Route;\r\nuse Symfony\\Component\\Validator\\Constraints\\File;\r\nuse Symfony\\Component\\Validator\\Constraints\\Image;\r\n\r\nclass PostFormController extends AbstractController\r\n{\r\n    /**\r\n     * @Route(\"/post/text/{id?0}\", name=\"post_form\")\r\n     * @param Request $request\r\n     * @param Post|null $post\r\n     * @param EntityManagerInterface $entityManager\r\n     * @param TagRepository $tagrepo\r\n     * @return Response\r\n     */\r\n    public function index(Request $request,Post $post = null,EntityManagerInterface $entityManager,TagRepository $tagrepo)\r\n    {\r\n        if(!$this->isGranted(\"IS_AUTHENTICATED_FULLY\"))\r\n        {\r\n            return $this->redirectToRoute(\"app_login\");\r\n        }\r\n        if(! $post) {\r\n            $post = new Post();\r\n        }\r\n        //temporary user\r\n//        $user=$entityManager->getRepository(User::class)->findOneBy(['id'=>2]);\r\n        //dd($user->getPosts()->toArray(),$entityManager->getRepository(User::class)->findOneBy(['id'=>1])->getPosts()->toArray());\r\n        $user=$this->getUser();\r\n        $form=$this->createForm(PostType::class,$post);\r\n        $form->add('text',TextareaType::class,array(\r\n            'mapped'=>false,\r\n            'attr'=>[\"rows\" => 4,'placeholder'=>'amaze us with your creativity!'],\r\n            ))\r\n            ->add('submit',SubmitType::class);\r\n        $form->handleRequest($request);\r\n        if($form->isSubmitted() && $form->isValid()){\r\n            if (!($post->getCreatedAt())) {\r\n                $post->setCreatedAt(new \\DateTime());\r\n                $post->setUser($user);\r\n                $post->setType('text');\r\n            }\r\n            $content = new Text();\r\n            $content->setText($form['text']->getData());\r\n            $post->setContent($content);\r\n            $tagData = explode(\" \", $form->get('tags')->getData());\r\n            //dd(!$tagData[0]===\"\",$form->get('tags')->getData());\r\n            if (!($tagData[0] === \"\")) {\r\n                foreach ($tagData as $item) {\r\n                    if ($item[0] == \"#\") {\r\n                        $item = str_replace(\"#\", \"\", $item);\r\n                        $tagfound = $tagrepo->findOneBy(['value' => $item]);\r\n                        //dd($tagfound);\r\n                        if (!isset($tagfound)) {\r\n                            $tag = new Tag();\r\n                            $tag->setValue($item);\r\n                            $tag->addPost($post);\r\n                            $post->addTag($tag);\r\n                            $entityManager->persist($tag);\r\n                        } else {\r\n                            $tagfound->addPost($post);\r\n                            $post->addTag($tagfound);\r\n                        }\r\n                    }\r\n                }\r\n            }\r\n//            dd($user);\r\n            $entityManager->persist($post);\r\n            $entityManager->flush();\r\n            return $this->redirectToRoute('post');\r\n        }\r\n        $tagforrender=\"\";\r\n        $textforrender=null;\r\n        if ($post->getContent()) {\r\n            $textforrender = $post->getContent()->getChildContent();\r\n            foreach ($post->getTags()->toArray() as $a) {\r\n                $tagforrender .= \"#\" . $a . \" \";\r\n            }\r\n        }\r\n\r\n\r\n        //dd($tagforrender);\r\n        return $this->render('post_form/text.html.twig', [\r\n            'form' => $form->createView(),\r\n            'tag' => $tagforrender,\r\n            'text'=>$textforrender\r\n        ]);\r\n    }\r\n\r\n    /**\r\n     * @Route(\"/post/picture/{id?0}\")\r\n     * @param Request $request\r\n     * @param Post|null $post\r\n     * @param EntityManagerInterface $entityManager\r\n     * @param TagRepository $tagrepo\r\n     * @return Response\r\n     */\r\n    public function index2(Request $request,Post $post = null,EntityManagerInterface $entityManager,TagRepository $tagrepo)\r\n    {\r\n        if(!$this->isGranted(\"IS_AUTHENTICATED_FULLY\"))\r\n        {\r\n            return $this->redirectToRoute(\"app_login\");\r\n        }\r\n        if(!$post){\r\n            $post=new Post();\r\n        }\r\n//        $user=$entityManager->getRepository(User::class)->findOneBy(['id'=>2]);\r\n        $user=$this->getUser();\r\n        $form=$this->createForm(PostType::class,$post);\r\n        $form->add('picture',FileType::class,array('mapped'=>false,\r\n            'required'=>true ,\r\n            'constraints'=>[new Image()]))\r\n            ->add('submit',SubmitType::class);\r\n        $form->handleRequest($request);\r\n        if($form->isSubmitted() && $form->isValid()){\r\n            $post->setCreatedAt(new \\DateTime());\r\n            $post->setType('picture');\r\n            if(isset($form['picture'])){\r\n                $picture=$form['picture']->getData();\r\n                $picpath=md5(uniqid()).$picture->getClientOriginalName();\r\n                $destination=__DIR__.\"/../../public/uploads/files/post_pictures\";\r\n                try{\r\n                    $picture->move($destination,$picpath);\r\n                    $content=new Picture();\r\n                    $content->setPicturePath('/uploads/files/post_pictures/'.$picpath);\r\n                    $post->setContent($content);\r\n                }\r\n                catch (FileException $fe){\r\n                    echo $fe;\r\n                }\r\n            }\r\n            $post->setUser($user);\r\n            $tagData=explode(\" \",$form->get('tags')->getData());\r\n            if(!($tagData[0]===\"\")){\r\n                foreach ($tagData as $item) {\r\n                    if($item[0]===\"#\"){\r\n                        $item=str_replace(\"#\",\"\",$item);\r\n                        $tagfound=$tagrepo->findOneBy(['value'=>$item]);\r\n                        if(!isset($tagfound)){\r\n                            $tag=new Tag();\r\n                            $tag->setValue($item);\r\n                            $tag->addPost($post);\r\n                            $entityManager->persist($tag);\r\n                        }\r\n                        else{\r\n                            $tagfound->addPost($post);\r\n                        }\r\n                    }\r\n                }\r\n            }\r\n\r\n            $entityManager->persist($post);\r\n            $entityManager->flush();\r\n            return $this->redirectToRoute('post');\r\n\r\n        }\r\n\r\n        $tagforrender=\"\";\r\n        $picforrender=null;\r\n        if ($post->getContent()) {\r\n            $picforrender = $post->getContent()->getChildContent();\r\n            foreach ($post->getTags()->toArray() as $a) {\r\n                $tagforrender .= \"#\" . $a . \" \";\r\n            }\r\n        }\r\n\r\n\r\n        //dd($tagforrender);\r\n        return $this->render('post_form/picture.html.twig', [\r\n            'form' => $form->createView(),\r\n            'tag' => $tagforrender,\r\n            'pic'=>$picforrender\r\n        ]);\r\n    }\r\n\r\n    /**\r\n     * @Route(\"/post/recording/{id?0}\")\r\n     * @param Request $request\r\n     * @param Post $post\r\n     * @param EntityManagerInterface $entityManager\r\n     * @param TagRepository $tagrepo\r\n     * @return Response\r\n     */\r\n    public function index3(Request $request,Post $post = null, EntityManagerInterface $entityManager,TagRepository $tagrepo)\r\n    {\r\n        if(!$this->isGranted(\"IS_AUTHENTICATED_FULLY\"))\r\n        {\r\n            return $this->redirectToRoute(\"app_login\");\r\n        }\r\n        if (!$post) {\r\n            $post = new Post();\r\n        }\r\n//        $user=$entityManager->getRepository(User::class)->findOneBy(['id'=>2]);\r\n        $user=$this->getUser();\r\n        $form=$this->createForm(PostType::class,$post);\r\n        $form->add('recording',FileType::class,array('mapped'=>false,\r\n            'required'=>true ,\r\n            'constraints'=>[new File(['mimeTypes'=>['audio/*']])]))\r\n            ->add('submit',SubmitType::class);\r\n        $form->handleRequest($request);\r\n        if($form->isSubmitted() && $form->isValid()){\r\n            $post->setCreatedAt(new \\DateTime());\r\n            $post->setType('recording');\r\n            if(isset($form['recording'])){\r\n                $rec=$form['recording']->getData();\r\n                $recordingPath=md5(uniqid()).$rec->getClientOriginalName();\r\n                $destination=__DIR__.\"/../../public/uploads/files/post_recordings\";\r\n                try{\r\n                    $rec->move($destination,$recordingPath);\r\n                    $content=new Recording();\r\n                    $content->setRecordingPath('/uploads/files/post_recordings/'.$recordingPath);\r\n                    $post->setContent($content);\r\n                }\r\n                catch (FileException $fe){\r\n                    echo $fe;\r\n                }\r\n            }\r\n            $post->setUser($user);\r\n            $tagData=explode(\" \",$form->get('tags')->getData());\r\n            if(!($tagData[0]===\"\")){\r\n            foreach ($tagData as $item) {\r\n                if($item[0]==\"#\"){\r\n                    $item=str_replace(\"#\",\"\",$item);\r\n                    $tagfound=$tagrepo->findOneBy(['value'=>$item]);\r\n                    if(!isset($tagfound)){\r\n                        $tag=new Tag();\r\n                        $tag->setValue($item);\r\n                        $tag->addPost($post);\r\n                        $entityManager->persist($tag);\r\n                    }\r\n                    else{\r\n                        $tagfound->addPost($post);\r\n                    }\r\n                }\r\n            }\r\n            }\r\n\r\n            $entityManager->persist($post);\r\n            $entityManager->flush();\r\n            return $this->redirectToRoute('post');\r\n\r\n        }\r\n\r\n        $tagforrender=\"\";\r\n        $recforrender=null;\r\n        if ($post->getContent()) {\r\n            $recforrender = $post->getContent()->getChildContent();\r\n            foreach ($post->getTags()->toArray() as $a) {\r\n                $tagforrender .= \"#\" . $a . \" \";\r\n            }\r\n        }\r\n\r\n\r\n        //dd($tagforrender);\r\n        return $this->render('post_form/recording.html.twig', [\r\n            'form' => $form->createView(),\r\n            'tag' => $tagforrender,\r\n            'rec'=>$recforrender\r\n        ]);\r\n    }\r\n\r\n    /**\r\n     * @Route(\"/post/video/{id?0}\")\r\n     * @param Request $request\r\n     * @param Post $post\r\n     * @param EntityManagerInterface $entityManager\r\n     * @param TagRepository $tagrepo\r\n     * @return Response\r\n     */\r\n    public function index4(Request $request,Post $post = null,EntityManagerInterface $entityManager,TagRepository $tagrepo)\r\n    {\r\n        if(!$this->isGranted(\"IS_AUTHENTICATED_FULLY\"))\r\n        {\r\n            return $this->redirectToRoute(\"app_login\");\r\n        }\r\n        if(!$post) {\r\n            $post = new Post();\r\n        }\r\n//        $user=$entityManager->getRepository(User::class)->findOneBy(['id'=>2]);\r\n        $user=$this->getUser();\r\n        $form=$this->createForm(PostType::class,$post);\r\n        $form->add('video',FileType::class,array('mapped'=>false,\r\n            'required'=>true ,\r\n            'constraints'=>[new File(['mimeTypes'=>['video/*','application/x-mpegURL']])],\r\n            ))\r\n            ->add('thumbnail',FileType::class,array('mapped'=>false,\r\n                'required'=>true,\r\n                'constraints'=>[new Image()]))\r\n            ->add('submit',SubmitType::class);\r\n        $form->handleRequest($request);\r\n        if($form->isSubmitted() && $form->isValid()){\r\n            $post->setCreatedAt(new \\DateTime());\r\n            $post->setType('video');\r\n            if($form['video']->getNormData()){\r\n                $video=$form['video']->getData();\r\n                $thumbnail=null;\r\n                if($form['thumbnail']->getNormData()) {\r\n                    $thumbnail=$form['thumbnail']->getData();\r\n                    $thumbpath=md5(uniqid()).$thumbnail->getClientOriginalName();\r\n                }\r\n                $vidpath=md5(uniqid()).$video->getClientOriginalName();\r\n                $destination=__DIR__.\"/../../public/uploads/files/post_videos\";\r\n                try{\r\n                    $thumbnail->move($destination.\"/thumbnails\",$thumbpath);\r\n                    $video->move($destination,$vidpath);\r\n                    $content=new Video();\r\n                    $content->setVideoPath('/uploads/files/post_videos/'.$vidpath);\r\n                    $content->setThumbnailPath(\"/uploads/files/post_videos/thumbnails/\".$thumbpath);\r\n                    $post->setContent($content);\r\n                }\r\n                catch (FileException $fe){\r\n                    echo $fe;\r\n                }\r\n            }\r\n            $post->setUser($user);\r\n            $tagData=explode(\" \",$form->get('tags')->getData());\r\n            if(!($tagData[0]===\"\")){\r\n            foreach ($tagData as $item) {\r\n                if($item[0]==\"#\"){\r\n                    $item=str_replace(\"#\",\"\",$item);\r\n                    $tagfound=$tagrepo->findOneBy(['value'=>$item]);\r\n                    if(!isset($tagfound)){\r\n                        $tag=new Tag();\r\n                        $tag->setValue($item);\r\n                        $tag->addPost($post);\r\n                        $entityManager->persist($tag);\r\n                    }\r\n                    else{\r\n                        $tagfound->addPost($post);\r\n                    }\r\n                }\r\n            }}\r\n\r\n            $entityManager->persist($post);\r\n            $entityManager->flush();\r\n            return $this->redirectToRoute('post');\r\n\r\n        }\r\n\r\n        $thumbnailtorender=null;\r\n        $tagforrender=\"\";\r\n        $videoforrender=null;\r\n        if ($post->getContent()) {\r\n            $videoforrender = $post->getContent()->getChildContent()['videoPath'];\r\n            $thumbnailtorender=$post->getContent()->getChildContent()['thumbnailPath'];\r\n            foreach ($post->getTags()->toArray() as $a) {\r\n                $tagforrender .= \"#\" . $a . \" \";\r\n            }\r\n        }\r\n\r\n\r\n        //dd($tagforrender);\r\n        return $this->render('post_form/video.html.twig', [\r\n            'form' => $form->createView(),\r\n            'tag' => $tagforrender,\r\n            'video'=>$videoforrender,\r\n            'thumbnail'=>$thumbnailtorender\r\n        ]);\r\n    }\r\n\r\n    /**\r\n     * @Route(\"/couleur\")\r\n     */\r\n    public function testcouleur(){\r\n        return $this->render('post_form/couleur.html.twig');\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/Controller/PostFormController.php	(revision f71b6bac8cb250e3393826d0e9e293a747728ce3)
++++ src/Controller/PostFormController.php	(date 1594583461291)
+@@ -60,6 +60,9 @@
+             if (!($post->getCreatedAt())) {
+                 $post->setCreatedAt(new \DateTime());
+                 $post->setUser($user);
++                $post->setNblikes(0);
++                $post->setNbcomment(0);
++                $post->setIsFixture(false);
+                 $post->setType('text');
+             }
+             $content = new Text();
+@@ -137,6 +140,9 @@
+         if($form->isSubmitted() && $form->isValid()){
+             $post->setCreatedAt(new \DateTime());
+             $post->setType('picture');
++            $post->setNblikes(0);
++            $post->setNbcomment(0);
++            $post->setIsFixture(false);
+             if(isset($form['picture'])){
+                 $picture=$form['picture']->getData();
+                 $picpath=md5(uniqid()).$picture->getClientOriginalName();
+@@ -223,6 +229,10 @@
+         if($form->isSubmitted() && $form->isValid()){
+             $post->setCreatedAt(new \DateTime());
+             $post->setType('recording');
++            $post->setIsFixture(false);
++
++            $post->setNblikes(0);
++            $post->setNbcomment(0);
+             if(isset($form['recording'])){
+                 $rec=$form['recording']->getData();
+                 $recordingPath=md5(uniqid()).$rec->getClientOriginalName();
+@@ -312,7 +322,11 @@
+         $form->handleRequest($request);
+         if($form->isSubmitted() && $form->isValid()){
+             $post->setCreatedAt(new \DateTime());
++            $post->setIsFixture(false);
+             $post->setType('video');
++
++            $post->setNblikes(0);
++            $post->setNbcomment(0);
+             if($form['video']->getNormData()){
+                 $video=$form['video']->getData();
+                 $thumbnail=null;
+Index: src/Controller/SecurityController.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?php\r\n\r\nnamespace App\\Controller;\r\n\r\nuse App\\Entity\\User;\r\nuse App\\Form\\RegistrationType;\r\nuse App\\Repository\\UserRepository;\r\nuse Doctrine\\ORM\\EntityManagerInterface;\r\nuse http\\Env\\Response;\r\nuse Symfony\\Bundle\\FrameworkBundle\\Controller\\AbstractController;\r\n\r\nuse Symfony\\Component\\HttpFoundation\\Request;\r\nuse Symfony\\Component\\Routing\\Annotation\\Route;\r\nuse Symfony\\Component\\Security\\Core\\Encoder\\UserPasswordEncoderInterface;\r\nuse Symfony\\Component\\String\\Slugger\\SluggerInterface;\r\n\r\nclass SecurityController extends AbstractController {\r\n    /**\r\n     * @Route(\"/registration\", name=\"registration\")\r\n     */\r\n    public function registration(Request $request, EntityManagerInterface $manager, SluggerInterface $slugger, UserPasswordEncoderInterface $encoder) {\r\n        if($this->isGranted(\"IS_AUTHENTICATED_FULLY\"))\r\n        {\r\n            return $this->redirectToRoute(\"welcomePage\");\r\n        }\r\n        $user = new User();\r\n        $form = $this->createForm(RegistrationType::class, $user);\r\n        $form->handleRequest($request);\r\n        if ($form->isSubmitted() && (!$form->isValid())) {\r\n            $this->addFlash('danger', 'verifier les donneés entreés</a>');\r\n\r\n        }\r\n        if ($form->isSubmitted() && $form->isValid()) {\r\n            $picture = $form->get('ProfilePicture')->getData();\r\n\r\n            //profile pic traitement\r\n            // so the pic file must be processed only when a file is uploaded\r\n            if ($picture) {\r\n                $originalFilename = pathinfo($picture->getClientOriginalName(), PATHINFO_FILENAME);\r\n                // this is needed to safely include the file name as part of the URL\r\n                $safeFilename = $slugger->slug($originalFilename);\r\n                $newFilename = $safeFilename . '-' . uniqid() . '.' . $picture->guessExtension();\r\n\r\n                // Move the file to the directory where profile pictures are stored\r\n                try {\r\n                    $picture->move(\r\n                        $this->getParameter('profile_pictures_path'),\r\n                        $newFilename\r\n                    );\r\n                } catch (FileException $e) {\r\n                    // ... handle exception if something happens during file upload\r\n                }\r\n\r\n                // updates the 'profile pic ' property to store the image file name\r\n                // instead of its contents\r\n                $user->setProfilePicture($newFilename);\r\n            }\r\n            //fin traitement du pic\r\n            //encodage du mot de pase\r\n            $hash = $encoder->encodePassword($user, $user->getPassword());\r\n            $user->setPassword($hash);\r\n\r\n\r\n\r\n            $manager->persist($user);\r\n            $manager->flush();\r\n            $this->addFlash('success', 'Vous etes maintenant inscrit <a href=\"#\" class=\"alert-link\">Connectez-vous!</a>');\r\n        }\r\n        return $this->render('security/registration.html.twig', [\r\n            'form_registration' => $form->createView()]);\r\n    }\r\n    /**\r\n     * @Route(\"/usernames/{username}\", name=\"usernameTester\")\r\n     */\r\n    public function usernameTester($username,UserRepository $repository){\r\n        if($repository->findOneBy([\r\n            'username'=>$username\r\n        ])){\r\n            return $this->json(['isUnique'=>'no'],200);\r\n        }\r\n        return $this->json(['isUnique'=>'yes'],200);\r\n    }\r\n\r\n\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/Controller/SecurityController.php	(revision f71b6bac8cb250e3393826d0e9e293a747728ce3)
++++ src/Controller/SecurityController.php	(date 1594584246431)
+@@ -54,6 +54,7 @@
+                 // updates the 'profile pic ' property to store the image file name
+                 // instead of its contents
+                 $user->setProfilePicture($newFilename);
++                $user->setIsFixture(false);
+             }
+             //fin traitement du pic
+             //encodage du mot de pase
+Index: templates/post/card.html.twig
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><div class=\"card img-fluid post  \" style=\"width:760px\">\r\n    <h5 class=\"card-title\">\r\n        <a href=\"{{ path('profile',{id:post.user.id}) }}\">\r\n            <img class=\"rounded-circle mr-2-3\"  src=\"{{ post.user.profilePicture }}\"\r\n                 href=\"{{ path('profile',{id:post.user.id}) }} \" alt=\"\" height=\"30px\" width=\"30px\"></a>\r\n        <a href=\"{{ path('profile',{id:post.user.id}) }}\" class=\"ml-2 text-warning\">{{ post.user.nom }}</a>\r\n    </h5>\r\n    <h6 class=\"card-subtitle mb-2 text-muted\">\r\n        <i class=\"fa fa-hourglass\" style=' padding:5px;font-size:18px;color:rgba(251,235,61,0.95)'></i>\r\n        {{ post.createdAt | date(\"F jS \\\\a\\\\t g:ia\") }}\r\n    </h6>\r\n        {% if post.type == \"PHOTO\" %}\r\n\r\n            <div class=\"card-opacity\">\r\n            <img class=\"card-img-top\" style=\"width:760px;height:450px\" src=\"{{ post.content }}\" alt=\"Card image\">\r\n    </div>\r\n            <div class=\"card__type\"> {{ post.type }}</div>\r\n\r\n        {% elseif post.type== \"video\" %}\r\n    <div class=\"card-opacity2\">\r\n\r\n        <video class=\"img-fluid\" style=\"width: 760px;height: 450px\" controls playsinline >\r\n            <source src=\"{{ asset(post.content) }}\" type=\"video/mp4\">\r\n        </video>\r\n    </div>\r\n            <div class=\"card__type3\"> {{ post.type }}</div>\r\n\r\n        {% endif %}\r\n\r\n\r\n\r\n<div class=\"card-img-top p-2\">\r\n    <h4 class=\"card-title text-center text-black font-weight-bold text-secondary\">{{ post.title }}</h4>\r\n    <div>\r\n        {% for c in post.categories %}\r\n\r\n            <em class=\"text-muted  text-italic \"> - {{ c }}</em>\r\n\r\n        {% endfor %}\r\n    </div>\r\n    <p class=\"card-text font-weight-bolder card_description text-dark\">{{ post.description|length > 150 ? post.description|slice(0, 150) ~ '...' : post.description  }}</p>\r\n    {% for t in post.tags %}\r\n\r\n        <a href=\"{{ path('tagg',{id:t.id}) }}\"  class=\"text-warning text-italic \">#{{ t }}</a>\r\n\r\n    {% endfor %}\r\n    <div class=\"row\">\r\n        <div class=\"col-8\">\r\n            <h6 class=\"card-subtitle mb-2 text-black color_comments_like\">\r\n                <i class='fas fa-thumbs-up color' style=\"padding:10px;font-size:20px;color:rgba(251,235,61,0.95)\"></i>\r\n                {{ post.likes | length }} likes\r\n            </h6>\r\n        </div>\r\n        <div class=\"col-4\">\r\n            <h6 class=\"card-subtitle mb-2  text-black\">\r\n                <i class='fas fa-comment-dots color_comments_like'\r\n                   style=\"padding:10px;font-size:20px;color:rgba(251,235,61,0.95)\"></i>\r\n                {{ post.comments | length }} comments\r\n            </h6>\r\n        </div>\r\n    </div>\r\n    <a href=\"{{ path('individual_post',{id:post.id}) }}\">\r\n        <button type=\"button\" class=\"btn btn-warning text-light\">Go To Post</button>\r\n    </a>\r\n\r\n</div>\r\n</div>\r\n<style>\r\n    .search-field{\r\n        height: 50px;\r\n        padding: 10px;\r\n        border:none;\r\n        outline:none;\r\n        color: black;\r\n        background: linear-gradient(beige, snow);}\r\n\r\n</style>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- templates/post/card.html.twig	(revision f71b6bac8cb250e3393826d0e9e293a747728ce3)
++++ templates/post/card.html.twig	(date 1594583461282)
+@@ -9,7 +9,7 @@
+         <i class="fa fa-hourglass" style=' padding:5px;font-size:18px;color:rgba(251,235,61,0.95)'></i>
+         {{ post.createdAt | date("F jS \\a\\t g:ia") }}
+     </h6>
+-        {% if post.type == "PHOTO" %}
++        {% if post.type == "picture" %}
+ 
+             <div class="card-opacity">
+             <img class="card-img-top" style="width:760px;height:450px" src="{{ post.content }}" alt="Card image">
