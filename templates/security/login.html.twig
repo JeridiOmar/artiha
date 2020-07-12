@@ -1,106 +1,192 @@
 
-{% block title %}Log in!{% endblock %}
+<head>
+    <title>Login</title>
 
     {% block stylesheets %}
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <!--===============================================================================================-->
-        <link rel="icon" type="image/png" href="{{ asset('/styles/loginStyle/images/icons/favicon.ico') }}"/>
-        <!--===============================================================================================-->
-        <link rel="stylesheet" type="text/css" href="{{ asset('/styles/loginStyle/vendor/bootstrap/css/bootstrap.min.css') }}" >
-        <!--===============================================================================================-->
-        <link rel="stylesheet" type="text/css" href="{{ asset('/styles/loginStyle/fonts/font-awesome-4.7.0/css/font-awesome.min.css') }}" >
-        <!--===============================================================================================-->
-        <link rel="stylesheet" type="text/css" href="{{ asset('/styles/loginStyle/fonts/Linearicons-Free-v1.0.0/icon-font.min.css') }}">
-        <!--===============================================================================================-->
-        <link rel="stylesheet" type="text/css" href="{{ asset('/styles/loginStyle/vendor/animate/animate.css') }}">
-        <!--===============================================================================================-->
-        <link rel="stylesheet" type="text/css" href="{{ asset('/styles/loginStyle/vendor/css-hamburgers/hamburgers.min.css') }}">
-        <!--===============================================================================================-->
-        <link rel="stylesheet" type="text/css" href="{{ asset('/styles/loginStyle/vendor/animsition/css/animsition.min.css') }}">
-        <!--===============================================================================================-->
-        <link rel="stylesheet" type="text/css" href="{{ asset('/styles/loginStyle/vendor/select2/select2.min.css') }}">
-        <!--===============================================================================================-->
-        <link rel="stylesheet" type="text/css" href="{{ asset('/styles/loginStyle/vendor/daterangepicker/daterangepicker.css') }}">
-        <!--===============================================================================================-->
-        <link rel="stylesheet" type="text/css" href="{{ asset('/styles/loginStyle/css/loginStyle1.css') }}">
-        <link rel="stylesheet" type="text/css" href="{{ asset('/styles/loginStyle/css/loginStyle2.css') }}">
+        <link href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css' rel='stylesheet'>
+        <link href='https://use.fontawesome.com/releases/v5.8.1/css/all.css' rel='stylesheet'>
+
+        <style>
+            body {
+                margin: 0;
+                padding: 0;
+                font-family: sans-serif;
+                background: url('https://www.thoughtco.com/thmb/5FgguVadP9ll_krLeNcmN2-thBE=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/GettyImages-685117891-59e45cf6aad52b00114255d9.jpg');
+
+            }
+
+            .box {
+                width: 500px;
+                padding: 40px;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                background: #191919;;
+                text-align: center;
+                transition: 0.25s;
+                margin-top: 100px
+            }
+
+            .box input[type="text"],
+            .box input[type="password"] {
+                border: 0;
+                background: none;
+                display: block;
+                margin: 20px auto;
+                text-align: center;
+                border: 2px solid #3498db;
+                padding: 10px 10px;
+                width: 250px;
+                outline: none;
+                color: white;
+                border-radius: 24px;
+                transition: 0.25s
+            }
+
+            .box h1 {
+                color: white;
+                text-transform: uppercase;
+                font-weight: 500
+            }
+
+            .box input[type="text"]:focus,
+            .box input[type="password"]:focus {
+                width: 300px;
+                border-color: #2ecc71
+            }
+
+            .box input[type="submit"] {
+                border: 0;
+                background: none;
+                display: block;
+                margin: 20px auto;
+                text-align: center;
+                border: 2px solid #2ecc71;
+                padding: 14px 40px;
+                outline: none;
+                color: white;
+                border-radius: 24px;
+                transition: 0.25s;
+                cursor: pointer
+            }
+
+            .box input[type="submit"]:hover {
+                background: #2ecc71
+            }
+
+            .forgot {
+                text-decoration: underline
+            }
+
+            ul.social-network {
+                list-style: none;
+                display: inline;
+                margin-left: 0 !important;
+                padding: 0
+            }
+
+            ul.social-network li {
+                display: inline;
+                margin: 0 5px
+            }
+
+            .social-network a.icoFacebook:hover {
+                background-color: #3B5998
+            }
+
+            .social-network a.icoTwitter:hover {
+                background-color: #33ccff
+            }
+
+            .social-network a.icoGoogle:hover {
+                background-color: #BD3518
+            }
+
+            .social-network a.icoFacebook:hover i,
+            .social-network a.icoTwitter:hover i,
+            .social-network a.icoGoogle:hover i {
+                color: #fff
+            }
+
+            a.socialIcon:hover,
+            .socialHoverClass {
+                color: #44BCDD
+            }
+
+            .social-circle li a {
+                display: inline-block;
+                position: relative;
+                margin: 0 auto 0 auto;
+                border-radius: 50%;
+                text-align: center;
+                width: 50px;
+                height: 50px;
+                font-size: 20px
+            }
+
+            .social-circle li i {
+                margin: 0;
+                line-height: 50px;
+                text-align: center
+            }
+
+            .social-circle li a:hover i,
+            .triggeredHover {
+                transform: rotate(360deg);
+                transition: all 0.2s
+            }
+
+            .social-circle i {
+                color: #fff;
+                transition: all 0.8s;
+                transition: all 0.8s;
+            }
+        </style>
+        <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+        <script type='text/javascript'
+                src='https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js'></script>
+        <script type='text/javascript'
+                src='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js'></script>
+        <script type='text/javascript'></script>
     {% endblock %}
+</head>
 
 {% block body %}
+    <body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <form method="post" class="box">
+                        {% if error %}
+                            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                        {% endif %}
+                        <h1>Login</h1>
 
-    <div class="limiter">
-        <div class="container-login100">
-            <div class="wrap-login100 p-b-160 p-t-50">
-                <form method="post" class="login100-form validate-form">
-                    {% if error %}
-                        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-                    {% endif %}
+                        <p class="text-muted"> Please enter your login and password!</p> <input type="text" name="Email"
+                                                                                                placeholder="Username">
+                        <input type="password" name="password" placeholder="Password">
+                            <a href="{{ path('forgot_pwd') }}" class="txt1">
+                                Forgot password?
+                            </a>
 
-                    <span class="login100-form-title p-b-43">
-						Account Login
-					</span>
+                            <a href="{{ path('registration') }}" class="txt1">
+                                Create an account!
+                            </a><br>
 
-                    <div class="wrap-input100 rs1 validate-input" data-validate = "Email is required">
-                        <input class="input100 form-control" id="inputEmail" name="Email" type="email" placeholder="email" >
-                        <span class="label-input100"></span>
-                    </div>
+                        <input type="hidden" name="_csrf_token"
+                               value="{{ csrf_token('authenticate') }}">
+                        <input type="submit" name="" value="Login" href="#">
 
-
-                    <div class="wrap-input100 rs2 validate-input" data-validate="Password is required">
-                        <input type="password" name="password" id="inputPassword" class="form-control input100" placeholder="password" required>
-                        <span class="label-input100"></span>
-                    </div>
-
-                    <input type="hidden" name="_csrf_token"
-                           value="{{ csrf_token('authenticate') }}">
-
-                    <div class="container-login100-form-btn">
-                        <button class="login100-form-btn">
-                            Sign in
-                        </button>
-                    </div>
-                    {#
-          Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
-          See https://symfony.com/doc/current/security/remember_me.html
-
-          <div class="checkbox mb-3">
-              <label>
-                  <input type="checkbox" name="_remember_me"> Remember me
-              </label>
-          </div>
-      #}
-
-                    <div class="text-center w-full p-t-23">
-                        <a href="#" class="txt1">
-                            Forgot password?
-                        </a>
-                        <br>
-                        <a href="{{ path('registration') }}" class="txt1">
-                            Create an account!
-                        </a>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
 
-{% endblock %}
-{% block javascripts %}
-    <!--===============================================================================================-->
-    <script src="vendor/jquery/jquery-3.2.1.min.js"></script>
-    <!--===============================================================================================-->
-    <script src="vendor/animsition/js/animsition.min.js"></script>
-    <!--===============================================================================================-->
-    <script src="vendor/bootstrap/js/popper.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
-    <!--===============================================================================================-->
-    <script src="vendor/select2/select2.min.js"></script>
-    <!--===============================================================================================-->
-    <script src="vendor/daterangepicker/moment.min.js"></script>
-    <script src="vendor/daterangepicker/daterangepicker.js"></script>
-    <!--===============================================================================================-->
-    <script src="vendor/countdowntime/countdowntime.js"></script>
-    <!--===============================================================================================-->
-    <script src="js/main.js"></script>
+    </body>
+
 
 {% endblock %}
+
