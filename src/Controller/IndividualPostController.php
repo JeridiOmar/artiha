@@ -43,6 +43,7 @@ class IndividualPostController extends AbstractController
     public function index(Request $request,$id, PostRepository $postRepository, CommentRepository $commentRepository,UserRepository $userRepository,EntityManagerInterface $entityManager)
     {
         $post = $postRepository->findPostById($id);
+
         $likes = $post->getLikes();
         $comment=new Comment();
         $form = $this->createForm(CommentType::class, $comment);
@@ -51,8 +52,10 @@ class IndividualPostController extends AbstractController
             $comment->setCreatedAt(new \DateTime());
             $comment->setPost($post);
             $cnct=$userRepository->findOneBy(['username'=>$this->getUser()->getUsername()]);
+
             $comment->setUser($cnct);
-            
+
+
             $entityManager->persist($comment);
             $entityManager->flush();
             $this->addFlash('success', 'Commentaire ajoutée');

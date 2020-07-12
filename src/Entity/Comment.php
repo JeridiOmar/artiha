@@ -50,24 +50,24 @@ class Comment
 
     public function getUser(): ?user
     {
-        return $this->User;
+        return $this->user;
     }
 
     public function setUser(?user $User): self
     {
-        $this->User = $User;
+        $this->user = $User;
 
         return $this;
     }
 
     public function getPost(): ?post
     {
-        return $this->Post;
+        return $this->post;
     }
 
     public function setPost(?post $Post): self
     {
-        $this->Post = $Post;
+        $this->post = $Post;
 
         return $this;
     }
