@@ -1,6 +1,6 @@
 <div class="card img-fluid post  " style="width:760px">
     <h5 class="card-title">
-        <a href="# ">
+        <a href="{{ path('profile',{id:post.user.id}) }}">
             <img class="rounded-circle mr-2-3"  src="{{ post.user.profilePicture }}"
                  href="{{ path('profile',{id:post.user.id}) }} " alt="" height="30px" width="30px"></a>
         <a href="{{ path('profile',{id:post.user.id}) }}" class="ml-2 text-warning">{{ post.user.nom }}</a>
@@ -9,29 +9,25 @@
         <i class="fa fa-hourglass" style=' padding:5px;font-size:18px;color:rgba(251,235,61,0.95)'></i>
         {{ post.createdAt | date("F jS \\a\\t g:ia") }}
     </h6>
-    <div class="card-opacity">
         {% if post.type == "PHOTO" %}
 
-         <img class="card-img-top" style="width:760px;height:450px" src="{{ post.content }}" alt="Card image">
+            <div class="card-opacity">
+            <img class="card-img-top" style="width:760px;height:450px" src="{{ post.content }}" alt="Card image">
+    </div>
+            <div class="card__type"> {{ post.type }}</div>
+
         {% elseif post.type== "video" %}
-        <style>
-            .post:hover .card-opacity {
-                height: 450px;
-            }
-            .post:hover .card__type {
-                top: 508px;
-            } .card__type {
-                top: 508px;
-            }
-        </style>
-        <video class="img-fluid" style="width: 760px;height: 450px" controls playsinline autoplay >
+    <div class="card-opacity2">
+
+        <video class="img-fluid" style="width: 760px;height: 450px" controls playsinline >
             <source src="{{ asset(post.content) }}" type="video/mp4">
         </video>
+    </div>
+            <div class="card__type3"> {{ post.type }}</div>
 
-    {% endif %}
+        {% endif %}
 
-</div>
-<div class="card__type"> {{ post.type }}</div>
+
 
 <div class="card-img-top p-2">
     <h4 class="card-title text-center text-black font-weight-bold text-secondary">{{ post.title }}</h4>
@@ -42,10 +38,10 @@
 
         {% endfor %}
     </div>
-    <p class="card-text font-weight-bolder card_description text-dark">{{ post.description }}</p>
+    <p class="card-text font-weight-bolder card_description text-dark">{{ post.description|length > 150 ? post.description|slice(0, 150) ~ '...' : post.description  }}</p>
     {% for t in post.tags %}
 
-        <a href="{{ path('tagg',{id:t.id}) }}"  class="text-primary text-italic ">#{{ t }}</a>
+        <a href="{{ path('tagg',{id:t.id}) }}"  class="text-warning text-italic ">#{{ t }}</a>
 
     {% endfor %}
     <div class="row">

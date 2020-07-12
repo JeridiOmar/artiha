@@ -1,5 +1,4 @@
 {{ form_start(form1 ,{'attr': {'class':'navbar-form navrbar-right','action': path('search')}}) }}
-{#<div class="row">#}
 <ul class="navbar-nav ml-auto pull-right">
     <li class="nav-item pl-1">
         <a class="nav-link">
@@ -16,20 +15,12 @@
         {{ form_row(form1.view) }}
         </a>
     </li>
-{#    <div class="col-4">  {{ form_row(form1.motCle) }}</div>#}
-{#    <div class="col-4">  {{ form_row(form1.choice) }}</div>#}
-{#    <div class="col-3">  {{ form_row(form1.view) }}</div>#}
-{#    <div class="col-1">#}
+
     <li class="nav-item pl-1">
         <a class="nav-link">
         <button class="btn form-group btn-warning " type="submit"> Search</button>
         </a>
     </li>
-{#    </div>#}
-
-
-{#</div>#}
-
 {{ form_end(form1) }}
 </ul>
 

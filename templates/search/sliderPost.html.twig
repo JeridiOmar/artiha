@@ -2,199 +2,8 @@
 {% block stylesheets %}
     <link rel="stylesheet" href="{{ asset('slider.css') }}">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('styles/slideeStyle.css') }}">
 
-    <style>
-
-
-        .card{
-            box-shadow: 0 0 19px rgba(0,0,0,0.1);
-            transition: box-shadow 0.3s;
-
-        }
-     .card{
-                width: 80%;
-            }
-
-
-
-        .card__category{
-            position: absolute;
-            height: 25px;
-            top: -25px;
-            left: 0;
-            padding: 0 15px;
-            text-transform: uppercase;
-            background-color: dimgray;
-            color: #f1f2f3;
-
-        }
-        .card-opacity {
-            background: #000;
-            height: 400px;
-            overflow: hidden;
-            transition: height 0.4s;
-
-        }
-
-        .card-opacity img{
-            display: block;
-            opacity: 1;
-            transition: opacity 0.4s, transform 0.3s;
-        }
-
-        .card:hover {
-            box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.5);
-
-        }
-
-        .card:hover .card-opacity{
-            height: 300px;
-        }
-
-        .card:hover .card-opacity img{
-            opacity: 0.6;
-            transform: scale(1.3);
-
-        }
-
-
-        .card__type{
-            position: absolute;
-            left: 0;
-            top: 273px;
-            height: 30px;
-            padding: 0 15px ;
-            color: white;
-            font-family: 'Lexend Tera', sans-serif;
-            background: dimgray;
-            font-size: 15px;
-            line-height: 25px;
-            text-transform: uppercase;
-            transition: top 0.4s;
-
-        }
-
-        .card_description{
-            font-size: 16px;
-            line-height: 25px;
-        }
-        .card__title{
-            text-shadow: 0px 5px 5px rgba(0,0,0,0.5);
-        }
-
-
-
-
-
-
-        body {
-            background-image: linear-gradient(rgba(0,0,0,0),rgba(0,0,0,0)),url({{ asset('background_images/black-textile-952670.jpg') }});
-            background:-webkit-linear-gradient(right, black,grey),linear-gradient(rgba(10,10,0,0),rgba(0,20,20,0));
-            background: -o-linear-gradient(right, black, grey);
-            background: -moz-linear-gradient(right, black, grey);
-            background: linear-gradient(right, black, grey);
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background-color: snow;
-        }
-
-        .card {
-            position: relative;
-            background-color: #fff;
-            width: 500px;
-            height: 500px;
-            margin: 0 auto;
-        }
-
-        .card .content {
-            width: 400px;
-            padding: 30px;
-            box-sizing: border-box;
-        }
-
-        .card .sliderText {
-            position: relative;
-            width: 100%;
-            height: 200px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: #000;
-        }
-
-        .card .sliderText h3 {
-            color: #fff;
-            font-size: 3em;
-        }
-
-
-        .swiper-container {
-            width: 100%;
-            padding-top: 50px;
-            padding-bottom: 50px;
-        }
-
-        .swiper-slide {
-            background-position: center;
-            background-size: cover;
-            width: 400px;
-
-        }
-        .card-title{
-            text-shadow: 0px 5px 5px rgba(0,0,0,0.5);
-
-
-        }
-        .card-text{
-            font-size: 16px;
-            line-height: 25px;
-        }
-        .btn-search{
-
-            height: 50px;
-            width:100px;
-            background: -webkit-linear-gradient(right, rgba(195,158,41,0.95), wheat);
-            background: -o-linear-gradient(right, rgba(195,158,41,0.95), wheat);
-            background: -moz-linear-gradient(right, rgba(195,158,41,0.95), wheat);
-            background: linear-gradient(right, rgba(195,158,41,0.95), wheat);
-            border: none;
-            color: snow;
-            border-radius:25px ;
-        }
-        .btn-search:hover{
-            background: -webkit-linear-gradient(right, rgba(195,158,41,0.95), wheat);
-            background: -o-linear-gradient(right, rgba(195,158,41,0.95), wheat);
-            background: -moz-linear-gradient(right, rgba(195,158,41,0.95), wheat);
-            background: linear-gradient(right, rgba(195,158,41,0.95), wheat);
-        }    .btn-search2{
-                 margin-left: 90%;
-                 height: 50px;
-                 width:100px;
-                 background: -webkit-linear-gradient(right, rgba(195,158,41,0.95), wheat);
-                 background: -o-linear-gradient(right, rgba(195,158,41,0.95), wheat);
-                 background: -moz-linear-gradient(right, rgba(195,158,41,0.95), wheat);
-                 background: linear-gradient(right, rgba(195,158,41,0.95), wheat);
-                 border: none;
-                 color: snow;
-                 border-radius:15px ;
-             }
-        .btn-search2:hover{
-            background: -webkit-linear-gradient(right, rgba(195,158,41,0.95), wheat);
-            background: -o-linear-gradient(right, rgba(195,158,41,0.95), wheat);
-            background: -moz-linear-gradient(right, rgba(195,158,41,0.95), wheat);
-            background: linear-gradient(right, rgba(195,158,41,0.95), wheat);
-        }
-        .search-pagination{
-            position: center;
-            margin-left: 35%;
-            color: black;
-        }
-    </style>
 {% endblock %}
 
 {% block body %}
@@ -204,31 +13,34 @@
                 <div class="swiper-slide">
 
                     <div class="card img-fluid " style="width:540px ;height: 600px">
-                        <h5 class="card-title">
-                            <a href="# ">
+                        <h5 class="card-title ml-2">
+                            <a href="{{ path('profile',{id:post.user.id}) }}">
                                 <img class="rounded-circle mr-2-3" src="{{ post.user.profilePicture }}"
-                                     href="{{ path('profile',{id:post.user.id}) }} " alt="" height="30px" width="30px"></a>
-                            <a href="{{ path('profile',{id:post.user.id}) }}" class="ml-2">{{ post.user.nom }}</a>
+                                     href="{{ path('profile',{id:post.user.id}) }} " alt="profilPicture" height="35px" width="35px"></a>
+                            <a href="{{ path('profile',{id:post.user.id}) }}" class="ml-2 text-warning">{{ post.user.nom }}</a>
                         </h5>
                         <h6 class="card-subtitle mb-2 text-muted">
-                            <i class="fa fa-hourglass" style=' padding:5px;font-size:18px;color:cornflowerblue'></i>
+                            <i class="fa fa-hourglass" style=' padding:5px;font-size:18px;color:rgba(251,235,61,0.95)'></i>
                             {{ post.createdAt | date("F jS \\a\\t g:ia") }}
                         </h6>
 
-                        <div class="card-opacity">
-                            {% if post.type == "PHOTO" %}
+                        {% if post.type == "PHOTO" %}
 
-                            <img class="card-img-top" style="width:620px;height:520px" src="{{ post.content }}" alt="Card image">
-                            {% elseif post.type== "VIDEO" %}
-                            <video class="img-fluid" style="width: 650px;height: 520px" playsinline autoplay muted loop>
-                                <source src="https://mdbootstrap.com/img/video/animation-intro.mp4" type="video/mp4">
-                            </video>
-                        </div>
+                            <div class="card-opacity">
+                                <img class="card-img-top" style="width:540px;height:270px" src="{{ post.content }}" alt="Card image">
+                            </div>
+                        {% elseif post.type== "video" %}
+                            <div class="card-opacity2">
+
+                                <video class="img-fluid" style="width: 540px;height: 270px" controls playsinline autoplay >
+                                    <source src="{{ asset(post.content) }}" type="video/mp4">
+                                </video>
+                            </div>
+
                         {% endif %}
-                    </div>
-                    <div class="card__type"> {{ post.type }}</div>
 
-                    <div class="card-img-top p-2">
+
+                        <div class="card-img-top p-2 ">
                         <h4 class="card-title card__title text-success">{{ post.title }}</h4>
                         <div>
                             {% for c in post.categories %}
@@ -237,29 +49,29 @@
 
                             {% endfor %}
                         </div>
-                        <p class="card-text font-weight-bolder card_description text-dark">{{ post.description }}</p>
+                        <p class="card-text font-weight-bolder card_description text-dark">{{ post.description|length > 50 ? post.description|slice(0, 50) ~ '...' : post.description  }}</p>
                         {% for t in post.tags %}
 
-                            <a href="#" class="text-primary text-italic ">#{{ t }}</a>
+                            <a href="#" class="text-warning text-italic ">#{{ t }}</a>
 
                         {% endfor %}
                         <div class="row">
-                            <div class="col-8">
-                                <h6 class="card-subtitle mb-2 text-black color_comments_like">
-                                    <i class='fas fa-thumbs-up color' style="padding:10px;font-size:20px;color:cornflowerblue"></i>
+                            <div class="col-5">
+                                <h6 class="card-subtitle mb-2 text-muted color_comments_like">
+                                    <i class='fas fa-thumbs-up color' style="padding:10px;font-size:20px;color:rgba(251,235,61,0.95)"></i>
                                     {{ post.nblikes }} likes
                                 </h6>
                             </div>
-                            <div class="col-4">
-                                <h6 class="card-subtitle mb-2  text-black">
+                            <div class="col-7 ">
+                                <h6 class="card-subtitle mb-2 ml-4 text-muted" style="font-size: 15px">
                                     <i class='fas fa-comment-dots color_comments_like'
-                                       style="padding:10px;font-size:20px;color:cornflowerblue"></i>
+                                       style="padding:10px;font-size:20px;color:rgba(251,235,61,0.95)"></i>
                                     {{ post.nbcomment }} comments
                                 </h6>
                             </div>
                         </div>
-                        <a href="#">
-                            <button type="button" class="btn btn-primary">Go To Post</button>
+                        <a href="{{ path('individual_post',{id:post.id}) }}">
+                            <button type="button" class="btn btn-warning text-light">Go To Post</button>
                         </a>
 
                     </div>
