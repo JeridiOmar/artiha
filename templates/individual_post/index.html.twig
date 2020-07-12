@@ -2,238 +2,263 @@
 
 {% block title %}{{ post.title }}{% endblock %}
 {% block stylesheets %}
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 
 {% endblock %}
 {% block body %}
-    <style>
-        #content {
-            width: auto;
-            height: auto;
-        }
-    </style>
+<style>
+    #content {
+        width: auto;
+        height: auto;
+    }
+</style>
+<div >
+    {% for type, messages in app.session.flashbag.all() %}
+        {% for message in messages %}
+            <div class="alert alert-{{ type }} alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span
+                            class="sr-only">Close</span></button>
+                {{ message | raw }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+
+</div>
 <div class="container">
-    <button type="button" class="btn btn-danger float-right" >
+    <button type="button" class="btn btn-danger float-right">
         <a style="color: black" href="{{ path('delete', {'id': post.id}) }}">delete</a>
     </button>
 </div>
-    <div class="container text-center" style="background-color: black">
-        <img id="content" class="rounded" src="{{ post.content }}" alt="post image" height="200" width="400">
-    </div>
-<div class="container border" style="background-color: #f5f5f5">
-<div class="container">
-    <img class="rounded-circle mr-2-3" src="{{ post.user.profilePicture }}"
-         href="{{ path('profile',{id:post.user.id}) }} " alt="" height="30px" width="30px"></a>
-    <a  style="color: dimgray" href="{{ path('profile',{id:post.user.id}) }}" class="ml-2">{{ post.user.nom }} {{ post.user.prenom }}</a>
-    <p style="font-size: small" class="font-italic"> on {{ post.createdAt | date("F jS \\a\\t g:ia") }}</p>
-
+<div class="container text-center" style="background-color: black">
+    <img id="content" class="rounded" src="{{ post.content }}" alt="post image" height="200" width="400">
 </div>
+<div class="container border" style="background-color: #f5f5f5">
+    <div class="container">
+        <img class="rounded-circle mr-2-3" src="{{ post.user.profilePicture }}"
+             href="{{ path('profile',{id:post.user.id}) }} " alt="" height="30px" width="30px"></a>
+        <a style="color: dimgray" href="{{ path('profile',{id:post.user.id}) }}"
+           class="ml-2">{{ post.user.nom }} {{ post.user.prenom }}</a>
+        <p style="font-size: small" class="font-italic"> on {{ post.createdAt | date("F jS \\a\\t g:ia") }}</p>
 
-<div class="container ">
-    <div>
-        {% for c in post.categories %}
-            <em class="text-italic "> - {{ c }}</em>
-
-        {% endfor %}
     </div>
-    <p class=" text-dark">{{ post.description }}</p>
-    {% for t in post.tags %}
-        <a href="#" style="color: dimgray" class="text-italic ">#{{ t }}</a>
-    {% endfor %}
-    <div class="row">
-        <div class="col-8">
-            <h6 class=" mb-2 text-black">
-                <a href="{{ path('post_like',{id:post.id}) }}" class="btn js-like" style="color: dimgray">
-                    {% if app.user and post.isLikedByUser(app.user) %}
-                        <i class='fas fa-thumbs-up color js-likebtn' style="padding:10px;font-size:20px;color: dimgray"></i>
-                    {% else %}
-                        <i class="far fa-thumbs-up js-likebtn" style="padding:10px;font-size:20px;color: dimgray"></i>
-                    {% endif %}
-                    <span class="js-likes"> {{ post.likes | length }} </span>
-                    <span class="liker"> like </span>
-                </a>
-            </h6>
+
+    <div class="container ">
+        <div>
+            {% for c in post.categories %}
+                <em class="text-italic "> - {{ c }}</em>
+
+            {% endfor %}
+        </div>
+        <p class=" text-dark">{{ post.description }}</p>
+        {% for t in post.tags %}
+            <a href="#" style="color: dimgray" class="text-italic ">#{{ t }}</a>
+        {% endfor %}
+        <div class="row">
+            <div class="col-8">
+                <h6 class=" mb-2 text-black">
+                    <a href="{{ path('post_like',{id:post.id}) }}" class="btn js-like" style="color: dimgray">
+                        {% if app.user and post.isLikedByUser(app.user) %}
+                            <i class='fas fa-thumbs-up color js-likebtn'
+                               style="padding:10px;font-size:20px;color: dimgray"></i>
+                        {% else %}
+                            <i class="far fa-thumbs-up js-likebtn"
+                               style="padding:10px;font-size:20px;color: dimgray"></i>
+                        {% endif %}
+                        <span class="js-likes"> {{ post.likes | length }} </span>
+                        <span class="liker"> like </span>
+                    </a>
+                </h6>
 
 
-{#----------#}
+                {#----------#}
 
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-sm">Show Likers</button>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-sm">
+                    Show Likers
+                </button>
 
-            <div class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-sm">
-                    <div class="modal-content">
-                        {% for like in likes %}
-                            <li style="list-style: none;">
-                                <img class="rounded-circle mr-2-3" src="{{ post.user.profilePicture }}"
-                                     href="{{ path('profile',{id:post.user.id}) }} " alt="" height="30px" width="30px">
-                                 {{like.user.nom }} {{ like.user.prenom }}
-                            </li>
-                        {% endfor %}
+                <div class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog"
+                     aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-sm">
+                        <div class="modal-content">
+                            {% for like in likes %}
+                                <li style="list-style: none;">
+                                    <img class="rounded-circle mr-2-3" src="{{ post.user.profilePicture }}"
+                                         href="{{ path('profile',{id:post.user.id}) }} " alt="" height="30px"
+                                         width="30px">
+                                    {{ like.user.nom }} {{ like.user.prenom }}
+                                </li>
+                            {% endfor %}
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="container">
-                <div class="input-group">
-                    <input class="form-control" placeholder="Add a comment" type="text">
-                    <span class="input-group-addon">
-                        <a href="#"><i class="fa fa-edit"></i></a>
-                    </span>
-                </div>
-                <ul class="comments-list">
-                    <li class="comment">
-                        <a class="pull-left" href="#">
-                            <img class="avatar" src="https://bootdey.com/img/Content/user_1.jpg" alt="avatar">
-                        </a>
-                        <div class="comment-body">
-                            <div class="comment-heading">
-                                <h4 class="user">Gavino Free</h4>
-                                <h5 class="time">5 minutes ago</h5>
-                            </div>
-                            <p>Sure, oooooooooooooooohhhhhhhhhhhhhhhh</p>
+                <div class="container">
+                    {{ form_start(form) }}
+                    <div class="row">
+                        <div class="col-10">
+                            {{ form_row(form.content) }}
                         </div>
-                        <ul class="comments-list">
-                            <li class="comment">
-                                <a class="pull-left" href="#">
-                                    <img class="avatar" src="https://bootdey.com/img/Content/user_3.jpg" alt="avatar">
-                                </a>
-                                <div class="comment-body">
-                                    <div class="comment-heading">
-                                        <h4 class="user">Ryan Haywood</h4>
-                                        <h5 class="time">3 minutes ago</h5>
-                                    </div>
-                                    <p>Relax my friend</p>
+                        <div class="col-2">
+                            {{ form_row(form.Enregistrer) }}
+                        </div>
+                    </div>
+                    {{ form_end(form) }}
+                    <ul class="comments-list">
+                        <li class="comment">
+                            <a class="pull-left" href="#">
+                                <img class="avatar" src="https://bootdey.com/img/Content/user_1.jpg" alt="avatar">
+                            </a>
+                            <div class="comment-body">
+                                <div class="comment-heading">
+                                    <h4 class="user">Gavino Free</h4>
+                                    <h5 class="time">5 minutes ago</h5>
                                 </div>
-                            </li>
-                            <li class="comment">
-                                <a class="pull-left" href="#">
-                                    <img class="avatar" src="https://bootdey.com/img/Content/user_2.jpg" alt="avatar">
-                                </a>
-                                <div class="comment-body">
-                                    <div class="comment-heading">
-                                        <h4 class="user">Gavino Free</h4>
-                                        <h5 class="time">3 minutes ago</h5>
+                                <p>Sure, oooooooooooooooohhhhhhhhhhhhhhhh</p>
+                            </div>
+                            <ul class="comments-list">
+                                <li class="comment">
+                                    <a class="pull-left" href="#">
+                                        <img class="avatar" src="https://bootdey.com/img/Content/user_3.jpg"
+                                             alt="avatar">
+                                    </a>
+                                    <div class="comment-body">
+                                        <div class="comment-heading">
+                                            <h4 class="user">Ryan Haywood</h4>
+                                            <h5 class="time">3 minutes ago</h5>
+                                        </div>
+                                        <p>Relax my friend</p>
                                     </div>
-                                    <p>Ok, cool.</p>
-                                </div>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
+                                </li>
+                                <li class="comment">
+                                    <a class="pull-left" href="#">
+                                        <img class="avatar" src="https://bootdey.com/img/Content/user_2.jpg"
+                                             alt="avatar">
+                                    </a>
+                                    <div class="comment-body">
+                                        <div class="comment-heading">
+                                            <h4 class="user">Gavino Free</h4>
+                                            <h5 class="time">3 minutes ago</h5>
+                                        </div>
+                                        <p>Ok, cool.</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
+
             </div>
 
 
-
-        </div>
-
-
-
+            {#{% block body %}#}
+            {#    {% block stylesheets %}#}
+            {#<style>#}
 
 
 
+            {#    body{#}
+            {#    background: darkgray	;#}
 
+            {#    font-family: Arial, Helvetica, sans-serif;#}
+            {#    }#}
 
-    {#{% block body %}#}
-{#    {% block stylesheets %}#}
-{#<style>#}
+            {#</style>#}
+            {#        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">#}
 
+            {#    {% endblock %}#}
 
+            {#    <!-- Blog Post -->#}
+            {#    <a href="{{ path('delete', {'id': post.id}) }}">delete</a>#}
 
-{#    body{#}
-{#    background: darkgray	;#}
+            {#            <div id="s" class="container  align-center">#}
 
-{#    font-family: Arial, Helvetica, sans-serif;#}
-{#    }#}
+            {#        {% if post.type == "PHOTO" %}#}
 
-{#</style>#}
-{#        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">#}
+            {#         <img  class="figure-img img-fluid rounded text-center" src="{{ post.content }}" alt="Card image">#}
+            {#        {% elseif post.type== "VIDEO" %}#}
+            {#        <video class="img-fluid" playsinline autoplay muted loop>#}
+            {#            <source src="https://mdbootstrap.com/img/video/animation-intro.mp4" type="video/mp4">#}
+            {#        </video>#}
+            {#    {% endif %}#}
+            {#            </div>#}
+            {#            <article>#}
+            {#            <h2 class="card-title" style="color: #cfa0e9">{{ post.title }}</h2>#}
+            {#            <div class="text-muted">#}
+            {#                Posted on {{ post.createdAt | date("F jS \\a\\t g:ia") }} by#}
+            {#                <img class="rounded-circle mr-2-3" src="{{ post.user.profilePicture }}"#}
+            {#                     href="{{ path('profile',{id:post.user.id}) }} " alt="" height="30px" width="30px"></a>#}
+            {#                <a  style="color: #cfa0e9" href="{{ path('profile',{id:post.user.id}) }}" class="ml-2">{{ post.user.nom }} {{ post.user.prenom }}</a>#}
+            {#            </div>#}
 
-{#    {% endblock %}#}
-
-{#    <!-- Blog Post -->#}
-{#    <a href="{{ path('delete', {'id': post.id}) }}">delete</a>#}
-
-{#            <div id="s" class="container  align-center">#}
-
-{#        {% if post.type == "PHOTO" %}#}
-
-{#         <img  class="figure-img img-fluid rounded text-center" src="{{ post.content }}" alt="Card image">#}
-{#        {% elseif post.type== "VIDEO" %}#}
-{#        <video class="img-fluid" playsinline autoplay muted loop>#}
-{#            <source src="https://mdbootstrap.com/img/video/animation-intro.mp4" type="video/mp4">#}
-{#        </video>#}
-{#    {% endif %}#}
-{#            </div>#}
-{#            <article>#}
-{#            <h2 class="card-title" style="color: #cfa0e9">{{ post.title }}</h2>#}
-{#            <div class="text-muted">#}
-{#                Posted on {{ post.createdAt | date("F jS \\a\\t g:ia") }} by#}
-{#                <img class="rounded-circle mr-2-3" src="{{ post.user.profilePicture }}"#}
-{#                     href="{{ path('profile',{id:post.user.id}) }} " alt="" height="30px" width="30px"></a>#}
-{#                <a  style="color: #cfa0e9" href="{{ path('profile',{id:post.user.id}) }}" class="ml-2">{{ post.user.nom }} {{ post.user.prenom }}</a>#}
-{#            </div>#}
-
-{#                        </div>#}
-{#                        <div class="col-4">#}
-{#                            <h6 class="card-subtitle mb-2  text-black">#}
-{#                                <i class='fas fa-comment-dots color_comments_like'#}
-{#                                   style="padding:10px;font-size:20px;color: #cfa0e9"></i>#}
-{#                                {{ post.comments | length }}#}
-{#                            </h6>#}
-{#                        </div>#}
-{#                    </div>#}
+            {#                        </div>#}
+            {#                        <div class="col-4">#}
+            {#                            <h6 class="card-subtitle mb-2  text-black">#}
+            {#                                <i class='fas fa-comment-dots color_comments_like'#}
+            {#                                   style="padding:10px;font-size:20px;color: #cfa0e9"></i>#}
+            {#                                {{ post.comments | length }}#}
+            {#                            </h6>#}
+            {#                        </div>#}
+            {#                    </div>#}
 
 
 
-{#                </div>#}
+            {#                </div>#}
 
-{#            </article>#}
-{#   #}
+            {#            </article>#}
+            {#   #}
 
-{% block javascripts %}
+            {% block javascripts %}
 
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script>
-        const likeButton = document.querySelector('.js-likebtn');
-        const likeLink = document.querySelector('.js-like');
-        const likeCount = document.querySelector('.js-likes');
-        // const newLiker = document.querySelector('.newLiker');
+                <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+                <script>
+                    const likeButton = document.querySelector('.js-likebtn');
+                    const likeLink = document.querySelector('.js-like');
+                    const likeCount = document.querySelector('.js-likes');
+                    // const newLiker = document.querySelector('.newLiker');
 
-        const url = likeLink.href;
-        likeLink.addEventListener('click', (e) => {
-            e.preventDefault();
-            axios.get(url).then(function (response) {
-                console.log(response.data)
-                likeCount.textContent = response.data.nbLike;
-                if(response.data.liked==true){
-                    likeButton.setAttribute('class','fas fa-thumbs-up color js-likebtn');
+                    const url = likeLink.href;
+                    likeLink.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        axios.get(url).then(function (response) {
+                            console.log(response.data)
+                            likeCount.textContent = response.data.nbLike;
+                            if (response.data.liked == true) {
+                                likeButton.setAttribute('class', 'fas fa-thumbs-up color js-likebtn');
 
-                }else{
-                    likeButton.setAttribute('class','far fa-thumbs-up color js-likebtn');
-                }
+                            } else {
+                                likeButton.setAttribute('class', 'far fa-thumbs-up color js-likebtn');
+                            }
 
-            })
-
-
-        })
-
-    </script>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+                        })
 
 
-    <script>
-        function showLikers() {
-            var x = document.getElementById("likers");
-            if (x.style.display === "block") {
-                x.style.display = "none";
-            } else {
-                x.style.display = "block";
-            }
-        }
-    </script>
+                    })
 
-{% endblock %}
+                </script>
+                <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+                        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+                        crossorigin="anonymous"></script>
+                <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+                        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+                        crossorigin="anonymous"></script>
+                <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+                        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+                        crossorigin="anonymous"></script>
 
-{% endblock %}
+
+                <script>
+                    function showLikers() {
+                        var x = document.getElementById("likers");
+                        if (x.style.display === "block") {
+                            x.style.display = "none";
+                        } else {
+                            x.style.display = "block";
+                        }
+                    }
+                </script>
+
+            {% endblock %}
+
+            {% endblock %}

@@ -86,12 +86,12 @@ class Comment
 
     public function getContent(): ?string
     {
-        return $this->Content;
+        return $this->content;
     }
 
     public function setContent(string $Content): self
     {
-        $this->Content = $Content;
+        $this->content = $Content;
 
         return $this;
     }

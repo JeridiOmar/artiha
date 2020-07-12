@@ -5,11 +5,14 @@ namespace App\Controller;
 use App\Entity\Comment;
 use App\Entity\Like;
 use App\Entity\Post;
+use App\Form\CommentType;
+use App\Form\RegistrationType;
 use App\Repository\CommentRepository;
 use App\Repository\LikeRepository;
 use App\Repository\PostRepository;
 use App\Repository\UserRepository;
 use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use MongoDB\Driver\Manager;
 use PhpParser\Node\Expr\Cast\Object_;
@@ -31,11 +34,29 @@ class IndividualPostController extends AbstractController
 
     /**
      * @Route("/{id<\d+>}", name="individual_post")
+     * @param $id
+     * @param PostRepository $postRepository
+     * @param CommentRepository $commentRepository
+     * @param $userRepository
+     * @return Response
      */
-    public function index($id, PostRepository $postRepository, CommentRepository $commentRepository)
+    public function index(Request $request,$id, PostRepository $postRepository, CommentRepository $commentRepository,UserRepository $userRepository,EntityManagerInterface $entityManager)
     {
         $post = $postRepository->findPostById($id);
         $likes = $post->getLikes();
+        $comment=new Comment();
+        $form = $this->createForm(CommentType::class, $comment);
+        $form->handleRequest($request);
+        if($form->isSubmitted()&&$form->isValid()){
+            $comment->setCreatedAt(new \DateTime());
+            $comment->setPost($post);
+            $cnct=$userRepository->findOneBy(['username'=>$this->getUser()->getUsername()]);
+            $comment->setUser($cnct);
+            
+            $entityManager->persist($comment);
+            $entityManager->flush();
+            $this->addFlash('success', 'Commentaire ajoutée');
+        }
 
         if (!$post) {
             throw $this->createNotFoundException('Unable to find Blog post.');
@@ -46,7 +67,9 @@ class IndividualPostController extends AbstractController
         return $this->render('individual_post/index.html.twig', array(
             'post'      => $post,
             'comments'  => $comments,
-        'likes'=>$likes
+        'likes'=>$likes,
+            'form'=>$form->createView()
+
         ));
 
     }
