@@ -213,7 +213,8 @@ public function tagFinder($id,PostRepository $repository,Request $request,TagRep
     return $this->render('search/postSearch.html.twig', [
             'ok'=>'0',
             'type' => 'TAG',
-            'tag' =>'???'
+            'tag' =>'???',
+        'form'=>$form->createView()
 
         ]);   }
 }

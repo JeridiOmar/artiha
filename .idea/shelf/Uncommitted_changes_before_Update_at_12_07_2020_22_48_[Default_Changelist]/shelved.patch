@@ -1,0 +1,39 @@
+Index: .idea/shelf/Uncommitted_changes_before_Update_at_12_07_2020_22_44__Default_Changelist_.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/shelf/Uncommitted_changes_before_Update_at_12_07_2020_22_44__Default_Changelist_.xml	(date 1594590377702)
++++ .idea/shelf/Uncommitted_changes_before_Update_at_12_07_2020_22_44__Default_Changelist_.xml	(date 1594590377702)
+@@ -0,0 +1,9 @@
++<changelist name="Uncommitted_changes_before_Update_at_12_07_2020_22_44_[Default_Changelist]" date="1594590274909" recycled="true" deleted="true">
++  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_12_07_2020_22_44_[Default_Changelist]/shelved.patch" />
++  <option name="DESCRIPTION" value="Uncommitted changes before Update at 12/07/2020 22:44 [Default Changelist]" />
++  <binary>
++    <option name="BEFORE_PATH" />
++    <option name="AFTER_PATH" value="public/uploads/files/profile_pictures/1-5f0b82e790c15.png" />
++    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_12_07_2020_22_44_[Default_Changelist]/1-5f0b82e790c15.png" />
++  </binary>
++</changelist>
+\ No newline at end of file
+Index: .idea/shelf/Uncommitted_changes_before_Update_at_12_07_2020_22_44_[Default_Changelist]/shelved.patch
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/shelf/Uncommitted_changes_before_Update_at_12_07_2020_22_44_[Default_Changelist]/shelved.patch	(date 1594590273294)
++++ .idea/shelf/Uncommitted_changes_before_Update_at_12_07_2020_22_44_[Default_Changelist]/shelved.patch	(date 1594590273294)
+@@ -0,0 +1,13 @@
++Index: .idea/shelf/Uncommitted_changes_before_Update_at_12_07_2020_22_15__Default_Changelist_.xml
++IDEA additional info:
++Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
++<+>UTF-8
++===================================================================
++--- .idea/shelf/Uncommitted_changes_before_Update_at_12_07_2020_22_15__Default_Changelist_.xml	(date 1594588573070)
+++++ .idea/shelf/Uncommitted_changes_before_Update_at_12_07_2020_22_15__Default_Changelist_.xml	(date 1594588573070)
++@@ -0,0 +1,4 @@
+++<changelist name="Uncommitted_changes_before_Update_at_12_07_2020_22_15_[Default_Changelist]" date="1594588560717" recycled="true" deleted="true">
+++  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_12_07_2020_22_15_[Default_Changelist]/shelved.patch" />
+++  <option name="DESCRIPTION" value="Uncommitted changes before Update at 12/07/2020 22:15 [Default Changelist]" />
+++</changelist>
++\ No newline at end of file
