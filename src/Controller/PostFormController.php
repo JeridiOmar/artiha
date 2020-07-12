@@ -89,9 +89,7 @@ class PostFormController extends AbstractController
 //            dd($user);
             $entityManager->persist($post);
             $entityManager->flush();
-            return $this->render('post_form/index.html.twig', [
-                'controller_name' => 'updatePersonController',
-            ]);
+            return $this->redirectToRoute('post');
         }
         $tagforrender="";
         $textforrender=null;
@@ -175,9 +173,8 @@ class PostFormController extends AbstractController
 
             $entityManager->persist($post);
             $entityManager->flush();
-            return $this->render('post_form/index.html.twig', [
-                'controller_name' => 'updatePersonController',
-            ]);
+            return $this->redirectToRoute('post');
+
         }
 
         $tagforrender="";
@@ -262,9 +259,8 @@ class PostFormController extends AbstractController
 
             $entityManager->persist($post);
             $entityManager->flush();
-            return $this->render('post_form/index.html.twig', [
-                'controller_name' => 'updatePersonController',
-            ]);
+            return $this->redirectToRoute('post');
+
         }
 
         $tagforrender="";
@@ -359,9 +355,8 @@ class PostFormController extends AbstractController
 
             $entityManager->persist($post);
             $entityManager->flush();
-            return $this->render('post_form/index.html.twig', [
-                'controller_name' => 'updatePersonController',
-            ]);
+            return $this->redirectToRoute('post');
+
         }
 
         $thumbnailtorender=null;
