@@ -75,14 +75,5 @@ App\Entity\Post:
     is_fixture: "true"
     tags: '<numberBetween(1,5)>x @Tag_*'
 
-#App\Entity\Like:
-#  Like_{1..200}:
-#    post: '@Post_*'
-#    user: '@User_<current()>'
-#App\Entity\Comment:
-#  Comment{1..200}:
-#    post: '@Post_*'
-#    user: '@User_<current()>'
-#    createdAt: <dateTime()>
-#    content: <text(400)>
+
 

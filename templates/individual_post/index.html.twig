@@ -46,7 +46,7 @@
 {% elseif post.type== "video" %}
 <div class="container text-center" style="background-color: black">
 
-<video id="content" class="img-fluid "  src="{{post.content) }}" type="video/mp4" style="width: 760px;height: 450px" controls playsinline autoplay >
+<video id="content" class="img-fluid "  src="{{post.content }}" type="video/mp4" style="width: 760px;height: 450px" controls playsinline autoplay >
 </video>
 </div>
 
@@ -73,8 +73,8 @@
         </div>
     <div class="row ">
       <a href="{{ path('profile',{id:post.user.id}) }}">
-          <img class="rounded-circle mr-2-3" {% if post.isFixture %}src="{{ user.profilePicture}}" {% else %}
-                                                   src="{{ asset('/uploads/files/profile_pictures/'~ user.profilePicture) }}"{% endif %} alt="profilePicture">
+          <img class="rounded-circle mr-2-3" {% if post.isFixture %}src="{{ post.user.profilePicture}}" {% else %}
+                                                   src="{{ asset('/uploads/files/profile_pictures/'~ post.user.profilePicture) }}"{% endif %} alt="profilePicture"
              href="{{ path('profile',{id:post.user.id}) }} " alt="" height="30px" width="30px"></a>
         <a style="color: dimgray" href="{{ path('profile',{id:post.user.id}) }}"
            class="ml-2">{{ post.user.nom }} {{ post.user.prenom }}</a>
