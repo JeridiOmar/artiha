@@ -54,6 +54,7 @@ class SecurityController extends AbstractController {
                 // updates the 'profile pic ' property to store the image file name
                 // instead of its contents
                 $user->setProfilePicture($newFilename);
+                $user->setIsFixture(false);
             }
             //fin traitement du pic
             //encodage du mot de pase

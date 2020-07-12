@@ -24,7 +24,7 @@
                             {{ post.createdAt | date("F jS \\a\\t g:ia") }}
                         </h6>
 
-                        {% if post.type == "PHOTO" %}
+                        {% if post.type == "picture" %}
 
                             <div class="card-opacity">
                                 <img class="card-img-top" style="width:540px;height:270px" src="{{ post.content }}" alt="Card image">

@@ -9,7 +9,7 @@
         <i class="fa fa-hourglass" style=' padding:5px;font-size:18px;color:rgba(251,235,61,0.95)'></i>
         {{ post.createdAt | date("F jS \\a\\t g:ia") }}
     </h6>
-        {% if post.type == "PHOTO" %}
+        {% if post.type == "picture" %}
 
             <div class="card-opacity">
             <img class="card-img-top" style="width:760px;height:450px" src="{{ post.content }}" alt="Card image">
