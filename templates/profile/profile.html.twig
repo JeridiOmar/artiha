@@ -4,15 +4,16 @@
 {% endblock %}
 
 {% block stylesheets %}
-{#    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"#}
-{#          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">#}
-{#    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"#}
-{#            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"#}
-{#            crossorigin="anonymous"></script>#}
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+            crossorigin="anonymous"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    {#    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">#}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-{#    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>#}
+
     <style>
         .img-thumb {
             padding: .25rem;
@@ -74,12 +75,14 @@
 
             outline: 0px #3399FF !important;
         }
-        form[class*="navbar"]{
-            margin-left: auto!important;
+
+        form[class*="navbar"] {
+            margin-left: auto !important;
             margin-top: 0;
         }
-        .fixed-top{
-            position:fixed!important;
+
+        .fixed-top {
+            position: fixed !important;
         }
 
     </style>
@@ -119,7 +122,7 @@
                                  alt="avatar">#}
                             <img src="{{ asset('/uploads/files/profile_pictures/'~ user.profilePicture) }}"
                                  class="img-thumb rounded-circle      " width="220" height="220"
-                                 alt="{{user.profilePicture}}"></a>
+                                 alt="{{ user.profilePicture }}"></a>
 
 
                     </div>
@@ -167,14 +170,21 @@
 
 
                     </hr><br>
+                    <div class="card">
+                        <h5 class="card-header">Bio <i class="fa fa-link fa-1x"></i></h5>
+                        <div class="card-body">
 
+                            <p class="card-text">{{ user.bio }}</p>
 
-                    <div class="panel panel-default">
-                        <div class="panel-heading">Bio <i class="fa fa-link fa-1x"></i></div>
-                        <div class="panel-body">{{ user.bio }}</div>
+                        </div>
                     </div>
 
+                    {#                   <div class="panel panel-default">
+                                            <div class="panel-heading"></div>
+                                            <div class="panel-body"></div>
+                                        </div>
 
+                                        #}
                     <ul class="list-group">
                         <li class="list-group-item text-muted">Activity <i class="fa fa-dashboard fa-1x"></i></li>
                         <li class="list-group-item text-right"><span
@@ -196,17 +206,35 @@
             </div><!--/col-3-->
             <div class="col-sm-9">
                 <ul class="nav nav-tabs">
-                    <li class="active"><a data-toggle="tab" href="#information">informations</a></li>
-                    {% if isMyProfile==true %}
-                    <li><a data-toggle="tab" href="#cordonnees">Modifier Cordonnées</a></li>
-                    {% endif %}
-                    <li><a data-toggle="tab" href="#postes">Postes</a></li>
-                    <li><a data-toggle="tab" href="#criticize">criticizes</a></li>
+
+                    <li class="nav-item">
+                        <a class="nav-link active " id="information-tab" data-toggle="tab" href="#information" role="tab" aria-controls="info" aria-selected="true" aria-selected="true" >Information</a>
+                    </li>
+                    <li class="nav-item">
+                        {% if isMyProfile==true %}
+                            <a class="nav-link"  href="#cordonnees" id="cordonnees-tab" data-toggle="tab"  role="tab" aria-controls="cord" aria-selected="false" >Modifier profile</a>
+                        {% endif %}
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#postes" id="postes-tab" data-toggle="tab" role="tab" aria-controls="post" aria-selected="false">Postes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#criticize" id="criticize-tab" data-toggle="tab"  role="tab" aria-controls="criti" aria-selected="false">Critique</a>
+                    </li>
+
                 </ul>
+                {#                <ul class="nav nav-tabs">#}
+                {#                    <li class="active"><a data-toggle="tab" href="#information">informations</a></li>#}
+                {#                    {% if isMyProfile==true %}#}
+                {#                    <li><a data-toggle="tab" href="#cordonnees">Modifier Cordonnées</a></li>#}
+                {#                    {% endif %}#}
+                {#                    <li><a data-toggle="tab" href="#postes">Postes</a></li>#}
+                {#                    <li><a data-toggle="tab" href="#criticize">criticizes</a></li>#}
+                {#                </ul>#}
 
 
                 <div class="tab-content">
-                    <div class="tab-pane active" id="information">
+                    <div class="tab-pane active" id="information" role="tabpanel" aria-labelledby="information-tab" >
                         <hr>
                         <br>
 
@@ -249,7 +277,7 @@
 
                     </div><!--/tab-pane-->
                     {% if isMyProfile == true %}
-                    <div class="tab-pane" id="cordonnees">
+                    <div class="tab-pane" id="cordonnees" role="tabpanel" aria-labelledby="cordonnees-tab">
 
                         <h2></h2>
 
@@ -293,9 +321,13 @@
 
                     </div>
                     {% endif %}<!--/tab-pane-->
-                    <div class="tab-pane" id="postes">
+                    <div class="tab-pane" id="postes" role="tabpanel" aria-labelledby="postes-tab">
                         {% for post in posts %}
-                            {% include 'post/card.html.twig' with {post: post} only %}
+                            {% if post.type == "text" %}
+                                {% include 'post/cardText.html.twig' with {post: post} only %}
+                            {% else %}
+                                {% include 'post/card.html.twig' with {post: post} only %}
+                            {% endif %}
                         {% endfor %}
 
 
@@ -303,7 +335,7 @@
                         <!--nekhdmouha after postes-->
 
                     </div>
-                    <div class="tab-pane" id="criticize">
+                    <div class="tab-pane" id="criticize" role="tabpanel" aria-labelledby="criticize-tab">
                         <hr>
                         <br>
                         <div class="all-critique">
@@ -328,24 +360,24 @@
                         </div>
 
                         {% if isMyProfile == false %}
-                        <div class="row">
-                            <div class="col-10">
-                                <div class="form-group">
-                                    <input class="form-control js-critiqueContent" type="text">
+                            <div class="row">
+                                <div class="col-10">
+                                    <div class="form-group">
+                                        <input class="form-control js-critiqueContent" type="text">
+                                    </div>
+                                </div>
+                                <div class="col-1">
+
+                                    <a href="{{ path('critiquer',{'critited':user.id,'content':'content'}) }}"
+                                       class="js-critiqueSend">
+                                        <button
+                                                class="btn btn-primary ">
+                                            Envoyer
+                                        </button>
+                                    </a>
+
                                 </div>
                             </div>
-                            <div class="col-1">
-
-                                <a href="{{ path('critiquer',{'critited':user.id,'content':'content'}) }}"
-                                   class="js-critiqueSend">
-                                    <button
-                                            class="btn btn-primary ">
-                                        Envoyer
-                                    </button>
-                                </a>
-
-                            </div>
-                        </div>
                         {% endif %}
 
 
@@ -463,7 +495,26 @@
         });
     </script>
     <script>
-        type = "application/javascript" >
+        const mytabs=document.querySelectorAll('.nav-link');
+        mytabs.forEach(function (tab,key,mytabs) {
+            tab.addEventListener('click',function (e) {
+                e.preventDefault();
+                mytabs.forEach(function (tab1,key,mytabs){
+                    tab1.classList.remove("active");
+                });
+                console.log(tab);
+                tab.classList.toggle('active');
+
+
+
+            })
+
+        })
+        $('#myTab a').on('click', function (e) {
+            e.preventDefault()
+            $(this).tab('show')
+        })
+
             //pour afficher nom du fichier
             $('input[type="file"]').change(function (e) {
                 var fileName = e.target.files[0].name;
