@@ -71,7 +71,7 @@ class SecurityController extends AbstractController {
 
             $manager->persist($user);
             $manager->flush();
-            $this->addFlash('success', 'Vous etes maintenant inscrit <a href="#" class="alert-link">Connectez-vous!</a>');
+            $this->addFlash('success', 'Vous etes maintenant inscrit ');
         }
         return $this->render('security/registration.html.twig', [
             'form_registration' => $form->createView()]);
@@ -97,9 +97,9 @@ class SecurityController extends AbstractController {
         for ($i = 0; $i < 10; $i++){
             $like=new Like();
 
-            $user=$userRepository->find((int)rand(60,100));
+            $user=$userRepository->find((int)rand(2,100));
 
-            $post=$postRepository->find(rand(60,100));
+            $post=$postRepository->find(rand(3,200));
             dump($user);
             $like->setUser($user);
             $like->setPost($post);
@@ -109,9 +109,9 @@ class SecurityController extends AbstractController {
         for ($i = 0; $i < 10; $i++){
             $comment=new Comment();
 
-            $user=$userRepository->find(rand(60,100));
+            $user=$userRepository->find(rand(2,100));
 
-            $post=$postRepository->find(rand(60,100));
+            $post=$postRepository->find(rand(3,200));
             $comment->setUser($user);
             //dump($user);
             $comment->setPost($post);
