@@ -2,7 +2,8 @@
     <div class="card-body text-black">
         <h5 class="card-title">
             <a href="# ">
-                <img class="rounded-circle mr-2-3" src="{{ post.user.profilePicture }}"
+                <img class="rounded-circle mr-2-3" {% if post.isFixture %}src="{{ post.user.profilePicture}}" {% else %}
+                     src="{{ asset('/uploads/files/profile_pictures/'~ post.user.profilePicture) }}"{% endif %}"
                      href="{{ path('profile',{id:post.user.id}) }} " alt="" height="30px" width="30px"></a>
             <a href="{{ path('profile',{id:post.user.id}) }}" class="ml-2 text-warning">{{ post.user.nom }}</a>
         </h5>

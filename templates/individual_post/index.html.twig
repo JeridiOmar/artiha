@@ -10,6 +10,8 @@
 {% block body %}
 <style>
     #content {
+        max-height: 500px;
+        max-width: 1000px;
         width: auto;
         height: auto;
     }
@@ -38,18 +40,21 @@
 </div>
 {% if post.type == "picture" %}
 <div class="container text-center" style="background-color: black">
-    <img id="content" class="rounded" src="{{asset( post.content) }}" alt="post image" height="200" width="400">
+    <img id="content" class="rounded" {% if post.isFixture %}src="{{ post.content }}" {% else %}
+                 src="{{ asset(post.content) }}" {% endif %}" alt="post image" height="200" width="400">
 </div>
 {% elseif post.type== "video" %}
 <div class="container text-center" style="background-color: black">
 
-<video id="content" class="img-fluid " src="{{asset( post.content) }}" type="video/mp4" style="width: 760px;height: 450px" controls playsinline autoplay >
+<video id="content" class="img-fluid "  src="{{post.content) }}" type="video/mp4" style="width: 760px;height: 450px" controls playsinline autoplay >
 </video>
 </div>
 
 {#{% elseif post.type== "recording" %}#}
 {#    <div class="container text-center" style="background-color: black">#}
-{#        <audio id="content" class="img-fluid " src="{{asset(post.content) }}">#}
+{#        <audio controls id="content">#}
+{#            <source src="{{asset(post.content)}}" type="audio/ogg">#}
+{#            <source src="{{asset(post.content)}}" type="audio/mpeg">#}
 {#        </audio>#}
 {#    </div>#}
 {% elseif post.type== "text" %}
@@ -62,8 +67,14 @@
 
 
 <div class="container border" style="background-color: #f5f5f5">
+    <div>
+        <div class="row" style="font-size: 50px; color: dimgray">
+            {{ post.title }}
+        </div>
     <div class="row ">
-        <img class="rounded-circle mr-2-3" src="{{ asset('/uploads/files/profile_pictures/'~ post.user.profilePicture) }}"
+      <a href="{{ path('profile',{id:post.user.id}) }}">
+          <img class="rounded-circle mr-2-3" {% if post.isFixture %}src="{{ user.profilePicture}}" {% else %}
+                                                   src="{{ asset('/uploads/files/profile_pictures/'~ user.profilePicture) }}"{% endif %} alt="profilePicture">
              href="{{ path('profile',{id:post.user.id}) }} " alt="" height="30px" width="30px"></a>
         <a style="color: dimgray" href="{{ path('profile',{id:post.user.id}) }}"
            class="ml-2">{{ post.user.nom }} {{ post.user.prenom }}</a>
@@ -72,6 +83,7 @@
     </div>
 
     <div >
+
         <div class="row">
             {% for c in post.categories %}
                 <em class="text-italic ">  - {{ c }}</em>
@@ -79,11 +91,13 @@
             {% endfor %}
         </div>
         <div class="row">
-            <p class=" text-dark">{{ post.description }}</p>
+            <b>
+                <p class=" text-dark">{{ post.description }}</p>
+            </b>
         </div>
         <div class="row">
             {% for t in post.tags %}
-                <a href="#" style="color: dimgray" class="text-italic ">#{{ t.value }}</a>
+                <a href="{{ path('tagg',{id:t.id}) }}" style="color: dimgray" class="text-italic ">#{{ t.value }}</a>
             {% endfor %}
         </div>
         <div class="container">
