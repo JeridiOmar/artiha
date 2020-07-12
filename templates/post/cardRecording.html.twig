@@ -1,5 +1,5 @@
 <div class="card img-fluid post border-light " style="width:760px">
-    <div class="card-body text-black">
+    <div class="card-body ">
         <h5 class="card-title">
             <a href="# ">
                 <img class="rounded-circle mr-2-3" src="{{ post.user.profilePicture }}"
@@ -7,15 +7,17 @@
             <a href="{{ path('profile',{id:post.user.id}) }}" class="ml-2 text-warning">{{ post.user.nom }}</a>
         </h5>
         <h6 class="card-subtitle mb-2 text-muted">
-            <i class="fa fa-hourglass" style=' padding:5px;font-size:18px;rgba(251,235,61,0.95)'></i>
+            <i class="fa fa-hourglass" style=' padding:5px;font-size:18px;color: rgba(251,235,61,0.95)'></i>
             {{ post.createdAt | date("F jS \\a\\t g:ia") }}
         </h6>
-        <audio controls>
+        <img class="card-img-top" style="width:650px;height:450px" src="{{ asset('one-day-42KNqscHoVA-unsplash.jpg') }}" alt="Card image">
+
+        <audio controls class="text-center -align-center" style="margin-left: 27%">
         <source src="{{asset(post.content)}}" type="audio/ogg">
         <source src="{{asset(post.content)}}" type="audio/mpeg">
             </audio>
     </div>
-    <div class="card__type2"> {{ post.type }}</div>
+    <div class="card__type4"> {{ post.type }} </div>
     <div class="card-footer bg-transparent border-secondary"><h4 class="card-title text-center text-black font-weight-bold text-secondary">{{ post.title }}</h4>
         <div>
             {% for c in post.categories %}
