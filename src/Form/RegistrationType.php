@@ -79,7 +79,7 @@ class RegistrationType extends AbstractType {
                 // unmapped means that this field is not associated to any entity property
                 'mapped' => false
             ])
-        ->add('Commenter',SubmitType::class,[
+        ->add('Enregistrer',SubmitType::class,[
             'attr'=>[
                 'class'=>'btn btn-success'
             ]
