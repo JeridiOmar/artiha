@@ -28,6 +28,8 @@
                     {% for post in posts %}
                         {% if post.type == "text" %}
                             {% include 'post/cardText.html.twig' with {post: post} only %}
+                        {% elseif post.type == "recording" %}
+                            {% include 'post/cardRecording.html.twig' with {post: post} only %}
                         {% else %}
                             {% include 'post/card.html.twig' with {post: post} only %}
                         {% endif %}
