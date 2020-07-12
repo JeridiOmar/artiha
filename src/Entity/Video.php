@@ -63,4 +63,8 @@ class Video extends Content
     {
         return array('videoPath'=>$this->videoPath,'thumbnailPath'=>$this->thumbnailPath);
     }
+    public function __toString()
+    {
+        return  $this->getVideoPath();
+    }
 }

@@ -46,9 +46,9 @@ class PostFormController extends AbstractController
             $post = new Post();
         }
         //temporary user
-        $user=$entityManager->getRepository(User::class)->findOneBy(['id'=>2]);
+//        $user=$entityManager->getRepository(User::class)->findOneBy(['id'=>2]);
         //dd($user->getPosts()->toArray(),$entityManager->getRepository(User::class)->findOneBy(['id'=>1])->getPosts()->toArray());
-        //$user=$this->getUser();
+        $user=$this->getUser();
         $form=$this->createForm(PostType::class,$post);
         $form->add('text',TextareaType::class,array(
             'mapped'=>false,
@@ -128,8 +128,8 @@ class PostFormController extends AbstractController
         if(!$post){
             $post=new Post();
         }
-        $user=$entityManager->getRepository(User::class)->findOneBy(['id'=>2]);
-
+//        $user=$entityManager->getRepository(User::class)->findOneBy(['id'=>2]);
+        $user=$this->getUser();
         $form=$this->createForm(PostType::class,$post);
         $form->add('picture',FileType::class,array('mapped'=>false,
             'required'=>true ,
@@ -215,8 +215,8 @@ class PostFormController extends AbstractController
         if (!$post) {
             $post = new Post();
         }
-        $user=$entityManager->getRepository(User::class)->findOneBy(['id'=>2]);
-        //$user=$this->>getUser();
+//        $user=$entityManager->getRepository(User::class)->findOneBy(['id'=>2]);
+        $user=$this->getUser();
         $form=$this->createForm(PostType::class,$post);
         $form->add('recording',FileType::class,array('mapped'=>false,
             'required'=>true ,
@@ -302,8 +302,8 @@ class PostFormController extends AbstractController
         if(!$post) {
             $post = new Post();
         }
-        $user=$entityManager->getRepository(User::class)->findOneBy(['id'=>2]);
-        //$user=$this->>getUser();
+//        $user=$entityManager->getRepository(User::class)->findOneBy(['id'=>2]);
+        $user=$this->getUser();
         $form=$this->createForm(PostType::class,$post);
         $form->add('video',FileType::class,array('mapped'=>false,
             'required'=>true ,

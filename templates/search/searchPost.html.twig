@@ -26,8 +26,11 @@
                         {{ knp_pagination_sortable(posts,'Date ','p.createdAt') }}
                     </div>
                     {% for post in posts %}
-                        {% include 'post/card.html.twig' with {post: post} only %}
-                    {% endfor %}
+                        {% if post.type == "text" %}
+                            {% include 'post/cardText.html.twig' with {post: post} only %}
+                        {% else %}
+                            {% include 'post/card.html.twig' with {post: post} only %}
+                        {% endif %}                    {% endfor %}
                     <div class="p-2 pagination_ajax">
                         {{ knp_pagination_render(posts) }}
                     </div>
@@ -182,7 +185,23 @@
 
             .post:hover .card__type {
                 top: 442px;
-            }
+            }.post:hover .card__type2 {
+                 top: 477px;
+             } .card__type2 {
+                   position: absolute;
+                   left: 20px;
+                   top: 547px;
+                   height: 30px;
+                   padding: 0 15px;
+                   color: white;
+                   font-family: 'Lexend Tera', sans-serif;
+                   background: #C82829;
+                   font-size: 15px;
+                   line-height: 25px;
+                   text-transform: uppercase;
+                   transition: top 0.4s;
+
+               }
 
             .card__type {
                 position: absolute;
