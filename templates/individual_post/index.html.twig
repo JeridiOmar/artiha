@@ -40,12 +40,13 @@
 </div>
 {% if post.type == "picture" %}
 <div class="container text-center" style="background-color: black">
-    <img id="content" class="rounded" src="{{asset( post.content) }}" alt="post image" height="200" width="400">
+    <img id="content" class="rounded" {% if post.isFixture %}src="{{ post.content }}" {% else %}
+                 src="{{ asset(post.content) }}" {% endif %}" alt="post image" height="200" width="400">
 </div>
 {% elseif post.type== "video" %}
 <div class="container text-center" style="background-color: black">
 
-<video id="content" class="img-fluid " src="{{asset( post.content) }}" type="video/mp4" style="width: 760px;height: 450px" controls playsinline autoplay >
+<video id="content" class="img-fluid "  src="{{post.content) }}" type="video/mp4" style="width: 760px;height: 450px" controls playsinline autoplay >
 </video>
 </div>
 
@@ -71,7 +72,9 @@
             {{ post.title }}
         </div>
     <div class="row ">
-        <img class="rounded-circle mr-2-3" src="{{ asset('/uploads/files/profile_pictures/'~ post.user.profilePicture) }}"
+      <a href="{{ path('profile',{id:post.user.id}) }}">
+          <img class="rounded-circle mr-2-3" {% if post.isFixture %}src="{{ user.profilePicture}}" {% else %}
+                                                   src="{{ asset('/uploads/files/profile_pictures/'~ user.profilePicture) }}"{% endif %} alt="profilePicture">
              href="{{ path('profile',{id:post.user.id}) }} " alt="" height="30px" width="30px"></a>
         <a style="color: dimgray" href="{{ path('profile',{id:post.user.id}) }}"
            class="ml-2">{{ post.user.nom }} {{ post.user.prenom }}</a>
