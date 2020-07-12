@@ -25,7 +25,7 @@ class ChangePwd
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
-    private $useroldpwd;
+//    private $useroldpwd;
 
     /**
      * @ORM\Column(type="string", length=255)

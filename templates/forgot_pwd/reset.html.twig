@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
-{% block navbar %}
-{% endblock %}
+{% block title %}ForgotPwdController{% endblock %}
+{% block navbar %}{% endblock %}
 {% block title %}Mot de passe oublie{% endblock %}
 {% block stylesheets %}
     <style>
@@ -37,7 +37,6 @@
         <div class="reset-box">
             <h3 >We have sent you an email with your old password please reset it</h3>
             {{ form_start(form,{'attr':{'class':'reset-form'}}) }}
-            {{ form_row(form.oldpwd) }}
             {{ form_row(form.newpwd,{'attr':{'class':'testing'}}) }}  <span id="gly1" onclick="myFunction('testing','gly1')" class="fa fa-eye-slash"></span>
             {#                <div class="pull-right "><input type="checkbox" onclick="myFunction('testing')" >show password</div>#}
             <br>
