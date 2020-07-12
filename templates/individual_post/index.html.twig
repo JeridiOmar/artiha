@@ -176,7 +176,16 @@
             <li class="comment" style="list-style: none;">
                 <div class="row">
                 <a class="pull-left" href="#">
-                    <img class=" rounded-circle mr-2-3" src="{{ asset('/uploads/files/profile_pictures/'~ comment.user.profilePicture) }}" alt="avatar" height="30px" width="30px">
+                    {% if comment.user.isFixture == true %}
+                    <img src="{{ comment.user.profilePicture }}" class="rounded-circle mr-2-3      "
+                         width="220" height="220"
+                         alt="avatar">
+                    {% else %}
+                    <img src="{{ asset('/uploads/files/profile_pictures/'~ comment.user.profilePicture) }}"
+                         class="rounded-circle mr-2-3      " width="220" height="220"
+                         alt="{{ comment.user.profilePicture }}"></a>
+                    {% endif %}
+
                 </a>
 
                     <a style="color: dimgray" href="{{ path('profile',{id:comment.user.id}) }}" class="ml-2">{{ comment.user.nom }} {{ comment.user.prenom }}</a>
