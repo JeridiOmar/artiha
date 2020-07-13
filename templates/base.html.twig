@@ -66,22 +66,22 @@
             display: block;
         }
 
-        a[class="nav-link"]{
+        a[class="nav-link1"]{
             padding-top: 8px;
         }
         .navbar {
             background-color: #0a0a0a;
         }
 
-        .navbar .navbar-nav .nav-link {
+        .navbar .navbar-nav .nav-link1 {
             color: #fff;
         }
 
-        .navbar .navbar-nav .nav-link:hover {
+        .navbar .navbar-nav .nav-link1:hover {
             color: #fbc531;
         }
 
-        .navbar .navbar-nav .active > .nav-link {
+        .navbar .navbar-nav .active > .nav-link1 {
             color: #fbc531;
         }
 
@@ -98,7 +98,7 @@
         <a class="navbar-brand" href="#"><img width="75px" src="{{ asset('log.png') }}" alt="aaaaaaaaaa"></a>
         <a class="text-white "  href="/profile/{{ app.user.id }}">
             <img  style="border: #ffc300ba 2px solid;" data-toggle="tooltip" data-placement="bottom" title="visit profile" src="{{ asset('/uploads/files/profile_pictures/'~ app.user.profilePicture) }}"
-                 class="img-thumb rounded-circle      " width="40" height="40"
+                 class=" rounded-circle      " width="50" height="50"
                  alt="avatar"></a>
         <a class="text-white" style="margin-left: 10px" href="/home">Home</a>
         <a class="text-white" style="margin-left: 10px" href="/home/subscribers">Subscribers</a>
@@ -113,7 +113,7 @@
                 <a href="/post/video">Video</a>
             </div>
         </div>
-        <a class="text-white" style="margin-left: 10px" href="#"><u>About Us</u></a>
+        <a class="text-white" style="margin-left: 10px" href="/aboutus"><u>About Us</u></a>
 {#        <li class="nav-item pl-1">#}
 {#            <a class="nav-link" href="#"><i class="fa fa-home fa-fw mr-1"></i>Anasayfa</a>#}
 {#        </li>#}
@@ -122,8 +122,8 @@
                 'App\\Controller\\SearchController::search'
             )) }}
             <ul style="padding-left: 0">
-            <li class="nav-item pl-1" style="list-style: none">
-                <a class="nav-link" style="padding-top: 25px" href="/logout"><button id="logout" class="btn " > Log out</button></a>
+            <li class="nav-item pl-1" style="list-style: none;padding-top: 15px">
+                <a class="nav-link1" style="padding-top: 25px" href="/logout"><button id="logout" class="btn " > Log out</button></a>
             </li>
        </ul>
         </div>
