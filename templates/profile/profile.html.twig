@@ -502,7 +502,7 @@
         const mytabs=document.querySelectorAll('.nav-link');
         mytabs.forEach(function (tab,key,mytabs) {
             tab.addEventListener('click',function (e) {
-                e.preventDefault();
+                //e.preventDefault();
                 mytabs.forEach(function (tab1,key,mytabs){
                     tab1.classList.remove("active");
                 });
@@ -514,6 +514,8 @@
             })
 
         })
+        </script>
+<script type="application/javascript">
         $('#myTab a').on('click', function (e) {
             e.preventDefault()
             $(this).tab('show')
