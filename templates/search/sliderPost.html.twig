@@ -29,7 +29,7 @@
 
                             <div class="card-opacity">
                                 <img class="card-img-top" style="width:540px;height:270px" {% if post.isFixture %}src="{{ post.content }}" {% else %}
-                                    src="{{ asset(~post.content) }}" {% endif %} alt="Card image">
+                                    src="{{ asset(post.content) }}" {% endif %} alt="Card image">
                             </div>
                         {% elseif post.type== "video" %}
                             <div class="card-opacity2">
