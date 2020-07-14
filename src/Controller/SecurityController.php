@@ -123,6 +123,12 @@ class SecurityController extends AbstractController {
         $entityManager->flush();
         return $this->redirectToRoute('app_login');
     }
+    /**
+     * @Route("/")
+     */
+    public function indexAction(){
+        return $this->redirectToRoute('post');
+    }
 
 
 }
